@@ -1,0 +1,49 @@
+{
+  "name": "contributte/forms-bootstrap",
+  "type": "library",
+  "description": "Nette extension for Bootstrap forms",
+  "homepage": "https://github.com/contributte/forms-bootstrap",
+  "license": "MIT",
+  "keywords": [
+    "nette",
+    "forms",
+    "library",
+    "bootstrap"
+  ],
+  "authors": [
+    {
+      "name": "Dalibor Korpar",
+      "email": "dalibor.korpar@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "nette/forms": "^3.0.4",
+    "nette/application": "^3.0"
+  },
+  "require-dev": {
+    "ninjify/qa": "^v0.10",
+    "phpunit/phpunit": "^8.5",
+    "phpstan/phpstan": "^0.12.6",
+    "phpstan/phpstan-deprecation-rules":"^0.12",
+    "phpstan/phpstan-nette":"^0.12",
+    "phpstan/phpstan-strict-rules":"^0.12"
+  },
+  "autoload": {
+    "psr-4": {
+      "Contributte\\FormsBootstrap\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.4.x-dev"
+    }
+  }
+}

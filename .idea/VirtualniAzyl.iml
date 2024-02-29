@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/vaz/app" isTestSource="false" packagePrefix="App\" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/contributte/application" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/contributte/console" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/contributte/di" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/contributte/forms-bootstrap" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/doctrine/annotations" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/doctrine/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/doctrine/collections" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/doctrine/common" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/doctrine/data-fixtures" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/doctrine/dbal" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/doctrine/deprecations" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/doctrine/event-manager" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/doctrine/inflector" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/doctrine/instantiator" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/doctrine/lexer" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/doctrine/migrations" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/doctrine/orm" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/doctrine/persistence" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/latte/latte" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nette/application" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nette/bootstrap" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nette/caching" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nette/component-model" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nette/database" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nette/di" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nette/finder" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nette/forms" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nette/http" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nette/mail" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nette/neon" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nette/php-generator" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nette/robot-loader" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nette/routing" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nette/schema" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nette/security" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nette/tester" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nette/utils" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nettrine/annotations" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nettrine/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nettrine/dbal" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nettrine/fixtures" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nettrine/migrations" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/nettrine/orm" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/psr/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/psr/container" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/psr/log" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/symfony/console" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/symfony/deprecation-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/symfony/polyfill-ctype" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/symfony/polyfill-intl-grapheme" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/symfony/polyfill-intl-normalizer" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/symfony/polyfill-mbstring" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/symfony/polyfill-php72" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/symfony/polyfill-php80" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/symfony/property-access" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/symfony/property-info" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/symfony/service-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/symfony/stopwatch" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/symfony/string" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/symfony/thanks" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/symfony/var-exporter" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/tracy/tracy" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/ublaboo/datagrid" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

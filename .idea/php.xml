@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MessDetectorOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCSFixerOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCodeSnifferOptionsConfiguration">
+    <option name="highlightLevel" value="WARNING" />
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/vaz/vendor/symfony/polyfill-php72" />
+      <path value="$PROJECT_DIR$/vaz/vendor/symfony/property-access" />
+      <path value="$PROJECT_DIR$/vaz/vendor/tracy/tracy" />
+      <path value="$PROJECT_DIR$/vaz/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/vaz/vendor/symfony/service-contracts" />
+      <path value="$PROJECT_DIR$/vaz/vendor/symfony/string" />
+      <path value="$PROJECT_DIR$/vaz/vendor/symfony/property-info" />
+      <path value="$PROJECT_DIR$/vaz/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/vaz/vendor/symfony/polyfill-intl-normalizer" />
+      <path value="$PROJECT_DIR$/vaz/vendor/symfony/polyfill-intl-grapheme" />
+      <path value="$PROJECT_DIR$/vaz/vendor/symfony/thanks" />
+      <path value="$PROJECT_DIR$/vaz/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/vaz/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/vaz/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/vaz/vendor/doctrine/persistence" />
+      <path value="$PROJECT_DIR$/vaz/vendor/doctrine/common" />
+      <path value="$PROJECT_DIR$/vaz/vendor/doctrine/orm" />
+      <path value="$PROJECT_DIR$/vaz/vendor/doctrine/cache" />
+      <path value="$PROJECT_DIR$/vaz/vendor/doctrine/dbal" />
+      <path value="$PROJECT_DIR$/vaz/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/vaz/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/vaz/vendor/doctrine/annotations" />
+      <path value="$PROJECT_DIR$/vaz/vendor/doctrine/collections" />
+      <path value="$PROJECT_DIR$/vaz/vendor/doctrine/event-manager" />
+      <path value="$PROJECT_DIR$/vaz/vendor/doctrine/deprecations" />
+      <path value="$PROJECT_DIR$/vaz/vendor/doctrine/lexer" />
+      <path value="$PROJECT_DIR$/vaz/vendor/latte/latte" />
+      <path value="$PROJECT_DIR$/vaz/vendor/ublaboo/datagrid" />
+      <path value="$PROJECT_DIR$/vaz/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/vaz/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/vaz/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nettrine/orm" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nettrine/annotations" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nettrine/cache" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nettrine/dbal" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nette/routing" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nette/robot-loader" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nette/http" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nette/application" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nette/utils" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nette/tester" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nette/php-generator" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nette/security" />
+      <path value="$PROJECT_DIR$/vaz/vendor/composer" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nette/schema" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nette/caching" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nette/neon" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nette/bootstrap" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nette/component-model" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nette/di" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nette/mail" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nette/finder" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nette/database" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nette/forms" />
+      <path value="$PROJECT_DIR$/vaz/vendor/contributte/forms-bootstrap" />
+      <path value="$PROJECT_DIR$/vaz/vendor/contributte/application" />
+      <path value="$PROJECT_DIR$/vaz/vendor/contributte/di" />
+      <path value="$PROJECT_DIR$/vaz/vendor/contributte/console" />
+      <path value="$PROJECT_DIR$/vaz/vendor/doctrine/migrations" />
+      <path value="$PROJECT_DIR$/vaz/vendor/symfony/var-exporter" />
+      <path value="$PROJECT_DIR$/vaz/vendor/symfony/stopwatch" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nettrine/migrations" />
+      <path value="$PROJECT_DIR$/vaz/vendor/doctrine/data-fixtures" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nettrine/fixtures" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />
+  <component name="PhpStanOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PsalmOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+</project>

@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  php:
+    container_name: nette_php_virtualniazyl
+    image: nette_php
+    build: build/php
+    volumes:
+      - s:\web\VirtualniAzyl:/var/www/html/web
+    ports:
+      - 80:80
+    environment:
+      - NETTE_DEBUG=1
+
+  database:
+    container_name: mysql_db_virtualniazyl
+    image: mysql_db
+    build: build/database
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: azyl
+    volumes:
+      - ./build/database/baseDb.sql:/docker-entrypoint-initdb.d/baseDb.sql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+

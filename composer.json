@@ -1,0 +1,5 @@
+{
+    "require": {
+        "contributte/console": "^0.10.1"
+    }
+}

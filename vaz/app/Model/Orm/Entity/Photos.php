@@ -29,7 +29,7 @@ class Photo
     private $animal;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="photos")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="photos")
      */
     private $user;
 

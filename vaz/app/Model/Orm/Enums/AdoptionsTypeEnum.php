@@ -5,9 +5,10 @@ declare(strict_types=1);
 
 namespace App\Model\Orm\Enums;
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Types;
 
-class AdoptionsType extends Types
+class AdoptionsTypeEnum extends Types
 {
     const VIRTUAL_ADOPTION_TYPE = 'Virtuální adopce';
     const FULL_ADOPTION_TYPE = 'Plná adopce';

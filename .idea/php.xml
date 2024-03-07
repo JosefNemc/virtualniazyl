@@ -24,6 +24,7 @@
       <path value="$PROJECT_DIR$/vaz/vendor/symfony/polyfill-intl-grapheme" />
       <path value="$PROJECT_DIR$/vaz/vendor/symfony/thanks" />
       <path value="$PROJECT_DIR$/vaz/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/vaz/vendor/doctrine/migrations" />
       <path value="$PROJECT_DIR$/vaz/vendor/symfony/polyfill-mbstring" />
       <path value="$PROJECT_DIR$/vaz/vendor/symfony/deprecation-contracts" />
       <path value="$PROJECT_DIR$/vaz/vendor/doctrine/persistence" />
@@ -31,6 +32,7 @@
       <path value="$PROJECT_DIR$/vaz/vendor/doctrine/orm" />
       <path value="$PROJECT_DIR$/vaz/vendor/doctrine/cache" />
       <path value="$PROJECT_DIR$/vaz/vendor/doctrine/dbal" />
+      <path value="$PROJECT_DIR$/vaz/vendor/doctrine/data-fixtures" />
       <path value="$PROJECT_DIR$/vaz/vendor/doctrine/inflector" />
       <path value="$PROJECT_DIR$/vaz/vendor/doctrine/instantiator" />
       <path value="$PROJECT_DIR$/vaz/vendor/doctrine/annotations" />
@@ -39,7 +41,11 @@
       <path value="$PROJECT_DIR$/vaz/vendor/doctrine/deprecations" />
       <path value="$PROJECT_DIR$/vaz/vendor/doctrine/lexer" />
       <path value="$PROJECT_DIR$/vaz/vendor/latte/latte" />
+      <path value="$PROJECT_DIR$/vaz/vendor/symfony/var-exporter" />
+      <path value="$PROJECT_DIR$/vaz/vendor/symfony/stopwatch" />
       <path value="$PROJECT_DIR$/vaz/vendor/ublaboo/datagrid" />
+      <path value="$PROJECT_DIR$/vaz/vendor/nettrine/migrations" />
+      <path value="$PROJECT_DIR$/vaz/vendor/contributte/console" />
       <path value="$PROJECT_DIR$/vaz/vendor/psr/container" />
       <path value="$PROJECT_DIR$/vaz/vendor/psr/log" />
       <path value="$PROJECT_DIR$/vaz/vendor/psr/cache" />
@@ -69,12 +75,6 @@
       <path value="$PROJECT_DIR$/vaz/vendor/contributte/forms-bootstrap" />
       <path value="$PROJECT_DIR$/vaz/vendor/contributte/application" />
       <path value="$PROJECT_DIR$/vaz/vendor/contributte/di" />
-      <path value="$PROJECT_DIR$/vaz/vendor/contributte/console" />
-      <path value="$PROJECT_DIR$/vaz/vendor/doctrine/migrations" />
-      <path value="$PROJECT_DIR$/vaz/vendor/symfony/var-exporter" />
-      <path value="$PROJECT_DIR$/vaz/vendor/symfony/stopwatch" />
-      <path value="$PROJECT_DIR$/vaz/vendor/nettrine/migrations" />
-      <path value="$PROJECT_DIR$/vaz/vendor/doctrine/data-fixtures" />
       <path value="$PROJECT_DIR$/vaz/vendor/nettrine/fixtures" />
     </include_path>
   </component>

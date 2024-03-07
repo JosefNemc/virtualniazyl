@@ -47,7 +47,7 @@ class News
     private $visibleFrom;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="news")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="news")
      */
     private $author;
 

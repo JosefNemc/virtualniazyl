@@ -34,12 +34,12 @@ class Message
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="sentMessages")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="sentMessages")
      */
     private $sender;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="receivedMessages")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="receivedMessages")
      */
 
     private $receiver;

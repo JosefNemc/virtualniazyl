@@ -1,6 +1,15 @@
 services:
 	- App\Router\RouterFactory::createRouter
-
+	- App\Entity\Users
+	- App\Entity\Animal
+	- App\Entity\News
+	- App\Entity\Message
+	- App\Entity\Adoption
+	- App\Entity\AdoptionAction
+	- App\Entity\Photo
+	- App\Entity\Owner
+	- App\Entity\Azyl
+	- App\Forms\SignInFormFactory
 
 search:
 	-	in: %appDir%
@@ -25,3 +34,6 @@ extensions:
     nettrine.orm.console: Nettrine\ORM\DI\OrmConsoleExtension
     nettrine.orm.annotations: Nettrine\ORM\DI\OrmAnnotationsExtension
     console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
+
+    # Bootstrap Form
+

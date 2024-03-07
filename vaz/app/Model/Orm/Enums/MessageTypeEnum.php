@@ -6,7 +6,7 @@ namespace App\Model\Orm\Enums;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 
-class MessageType extends Type
+class MessageTypeEnum extends Type
 {
     public const FROMSYSTEM_TYPE = 'Zpráva od virtuálního azylu';
     public const FROMADMIN_TYPE = 'Zpráva od administrátora';

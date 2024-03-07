@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="azyl")
  */
 
-class Azyl extends User
+class Azyl extends Users
 {
     /**
      * @ORM\Id

@@ -85,7 +85,7 @@ class BootstrapForm extends Form
 	/**
 	 * @return static
 	 */
-	public function setRenderer(?IFormRenderer $renderer = null)
+	public function setRenderer(?IFormRenderer $renderer = null) 
 	{
 		if (!$renderer instanceof BootstrapRenderer) {
 			throw new InvalidArgumentException('Must be a BootstrapRenderer');

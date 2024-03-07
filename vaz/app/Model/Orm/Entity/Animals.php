@@ -5,52 +5,33 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="animals")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'animals')]
 class Animal
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    private int $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Owner")
-     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
-     */
-    private $owner;
+    #[ORM\ManyToOne(targetEntity: "Owner", inversedBy: "animals")]
+    #[ORM\JoinColumn(name: "owner_id", referencedColumnName: "id")]
+    private Owner $owner;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $species;
+    #[ORM\ManyToOne(targetEntity: "Species", inversedBy: "animals")]
+    private Species $species;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $gender;
+    #[ORM\Column(type: 'float', length: 5)]
+    private int $age;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $age;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $breed;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $breed;
+    #[ORM\OneToMany(targetEntity: "Photo", mappedBy: "animal")]
+    #[ORM\JoinColumn(name: "animal_id", referencedColumnName: "id")]
+    private Photo $photos;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Photo", mappedBy="animal")
-     */
-    private $photos;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Adoption", mappedBy="animal")
-     */
-    private $adoptions;
+    #[ORM\OneToMany(targetEntity: "Adoption", mappedBy: "animal")]
+    #[ORM\JoinColumn(name: "animal_id", referencedColumnName: "id")]
+    private Adoption $adoptions;
 }

@@ -18,7 +18,7 @@ class MyAuthenticator implements Nette\Security\Authenticator
 
     public function authenticate(string $email, string $password): SimpleIdentity
     {
-        $row = $this->users-> (['email' => $email]);
+        $row = $this->users->getUserName(['email' => $email]);
 
         if (!$row) {
             throw new Nette\Security\AuthenticationException('Chyba přihlášení.');

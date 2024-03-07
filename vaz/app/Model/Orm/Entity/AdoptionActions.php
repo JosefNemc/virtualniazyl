@@ -5,75 +5,57 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Model\Orm\Enums\ActionTypeEnum;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="adoption_actions")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'adoption_actions')]
+
 class AdoptionAction
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
+    private int $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Adoption")
-     * @ORM\JoinColumn(name="adoption_id", referencedColumnName="id", nullable=true)
-     */
-    private $adoption;
-
-
+    #[ORM\ManyToOne(targetEntity: "Adoption")]
+    #[ORM\JoinColumn(name: "adoption_id", referencedColumnName: "id", nullable: true)]
+    private Adoption $adoption;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $creation_date;
+    #[ORM\Column(type: 'datetimeimmutable')]
+    private \DateTimeImmutable $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $update_date;
+    #[ORM\Column(type: 'datetimeimmutable', nullable: true)]
+    private \DateTimeImmutable $updatedAt;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $created_by;
+    #[ORM\ManyToOne(targetEntity: "Users")]
+    #[ORM\JoinColumn(name: "createdBy", referencedColumnName: "id")]
+    private Users $createdBy;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $updated_by;
+    #[ORM\ManyToOne(targetEntity: "Users")]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private Users $updatedBy;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $note;
+    #[ORM\Column(type: 'text', nullable: true)]
+    private string $description;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $action_type;
+    #[ORM\Column(type: ActionTypeEnum::ACTION_TYPE_ENUM, length: 255)]
+    private ActionTypeEnum $actionTypeEnum;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Owner")
-     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=true)
-     */
-    private $owner;
+    #[ORM\ManyToOne(targetEntity: "Owner")]
+    #[ORM\JoinColumn(name: "owner_id", referencedColumnName: "id", nullable: true)]
+    private Owner $owner;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Azyl")
-     * @ORM\JoinColumn(name="azyl_id", referencedColumnName="id", nullable=true)
-     */
-    private $azyl;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Animal")
-     * @ORM\JoinColumn(name="animal_id", referencedColumnName="id", nullable=true)
-     */
-    private $animal;
-
+    #[ORM\ManyToOne(targetEntity: "Azyl")]
+    #[ORM\JoinColumn(name: "azyl_id", referencedColumnName: "id", nullable: true)]
+    private Azyl $azyl;
+    #[ORM\ManyToOne(targetEntity: "Animal")]
+    #[ORM\JoinColumn(name: "animal_id", referencedColumnName: "id", nullable: true)]
+    private Animal $animal;
 }

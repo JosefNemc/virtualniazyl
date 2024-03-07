@@ -5,59 +5,48 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="azyl")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'azyls')]
 
 class Azyl extends Users
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $azylName;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $azylName;
 
-    /**
-     * @ORM\Column(type="string", length=1024)
-     */
-    private $description;
+    #[ORM\Column(type: 'string', length: 1024)]
+    private string $description;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $street;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $street;
 
-    /**
-     * @ORM\Column(type="integer", length=5)
-     */
-    private $houseNumber;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $city;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Adoption", mappedBy="azyl")
-     * @ORM\JoinColumn(name="azyl_id", referencedColumnName="id")
-     */
-    private $adoptions;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $houseNumber;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Photo", mappedBy="azyl")
-     */
-    private $photos;
+    #[ORM\OneToMany(targetEntity: "Adoption", mappedBy: "azyl")]
+    #[ORM\JoinColumn(name: "azyl_id", referencedColumnName: "id")]
+    private Adoption $adoptions;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $bankAccount;
+    #[ORM\OneToMany(targetEntity: "Photo", mappedBy: "azyl")]
+    #[ORM\JoinColumn(name: "azyl_id", referencedColumnName: "id")]
+    private Photo $photos;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $phoneNumber;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $bankAccount;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $bankCode;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $bankSpecificCode;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $phoneNumber;
 }
 

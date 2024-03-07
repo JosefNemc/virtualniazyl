@@ -8,6 +8,7 @@ use Doctrine\DBAL\Types\Types;
 
 class ActionTypeEnum extends Types
 {
+    const ACTION_TYPE_ENUM = 'actionTypeEnum';
     const START_ADOPTION = 'Start adopce';
     const END_ADOPTION = 'Konec adopce';
     const BREAK_ADOPTION = 'Přerušení adopce';

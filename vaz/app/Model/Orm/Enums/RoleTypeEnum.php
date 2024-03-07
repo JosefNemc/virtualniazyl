@@ -4,14 +4,13 @@ namespace App\Model\Orm\Enums;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\ORM\Mapping\Entity;
 use InvalidArgumentException;
 use Tracy\Debugger;
 
 
-/**
- * Class RoleTypeEnum
- * @package App\Model\Orm\Enums
- */
+#[Entity]
+#[Type('roleTypeEnum')]
 
 class RoleTypeEnum extends Type
 {

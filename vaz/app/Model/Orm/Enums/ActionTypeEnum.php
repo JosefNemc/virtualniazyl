@@ -9,13 +9,13 @@ use Doctrine\DBAL\Types\Types;
 class ActionTypeEnum extends Types
 {
     const ACTION_TYPE_ENUM = 'actionTypeEnum';
-    const START_ADOPTION = 'Start adopce';
-    const END_ADOPTION = 'Konec adopce';
-    const BREAK_ADOPTION = 'Přerušení adopce';
-    const CONTACT_ADOPTION = 'Kontakt';
-    const PHONE_CALL_ADOPTION = 'Telefonát';
-    const PERSONAL_VISIT_ADOPTION = 'Osobní kontakt';
-    const VERIFICATION_ADOPTION = 'Ověření';
+    const START_ADOPTION = 'Start adopce',
+     END_ADOPTION = 'Konec adopce',
+     BREAK_ADOPTION = 'Přerušení adopce',
+     CONTACT_ADOPTION = 'Kontakt',
+     PHONE_CALL_ADOPTION = 'Telefonát',
+     PERSONAL_VISIT_ADOPTION = 'Osobní kontakt',
+     VERIFICATION_ADOPTION = 'Ověření';
 
 
 //generate method for getting all types of actions

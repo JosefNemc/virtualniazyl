@@ -1,4 +1,5 @@
 services:
+##Entity##
 	- App\Router\RouterFactory::createRouter
 	- App\Entity\Users
 	- App\Entity\Animal
@@ -9,7 +10,12 @@ services:
 	- App\Entity\Photo
 	- App\Entity\Owner
 	- App\Entity\Azyl
+	- App\Entity\Species
+##Enum##
+
+##Factory##
 	- App\Forms\SignInFormFactory
+
 
 search:
 	-	in: %appDir%

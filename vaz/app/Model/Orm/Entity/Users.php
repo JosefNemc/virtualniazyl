@@ -5,101 +5,103 @@ namespace App\Entity;
 
 use App\Model\Orm\Enums\RoleTypeEnum;
 use DateTimeImmutable;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\MappedSuperclass;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
-#[Entity]
-#[Table(name: 'users')]
+#[ORM\Entity]
+#[ORM\Table(name: 'users')]
+#[ORM\MappedSuperclass]
 
 class Users
 {
-    #[Id]
-    #[Column(type: 'integer')]
-    #[GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private int $id;
 
-    #[Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
     private string $userName;
 
-    #[Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private string $firstName;
 
-    #[Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private string $lastName;
 
-    #[Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
     private string $email;
 
-    #[Column(type: RoleTypeEnum::ROLE_TYPE_ENUM, length: 255)]
+    #[ORM\Column(type: RoleTypeEnum::ROLE_TYPE_ENUM, length: 255)]
     private RoleTypeEnum $role;
 
-    #[Column(type: 'string', length: 512)]
+    #[ORM\Column(type: 'string', length: 512)]
     private string $password;
 
-    #[Column(type: 'DateTimeImmutable')]
+    #[ORM\Column(type: 'DateTimeImmutable')]
     private DateTimeImmutable $createdAt;
 
-     #[OneToOne(targetEntity: "Users", inversedBy: "user")]
-     #[JoinColumn(name: "createdBy", referencedColumnName: "id")]
-     #[Column(type: 'integer', nullable: 'true')]
+     #[ORM\OneToOne(targetEntity: "Users", inversedBy: "user")]
+     #[ORM\JoinColumn(name: "createdBy", referencedColumnName: "id")]
+     #[ORM\Column(type: 'integer', nullable: 'true')]
      private int $createdBy;
 
-    #[Column(type: 'DateTimeImmutable', nullable: true, options: ['default' => 0])]
+    #[ORM\Column(type: 'DateTimeImmutable', nullable: true, options: ['default' => 0])]
     private DateTimeImmutable $updatedAt;
 
-    #[OneToOne(targetEntity: "Users", inversedBy: "user")]
-    #[JoinColumn(name: "updatedBy", referencedColumnName: "id")]
-    #[Column(type: 'integer', nullable: 'true')]
+    #[ORM\OneToOne(targetEntity: "Users", inversedBy: "user")]
+    #[ORM\JoinColumn(name: "updatedBy", referencedColumnName: "id")]
+    #[ORM\Column(type: 'integer', nullable: 'true')]
     private $updatedBy;
 
-    #[Column(type: 'boolean', options: ['default' => 0])]
+    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     private bool $verified;
 
-    #[OneToMany(targetEntity: "Photo", mappedBy: "user")]
-    #[Column(type: 'integer', nullable: 'true')]
+    #[ORM\OneToMany(targetEntity: "Photo", mappedBy: "user")]
+    #[ORM\Column(type: 'integer', nullable: 'true')]
     private int $photos;
 
-    #[OneToMany(targetEntity: "Message", mappedBy: "sender")]
+    #[ORM\OneToMany(targetEntity: "Message", mappedBy: "sender")]
     protected Entity $sentMessages;
 
-    #[OneToMany(targetEntity: "Message", mappedBy: "receiver")]
+    #[ORM\OneToMany(targetEntity: "Message", mappedBy: "receiver")]
     private Entity $receivedMessages;
 
-    #[Column(type: 'boolean', options: ['default' => 0])]
+    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     private bool $deleted;
 
-    #[Column(type: 'boolean', options: ['default' => 0])]
+    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     private bool $baned;
 
-    #[Column(type: 'boolean', options: ['default' => 0])]
+    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     private bool $mailverified;
 
-    #[Column(type: 'boolean', options: ['default' => 0])]
+    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     private bool $phoneVerified;
 
-    #[OneToMany(targetEntity: "News", mappedBy: "user")]
-    #[Column(type: 'integer', nullable: 'true')]
+    #[ORM\OneToMany(targetEntity: "News", mappedBy: "user")]
+    #[ORM\Column(type: 'integer', nullable: 'true')]
     private $news;
 
     public function __construct()
     {
     }
 
-    public function getSentMessages(): Collection
+    public function getSentMessages(): Entity
     {
         return $this->sentMessages;
     }
 
 
-    public function getReceivedMessages(): Collection
+    public function getReceivedMessages(): Entity
     {
         return $this->receivedMessages;
     }

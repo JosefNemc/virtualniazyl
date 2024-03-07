@@ -2,12 +2,12 @@
 declare(strict_types=1);
 namespace App\Entity;
 
+use App\Model\Orm\Enums\MessageTypeEnum;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="messages")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'messages')]
+
 
 class Message
 {
@@ -16,57 +16,37 @@ class Message
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    private int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $title;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private string $title;
+    #[ORM\Column(type: 'text', length: 2048)]
+    private string $message;
 
-    /**
-     * @ORM\Column(type="string", length=4096)
-     */
-    private $message;
+    #[ORM\Column(type: 'datetimeimmutable')]
+    private \DateTimeImmutable $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
+    #[ORM\ManyToOne(targetEntity: "Users", inversedBy: "sentMessages")]
+    #[ORM\JoinColumn(name: "sender_id", referencedColumnName: "id")]
+    private Users $sender;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="sentMessages")
-     */
-    private $sender;
+    #[ORM\ManyToOne(targetEntity: "Users", inversedBy: "receivedMessages")]
+    #[ORM\JoinColumn(name: "receiver_id", referencedColumnName: "id")]
+    private Users $receiver;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="receivedMessages")
-     */
+    #[ORM\Column(type: 'boolean')]
+    private bool $readed;
 
-    private $receiver;
+    #[ORM\Column(type: 'datetimeimmutable', nullable: true)]
+    private \DateTimeImmutable $readedAt;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $readed;
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $readedAt;
+    #[ORM\Column(type: 'datetimeimmutable' , nullable: true)]
+    private \DateTimeImmutable $deletedAt;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $deleted;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $deletedAt;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-
-    private $type;
+    #[ORM\Column(type: MessageTypeEnum::MASSAGE_TYPE_ENUM, length: 255)]
+    private MessageTypeEnum $type;
 
 }

@@ -22,9 +22,6 @@ class AdoptionAction
     #[ORM\JoinColumn(name: "adoption_id", referencedColumnName: "id", nullable: true)]
     private Adoption $adoption;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[ORM\Column(type: 'datetimeimmutable')]
     private \DateTimeImmutable $createdAt;
 
@@ -35,9 +32,6 @@ class AdoptionAction
     #[ORM\JoinColumn(name: "createdBy", referencedColumnName: "id")]
     private Users $createdBy;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     #[ORM\ManyToOne(targetEntity: "Users")]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private Users $updatedBy;
@@ -58,4 +52,14 @@ class AdoptionAction
     #[ORM\ManyToOne(targetEntity: "Animal")]
     #[ORM\JoinColumn(name: "animal_id", referencedColumnName: "id", nullable: true)]
     private Animal $animal;
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
 }

@@ -3,8 +3,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Users;
+use mysql_xdevapi\Collection;
+use Nette\Neon\Entity;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'owners')]
@@ -43,4 +46,26 @@ class Owner extends Users
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $phoneNumber;
+
+    public function __construct(Adoption $adoptions, Photo $photos)
+    {
+        $this->adoptions = new ORM\Entity();
+        $this->photos = new ORM\Entity();
+    }
+
+    public function getAdoptions(): Adoption
+    {
+        return $this->adoptions;
+    }
+
+    public function setAdoptions(Adoption $adoptions): void
+    {
+        $this->adoptions = $adoptions;
+    }
+
+    public function setPhotos(Photo $photos): void
+    {
+        $this->photos = $photos;
+    }
 }
+

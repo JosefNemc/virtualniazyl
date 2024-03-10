@@ -3,6 +3,9 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Model\Orm\Enums\MessageTypeEnum;
+use DateTimeImmutable;
+use Doctrine\DBAL\Types\DateTimeImmutableType;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -26,8 +29,8 @@ class Message
     #[ORM\Column(type: 'text', length: 2048)]
     private string $message;
 
-    #[ORM\Column(type: 'datetimeimmutable')]
-    private \DateTimeImmutable $createdAt;
+    #[ORM\Column(type: 'datetime')]
+    private DateTimeImmutableType $createdAt;
 
     #[ORM\ManyToOne(targetEntity: "Users", inversedBy: "sentMessages")]
     #[ORM\JoinColumn(name: "sender_id", referencedColumnName: "id")]
@@ -40,11 +43,11 @@ class Message
     #[ORM\Column(type: 'boolean')]
     private bool $readed;
 
-    #[ORM\Column(type: 'datetimeimmutable', nullable: true)]
-    private \DateTimeImmutable $readedAt;
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private DateTimeImmutableType $readedAt;
 
-    #[ORM\Column(type: 'datetimeimmutable' , nullable: true)]
-    private \DateTimeImmutable $deletedAt;
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private DateTimeImmutableType $deletedAt;
 
     #[ORM\Column(type: MessageTypeEnum::MASSAGE_TYPE_ENUM, length: 255)]
     private MessageTypeEnum $type;

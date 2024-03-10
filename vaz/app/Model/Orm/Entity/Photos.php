@@ -3,6 +3,9 @@
 
 namespace App\Entity;
 
+use DateTimeImmutable;
+use Doctrine\DBAL\Types\DateTimeImmutableType;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -14,8 +17,8 @@ class Photo
     #[ORM\Column(type: 'integer')]
     private int $id;
 
-    #[ORM\Column(type: 'DateTimeImmutable')]
-    private \DateTimeImmutable $date;
+    #[ORM\Column(type: 'datetime')]
+    private DateTimeImmutableType $date;
 
     #[ORM\ManyToOne(targetEntity: "Animal", inversedBy: "photos")]
     #[ORM\JoinColumn(name: "animal_id", referencedColumnName: "id")]

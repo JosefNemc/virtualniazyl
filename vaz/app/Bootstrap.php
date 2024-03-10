@@ -6,15 +6,17 @@ namespace App;
 
 use Nette\Bootstrap\Configurator;
 use Doctrine\DBAL\Types\Type;
-
-Type::addType('roleTypeEnum', 'App\Model\Orm\Enums\RoleTypeEnum');
-/*
-Type::addType('messageType', 'App\Model\Orm\Enums\MessageType');
-Type::addType('adoptionsType', 'App\Model\Orm\Enums\AdoptionsType');
-Type::addType('actionType', 'App\Model\Orm\Enums\ActionType');
-*/
 class Bootstrap
 {
+    public function __construct()
+    {
+        Type::addType('roleTypeEnum', 'App\Model\Orm\Enums\RoleTypeEnum');
+        Type::addType('messageTypeEnum', 'App\Model\Orm\Enums\MessageType');
+        Type::addType('actionTypeEnum', 'App\Model\Orm\Enums\ActionTypeEnum');
+        Type::addType('adoptionsTypeEnum', 'App\Model\Orm\Enums\AdoptionsTypeEnum');
+        Type::addType('sexTypeEnum', 'App\Model\Orm\Enums\SexTypeEnum');
+
+    }
 
 	public static function boot(): Configurator
 	{

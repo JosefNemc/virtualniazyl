@@ -5,6 +5,8 @@ namespace App\Entity;
 
 use App\Model\Orm\Enums\RoleTypeEnum;
 use DateTimeImmutable;
+use Doctrine\DBAL\Types\DateTimeImmutableType;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -16,6 +18,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use http\Client\Curl\User;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'users')]
@@ -46,31 +49,31 @@ class Users
     #[ORM\Column(type: 'string', length: 512)]
     private string $password;
 
-    #[ORM\Column(type: 'DateTimeImmutable')]
-    private DateTimeImmutable $createdAt;
+    #[ORM\Column(type: 'datetime')]
+    private DateTimeImmutableType $createdAt;
 
      #[ORM\OneToOne(targetEntity: "Users", inversedBy: "user")]
      #[ORM\JoinColumn(name: "createdBy", referencedColumnName: "id")]
-     #[ORM\Column(type: 'integer', nullable: 'true')]
-     private int $createdBy;
+     #[ORM\Column(type: 'integer', nullable: true)]
+     private Users $createdBy;
 
-    #[ORM\Column(type: 'DateTimeImmutable', nullable: true, options: ['default' => 0])]
-    private DateTimeImmutable $updatedAt;
+    #[ORM\Column(type: 'datetime', nullable: true, options: ['default' => 0])]
+    private DateTimeImmutableType $updatedAt;
 
     #[ORM\OneToOne(targetEntity: "Users", inversedBy: "user")]
     #[ORM\JoinColumn(name: "updatedBy", referencedColumnName: "id")]
-    #[ORM\Column(type: 'integer', nullable: 'true')]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $updatedBy;
 
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     private bool $verified;
 
     #[ORM\OneToMany(targetEntity: "Photo", mappedBy: "user")]
-    #[ORM\Column(type: 'integer', nullable: 'true')]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private int $photos;
 
     #[ORM\OneToMany(targetEntity: "Message", mappedBy: "sender")]
-    protected Entity $sentMessages;
+    private Entity $sentMessages;
 
     #[ORM\OneToMany(targetEntity: "Message", mappedBy: "receiver")]
     private Entity $receivedMessages;
@@ -88,7 +91,7 @@ class Users
     private bool $phoneVerified;
 
     #[ORM\OneToMany(targetEntity: "News", mappedBy: "user")]
-    #[ORM\Column(type: 'integer', nullable: 'true')]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $news;
 
     public function __construct()
@@ -126,7 +129,7 @@ class Users
 
     public function getUsers(): Collection
     {
-        return $this->users;
+        return $this->getUsers();
     }
 
 
@@ -172,7 +175,7 @@ class Users
     }
 
 
-    public function getPhotos(): Collection
+    public function getPhotos(): int
     {
         return $this->photos;
     }
@@ -230,5 +233,10 @@ class Users
     public function setUserName(string $userName): void
     {
         $this->userName = $userName;
+    }
+
+    public function setReceivedMessages(Entity $receivedMessages): void
+    {
+        $this->receivedMessages = $receivedMessages;
     }
 }

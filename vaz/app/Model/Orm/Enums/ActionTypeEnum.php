@@ -20,6 +20,8 @@ class ActionTypeEnum extends Types
 
 //generate method for getting all types of actions
 
+
+
     public static function getActionTypes(): array
     {
         return [
@@ -31,6 +33,19 @@ class ActionTypeEnum extends Types
             self::PERSONAL_VISIT_ADOPTION,
             self::VERIFICATION_ADOPTION
         ];
+    }
+
+    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    {
+        $actions = self::getActionTypes();
+        $quotedActions = array_map(fn($action) => $platform->quoteStringLiteral($action), $actions);
+        return 'ENUM(' . implode(', ', $quotedActions) . ')';
+    }
+
+
+    public function convertToPHPValue($value, AbstractPlatform $platform): string
+    {
+        return $value;
     }
 
 }

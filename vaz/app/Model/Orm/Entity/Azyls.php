@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity]
 #[ORM\Table(name: 'azyls')]
 
@@ -13,7 +14,7 @@ class Azyl extends Users
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $azylName;

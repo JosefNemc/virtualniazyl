@@ -103,14 +103,9 @@ class RoleTypeEnum extends Type
         return $value;
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): string
     {
         return $value;
-    }
-
-    public function requiresSQLCommentHint(AbstractPlatform $platform): true
-    {
-        return true;
     }
 
     public function getName(): string

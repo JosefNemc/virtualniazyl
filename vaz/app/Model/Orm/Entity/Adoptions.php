@@ -3,8 +3,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\DateTimeImmutableType;
+use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
+use DateTimeImmutable;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'adoptions')]
@@ -30,14 +34,11 @@ class Adoption
     #[ORM\JoinColumn(name: "animal_id", referencedColumnName: "id")]
     private $animal;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    #[ORM\Column(type: 'datetimeimmutable')]
-    private \DateTimeImmutable $createdAt;
+    #[ORM\Column(type: 'datetime')]
+    private DateTimeImmutableType $createdAt;
 
-    #[ORM\Column(type: 'datetimeimmutable')]
-    private \DateTimeImmutable $updatedAt;
+    #[ORM\Column(type: 'datetime')]
+    private DateTimeImmutableType $updatedAt;
 
     #[ORM\Column(type: 'boolean')]
     private bool $deleted;

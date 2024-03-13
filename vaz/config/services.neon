@@ -52,17 +52,3 @@ nettrine.orm.attributes:
 nettrine.migrations:
 	directory: %appDir%/Migrations
 	namespace: DB\Migrations
-
-nettrine.dbal:
-	connection:
-		driver: %database.driver%
-		host: %database.host%
-		port: %database.port%
-		dbname: %database.dbname%
-		user: %database.user%
-		password: %database.password%
-		charset:  UTF8
-		serverVersion: '15.0'
-	debug:
-		panel: %debugMode%
-		sourcePaths: [%appDir%]

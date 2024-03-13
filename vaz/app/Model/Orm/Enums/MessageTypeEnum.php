@@ -8,7 +8,7 @@ use Doctrine\DBAL\Types\Type;
 
 class MessageTypeEnum extends Type
 {
-    public const MASSAGE_TYPE_ENUM = 'messageTypeEnum';
+    public const MESSAGE_TYPE_ENUM = 'messageTypeEnum';
 
     public const FROMSYSTEM_TYPE = 'Zpráva od virtuálního azylu',
          FROMADMIN_TYPE = 'Zpráva od administrátora',
@@ -19,8 +19,9 @@ class MessageTypeEnum extends Type
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
-        return $platform->getDoctrineTypeMapping('string');
+        return "ENUM('" . implode("', '", self::getTypes()) . "')";
     }
+
 
     public function convertToPHPValue($value, AbstractPlatform $platform): string
     {
@@ -34,7 +35,7 @@ class MessageTypeEnum extends Type
 
     public function getName() : string
     {
-        return 'message_type';
+        return self::MESSAGE_TYPE_ENUM;
     }
 
     public static function getTypes(): array

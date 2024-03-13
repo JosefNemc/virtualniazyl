@@ -4,27 +4,45 @@ namespace App\Model\Orm\Enums;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
-use Doctrine\ORM\Mapping\Entity;
 use InvalidArgumentException;
 use Tracy\Debugger;
 
-
-#[Entity]
-#[Type('roleTypeEnum')]
-
 class RoleTypeEnum extends Type
 {
-    const ROLE_TYPE_ENUM = 'roleTypeEnum';
-    const ROLE_ADMIN = 'admin',
-                 ROLE_USER = 'user',
-                 ROLE_GUEST = 'guest',
-                 ROLE_SUPERADMIN = 'superadmin',
-                 ROLE_AZYL = 'azyl',
-                 ROLE_AZYLADMIN = 'azyladmin',
-                 ROLE_ADOPTER = 'adopter',
-                 ROLE_ADOPTERADMIN = 'adopteradmin';
+    public const ROLE_TYPE_ENUM = 'roleTypeEnum';
+    public const ROLE_ADMIN = 'admin';
+    public const ROLE_USER = 'user';
+    public const ROLE_GUEST = 'guest';
+    public const ROLE_SUPERADMIN = 'superadmin';
+    public const ROLE_AZYL = 'azyl';
+    public const ROLE_AZYLADMIN = 'azyladmin';
+    public const ROLE_ADOPTER = 'adopter';
+    public const ROLE_ADOPTERADMIN = 'adopteradmin';
 
-    public static function getTypes(): array
+    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
+    {
+        return 'VARCHAR(255)';
+    }
+
+    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    {
+        if (!in_array($value, $this->getRoles())) {
+            throw new InvalidArgumentException("Invalid role");
+        }
+        return $value;
+    }
+
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?string
+    {
+        return $value;
+    }
+
+    public function getName(): string
+    {
+        return self::ROLE_TYPE_ENUM;
+    }
+
+    private function getRoles(): array
     {
         return [
             self::ROLE_ADMIN,
@@ -34,39 +52,8 @@ class RoleTypeEnum extends Type
             self::ROLE_AZYL,
             self::ROLE_AZYLADMIN,
             self::ROLE_ADOPTER,
-            self::ROLE_ADOPTERADMIN
+            self::ROLE_ADOPTERADMIN,
         ];
-    }
-
-    public static function getTypesForUser(): array
-    {
-        return [
-            self::ROLE_USER,
-            self::ROLE_GUEST,
-            self::ROLE_AZYL,
-            self::ROLE_ADOPTER
-        ];
-    }
-
-    private static function getRoles(): array
-    {
-        return [
-            self::ROLE_ADMIN,
-            self::ROLE_USER,
-            self::ROLE_GUEST,
-            self::ROLE_SUPERADMIN,
-            self::ROLE_AZYL,
-            self::ROLE_AZYLADMIN,
-            self::ROLE_ADOPTER,
-            self::ROLE_ADOPTERADMIN
-        ];
-    }
-
-      public function getSQLDeclaration(array            $fieldDeclaration,
-                                      AbstractPlatform $platform) : string
-    {
-        return "ROLE('" . implode("', '", self::getRoles()) . "')";
-
     }
 
     public function getBadgeClass($role)
@@ -90,26 +77,7 @@ class RoleTypeEnum extends Type
                 return 'badge-adopteradmin';
             default:
                 Debugger::log("Unknown role: $role", Debugger::ERROR);
-                return "badge badge-guest";
+                return 'badge-guest';
         }
-
-    }
-
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
-    {
-        if (!in_array($value, self::getRoles())) {
-            throw new InvalidArgumentException("Invalid status");
-        }
-        return $value;
-    }
-
-    public function convertToPHPValue($value, AbstractPlatform $platform): string
-    {
-        return $value;
-    }
-
-    public function getName(): string
-    {
-        return self::ROLE_TYPE_ENUM;
     }
 }

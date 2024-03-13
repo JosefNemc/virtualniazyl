@@ -43,7 +43,7 @@ class Users
     #[ORM\Column(type: 'string', length: 255)]
     private string $email;
 
-    #[ORM\Column(type: RoleTypeEnum::ROLE_TYPE_ENUM, length: 255)]
+    #[ORM\Column(type: 'roleTypeEnum', length: 255)]
     private RoleTypeEnum $role;
 
     #[ORM\Column(type: 'string', length: 512)]
@@ -57,7 +57,7 @@ class Users
      #[ORM\Column(type: 'integer', nullable: true)]
      private Users $createdBy;
 
-    #[ORM\Column(type: 'datetime', nullable: true, options: ['default' => 0])]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTimeImmutableType $updatedAt;
 
     #[ORM\OneToOne(targetEntity: "Users", inversedBy: "user")]

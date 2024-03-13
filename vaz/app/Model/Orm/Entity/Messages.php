@@ -1,24 +1,16 @@
 <?php
 declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Model\Orm\Enums\MessageTypeEnum;
 use DateTimeImmutable;
-use Doctrine\DBAL\Types\DateTimeImmutableType;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'messages')]
-
-
 class Message
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
@@ -26,11 +18,12 @@ class Message
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private string $title;
-    #[ORM\Column(type: 'text', length: 2048)]
+
+    #[ORM\Column(type: 'string', length: 4096)]
     private string $message;
 
     #[ORM\Column(type: 'datetime')]
-    private DateTimeImmutableType $createdAt;
+    private DateTimeImmutable $createdAt;
 
     #[ORM\ManyToOne(targetEntity: "Users", inversedBy: "sentMessages")]
     #[ORM\JoinColumn(name: "sender_id", referencedColumnName: "id")]
@@ -44,12 +37,11 @@ class Message
     private bool $readed;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private DateTimeImmutableType $readedAt;
+    private ?DateTimeImmutable $readedAt;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private DateTimeImmutableType $deletedAt;
+    private ?DateTimeImmutable $deletedAt;
 
-    #[ORM\Column(type: MessageTypeEnum::MASSAGE_TYPE_ENUM, length: 255)]
+    #[ORM\Column(type: MessageTypeEnum::MESSAGE_TYPE_ENUM, length: 255)]
     private MessageTypeEnum $type;
-
 }

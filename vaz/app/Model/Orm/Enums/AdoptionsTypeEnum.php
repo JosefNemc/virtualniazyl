@@ -1,17 +1,15 @@
 <?php
-// src/Enum/ActionsType.php
-
-declare(strict_types=1);
 
 namespace App\Model\Orm\Enums;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\Types;
+use Doctrine\DBAL\Types\Type;
 
-class AdoptionsTypeEnum extends Types
+class AdoptionsTypeEnum extends Type
 {
-    const VIRTUAL_ADOPTION_TYPE = 'Virtuální adopce';
-    const FULL_ADOPTION_TYPE = 'Plná adopce';
+    public const ADOPTION_TYPE_ENUM = 'adoptionsTypeEnum';
+    public const VIRTUAL_ADOPTION_TYPE = 'Virtuální adopce';
+    public const FULL_ADOPTION_TYPE = 'Plná adopce';
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
@@ -21,5 +19,10 @@ class AdoptionsTypeEnum extends Types
     public function convertToPHPValue($value, AbstractPlatform $platform): string
     {
         return $value;
+    }
+
+    public function getName(): string
+    {
+        return 'adoptionsTypeEnum';
     }
 }

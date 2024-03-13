@@ -6,15 +6,11 @@ namespace App;
 
 use Nette\Bootstrap\Configurator;
 use Doctrine\DBAL\Types\Type;
+
 class Bootstrap
 {
     public function __construct()
     {
-        Type::addType('roleTypeEnum', 'App\Model\Orm\Enums\RoleTypeEnum');
-        Type::addType('messageTypeEnum', 'App\Model\Orm\Enums\MessageType');
-        Type::addType('actionTypeEnum', 'App\Model\Orm\Enums\ActionTypeEnum');
-        Type::addType('adoptionsTypeEnum', 'App\Model\Orm\Enums\AdoptionsTypeEnum');
-        Type::addType('sexTypeEnum', 'App\Model\Orm\Enums\SexTypeEnum');
 
     }
 
@@ -36,6 +32,13 @@ class Bootstrap
 		$configurator->addConfig($appDir . '/config/common.neon');
 		$configurator->addConfig($appDir . '/config/services.neon');
 		$configurator->addConfig($appDir . '/config/local.neon');
+        //new types
+
+        Type::addType('roleTypeEnum', 'App\Model\Orm\Enums\RoleTypeEnum');
+        Type::addType('messageTypeEnum', 'App\Model\Orm\Enums\MessageTypeEnum');
+        Type::addType('actionTypeEnum', 'App\Model\Orm\Enums\ActionTypeEnum');
+        Type::addType('adoptionsTypeEnum', 'App\Model\Orm\Enums\AdoptionsTypeEnum');
+        Type::addType('sexTypeEnum', 'App\Model\Orm\Enums\SexTypeEnum');
 
 		return $configurator;
 	}

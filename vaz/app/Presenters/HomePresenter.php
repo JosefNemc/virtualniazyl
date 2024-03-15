@@ -49,13 +49,13 @@ use Nette\Security\Passwords;
 
     public function actionLogedIn(): void
     {
-        $this->getTemplate()->title = 'Přihlášen';
+        $this->getTemplate()->title = 'Přihlášení';
     }
 
     public function actionLogOut(): void
     {
         $this->getUser()->logout();
-        $this->getPresenter()->flashMessage('Byl jste odhlášen.');
+        $this->getPresenter()->flashMessage('Odhlášení proběhlo v pořádku.', 'alert-success');
         $this->redirect('Home:default');
     }
 
@@ -73,10 +73,10 @@ use Nette\Security\Passwords;
     {
         try {
             $this->getUser()->login($values->email, $values->password);
-            $this->getPresenter()->flashMessage('Přihlášení se zdařilo', 'success');
-            $this->getPresenter()->redirect('home:default');
+            $this->getPresenter()->flashMessage('Přihlášení se zdařilo', 'alert-success');
+            $this->getPresenter()->redirect('Home:default');
         } catch (AuthenticationException $e) {
-            $this->getPresenter()->flashMessage('Uživatelské jméno nebo heslo je špatně', 'error');
+            $this->getPresenter()->flashMessage('Uživatelské jméno nebo heslo je špatně', 'alert-warning');
 
         }
     }

@@ -1,11 +1,9 @@
 <?php
 // src/Entity/Photo.php
 
-namespace App\Entity;
+namespace App\Model\Orm\Entity;
 
-use DateTimeImmutable;
 use Doctrine\DBAL\Types\DateTimeImmutableType;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]

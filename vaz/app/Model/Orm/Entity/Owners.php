@@ -1,13 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Model\Orm\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Model\Orm\Entity\Photo;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Users;
-use mysql_xdevapi\Collection;
-use Nette\Neon\Entity;
+use App\Model\Orm\Entity\Users;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'owners')]
@@ -18,7 +16,7 @@ class Owner extends Users
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private int $id;
+    public int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $ownerName;
@@ -42,15 +40,16 @@ class Owner extends Users
     private Adoption $adoptions;
 
     #[ORM\OneToMany(targetEntity: "Photo", mappedBy: "owner")]
-    private Photo $photos;
+    public \App\Model\Orm\Entity\Photo $photos;
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $phoneNumber;
 
     public function __construct(Adoption $adoptions, Photo $photos)
     {
-        $this->adoptions = new ORM\Entity();
-        $this->photos = new ORM\Entity();
+        parent::__construct();
+        $this->adoptions = $adoptions;
+        $this->photos = $photos;
     }
 
     public function getAdoptions(): Adoption

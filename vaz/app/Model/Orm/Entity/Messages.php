@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Model\Orm\Entity;
 
 use App\Model\Orm\Enums\MessageTypeEnum;
 use DateTimeImmutable;

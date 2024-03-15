@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Model\Orm\Entity;
 
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\DateTimeImmutableType;
@@ -35,7 +35,7 @@ class News
     private DateTimeImmutableType $visibleFrom;
 
     #[ORM\ManyToOne(targetEntity: "Users", inversedBy: "news")]
-    private int $author;
+    private Users $author;
 
     #[ORM\Column(type: 'boolean')]
     private $deleted;

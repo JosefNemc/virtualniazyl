@@ -1,20 +1,22 @@
 services:
 ##Entity##
 	- App\Router\RouterFactory::createRouter
-	- App\Entity\Users
-	- App\Entity\Animal
-	- App\Entity\News
-	- App\Entity\Message
-	- App\Entity\Adoption
-	- App\Entity\AdoptionAction
-	- App\Entity\Photo
-	- App\Entity\Owner
-	- App\Entity\Azyl
-	- App\Entity\Species
-##Enum##
-
-##Factory##
+	- App\Model\Orm\Entity\Users
+	- App\Model\Orm\Entity\Animal
+	- App\Model\Orm\Entity\News
+	- App\Model\Orm\Entity\Message
+	- App\Model\Orm\Entity\Adoption
+	- App\Model\Orm\Entity\AdoptionAction
+	- App\Model\Orm\Entity\Photo
+	- App\Model\Orm\Entity\Owner
+	- App\Model\Orm\Entity\Azyl
+	- App\Model\Orm\Entity\Species
+	- App\Model\Orm\Entity\Pages
+	##Enum##
+	##Factory##
 	- App\Forms\SignInFormFactory
+	##Repository##
+	- App\Model\Orm\Repository\UsersRepository
 
 
 search:
@@ -22,6 +24,8 @@ search:
 		classes:
 			- *Factory
 			- *Facade
+			- *Repository
+			- *Service
 
 extensions:
     # Common
@@ -43,12 +47,11 @@ extensions:
 
 nettrine.orm.attributes:
 	mapping: [
-		App\Entity: %appDir%/Model/Orm/Entity
-		App\Enums: %appDir%/Model/Orm/Enums
+		App\Model\Orm\Entity: %appDir%/Model/Orm/Entity
+		App\Model\Orm\Enums: %appDir%/Model/Orm/Enums
 		    ]
-
-		# Bootstrap Form
 
 nettrine.migrations:
 	directory: %appDir%/Migrations
 	namespace: DB\Migrations
+

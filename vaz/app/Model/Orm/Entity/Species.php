@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Model\Orm\Entity;
 
 use App\Model\Orm\Enums\SexTypeEnum;
 use Doctrine\ORM\Mapping as ORM;

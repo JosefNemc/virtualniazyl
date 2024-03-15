@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Model\Orm\Entity;
 
 use App\Model\Orm\Enums\ActionTypeEnum;
 use Doctrine\DBAL\Types\DateTimeImmutableType;
@@ -31,7 +31,7 @@ class AdoptionAction
 
     #[ORM\ManyToOne(targetEntity: "Users")]
     #[ORM\JoinColumn(name: "createdBy", referencedColumnName: "id")]
-    private Users $createdBy;
+    public Users $createdBy;
 
     #[ORM\ManyToOne(targetEntity: "Users")]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]

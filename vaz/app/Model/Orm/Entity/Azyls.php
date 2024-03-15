@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Model\Orm\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,7 +14,7 @@ class Azyl extends Users
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private int $id;
+    public int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $azylName;
@@ -33,11 +33,11 @@ class Azyl extends Users
 
     #[ORM\OneToMany(targetEntity: "Adoption", mappedBy: "azyl")]
     #[ORM\JoinColumn(name: "azyl_id", referencedColumnName: "id")]
-    private Adoption $adoptions;
+    public Adoption $adoptions;
 
     #[ORM\OneToMany(targetEntity: "Photo", mappedBy: "azyl")]
     #[ORM\JoinColumn(name: "azyl_id", referencedColumnName: "id")]
-    private Photo $photos;
+    public Photo $photos;
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $bankAccount;
@@ -49,5 +49,15 @@ class Azyl extends Users
     private string $bankSpecificCode;
     #[ORM\Column(type: 'string', length: 255)]
     private string $phoneNumber;
+
+    public function __construct(Adoption $adoptions, Photo $photos)
+    {
+        parent::__construct();
+        $this->adoptions = $adoptions;
+        $this->photos = $photos;
+    }
+
+
 }
+
 

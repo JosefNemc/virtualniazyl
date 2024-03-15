@@ -2,15 +2,16 @@
 
 namespace App\Forms;
 
-use App\Entity\Users;
-use Contributte\FormsBootstrap\BootstrapForm;
-use Contributte\FormsBootstrap\BootstrapRenderer;
+use AllowDynamicProperties;
 use Nette\Application\UI\Form;
 
-class SignInFormFactory
+
+#[AllowDynamicProperties] class SignInFormFactory extends Form
 {
      public function __construct()
     {
+        parent::__construct();
+
 
     }
 
@@ -37,6 +38,12 @@ class SignInFormFactory
 
     public function formSucceeded(Form $form, \stdClass $values): void
     {
+        bdump($values);
+        bdump($form);
+        bdump($this->usersRepository);
+
+
+
 
     }
 

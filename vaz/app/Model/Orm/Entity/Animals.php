@@ -1,7 +1,7 @@
 <?php
 // src/Entity/Animal.php
 
-namespace App\Entity;
+namespace App\Model\Orm\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,9 +14,9 @@ class Animal
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private int $id;
 
-    #[ORM\ManyToOne(targetEntity: "Owner", inversedBy: "animals")]
-    #[ORM\JoinColumn(name: "owner_id", referencedColumnName: "id")]
-    private Owner $owner;
+    #[ORM\ManyToOne(targetEntity: "Azyl", inversedBy: "animals")]
+    #[ORM\JoinColumn(name: "azyl_id", referencedColumnName: "id")]
+    private Azyl $azyl;
 
     #[ORM\ManyToOne(targetEntity: "Species", inversedBy: "animals")]
     private Species $species;

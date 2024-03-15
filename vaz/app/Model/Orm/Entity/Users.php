@@ -1,24 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Model\Orm\Entity;
 
 use App\Model\Orm\Enums\RoleTypeEnum;
 use DateTimeImmutable;
-use Doctrine\DBAL\Types\DateTimeImmutableType;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\MappedSuperclass;
-use Doctrine\ORM\Mapping\OneToMany;
-use Doctrine\ORM\Mapping\OneToOne;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Table;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use http\Client\Curl\User;
+use Doctrine\ORM\Mapping\Entity;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'users')]
@@ -29,7 +18,7 @@ class Users
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private int $id;
+    public int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $userName;
@@ -43,40 +32,40 @@ class Users
     #[ORM\Column(type: 'string', length: 255)]
     private string $email;
 
-    #[ORM\Column(type: 'roleTypeEnum', length: 255)]
-    private RoleTypeEnum $role;
+    #[ORM\Column(type: RoleTypeEnum::ROLE_TYPE_ENUM, length: 255)]
+    private string $role;
 
     #[ORM\Column(type: 'string', length: 512)]
     private string $password;
 
-    #[ORM\Column(type: 'datetime')]
-    private DateTimeImmutableType $createdAt;
+    #[ORM\Column(type: 'datetime_immutable')]
+    private DateTimeImmutable $createdAt;
 
-     #[ORM\OneToOne(targetEntity: "Users", inversedBy: "user")]
-     #[ORM\JoinColumn(name: "createdBy", referencedColumnName: "id")]
-     #[ORM\Column(type: 'integer', nullable: true)]
-     private Users $createdBy;
+    #[ORM\ManyToOne(targetEntity: "Users")]
+    #[ORM\JoinColumn(name: "created_by", referencedColumnName: "id")]
+    public ?Users $createdBy;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private DateTimeImmutableType $updatedAt;
 
-    #[ORM\OneToOne(targetEntity: "Users", inversedBy: "user")]
-    #[ORM\JoinColumn(name: "updatedBy", referencedColumnName: "id")]
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $updatedBy;
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private DateTimeImmutable $updatedAt;
+
+    #[ORM\ManyToOne(targetEntity: "Users")]
+    #[ORM\JoinColumn(name: "updated_by", referencedColumnName: "id")]
+    public ?Users $updatedBy;
+
 
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     private bool $verified;
 
     #[ORM\OneToMany(targetEntity: "Photo", mappedBy: "user")]
     #[ORM\Column(type: 'integer', nullable: true)]
-    private int $photos;
+    public Photo $photos;
 
     #[ORM\OneToMany(targetEntity: "Message", mappedBy: "sender")]
-    private Entity $sentMessages;
+    public Collection $sentMessages;
 
     #[ORM\OneToMany(targetEntity: "Message", mappedBy: "receiver")]
-    private Entity $receivedMessages;
+    private Collection $receivedMessages;
 
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     private bool $deleted;
@@ -92,7 +81,7 @@ class Users
 
     #[ORM\OneToMany(targetEntity: "News", mappedBy: "user")]
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $news;
+    public News $news;
 
     public function __construct()
     {
@@ -169,13 +158,13 @@ class Users
         $this->phoneVerified = $phoneVerified;
     }
 
-    public function getNews(): Collection
+    public function getNews(): News
     {
         return $this->news;
     }
 
 
-    public function getPhotos(): int
+    public function getPhotos(): Photo
     {
         return $this->photos;
     }
@@ -190,15 +179,11 @@ class Users
         $this->createdAt = $createdAt;
     }
 
-    public function getCreatedBy(): int
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(int $createdBy): void
+    public function setCreatedBy(?Users $createdBy): void
     {
         $this->createdBy = $createdBy;
     }
+
 
     public function getUpdatedAt(): DateTimeImmutable
     {
@@ -210,12 +195,12 @@ class Users
         $this->updatedAt = $updatedAt;
     }
 
-    public function getUpdatedBy(): int
+    public function getUpdatedBy(): Users
     {
         return $this->updatedBy;
     }
 
-    public function setUpdatedBy(int $updatedBy): void
+    public function setUpdatedBy(?Users $updatedBy): void
     {
         $this->updatedBy = $updatedBy;
     }
@@ -223,6 +208,28 @@ class Users
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getRole(): string
+    {
+        return $this->role;
+    }
+
+    public function setRole(string $role): Users
+    {
+        $this->role = $role;
+        return $this;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): Users
+    {
+        $this->password = $password;
+        return $this;
     }
 
     public function getUserName(): string
@@ -239,4 +246,53 @@ class Users
     {
         $this->receivedMessages = $receivedMessages;
     }
+
+    public function getFirstName(): string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): Users
+    {
+        $this->firstName = $firstName;
+        return $this;
+    }
+
+    public function getLastName(): string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): Users
+    {
+        $this->lastName = $lastName;
+        return $this;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): Users
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    public function isMailverified(): bool
+    {
+        return $this->mailverified;
+    }
+
+    public function setMailverified(bool $mailverified): Users
+    {
+        $this->mailverified = $mailverified;
+        return $this;
+    }
+
+    public function findOneBy(array $array)
+    {
+    }
+
 }

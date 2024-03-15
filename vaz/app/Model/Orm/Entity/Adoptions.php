@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Model\Orm\Entity;
 
 use Doctrine\DBAL\Types\DateTimeImmutableType;
 use Doctrine\DBAL\Types\Type;
@@ -32,7 +32,7 @@ class Adoption
 
     #[manyToOne(targetEntity: "Animal", inversedBy: "adoptions")]
     #[ORM\JoinColumn(name: "animal_id", referencedColumnName: "id")]
-    private $animal;
+    private Animal $animal;
 
     #[ORM\Column(type: 'datetime')]
     private DateTimeImmutableType $createdAt;

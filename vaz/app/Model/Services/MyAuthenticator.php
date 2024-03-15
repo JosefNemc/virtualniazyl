@@ -1,6 +1,8 @@
 <?php
-//use Nette;
-use App\Model\Orm\Entity\Users;
+
+namespace App\Model\Services;
+
+use Nette;
 use App\Model\Orm\Repository\UsersRepository;
 use Nette\Security\SimpleIdentity;
 use Nette\Security\Passwords;
@@ -17,22 +19,29 @@ class MyAuthenticator implements Nette\Security\Authenticator
         $this->passwords = $passwords;
     }
 
-
-    /**
-     * @param string $email
-     * @param string $password
-     * @return SimpleIdentity
-     * @throws \Nette\Security\AuthenticationException
-     */
-    #[\Override] function authenticate(Users|string $email, string $password): SimpleIdentity
+    public function authenticate(string $email, string $password): SimpleIdentity
     {
         $user = $this->usersRepository->findOneBy(['email' => $email]);
+
         if (!$user) {
-            throw new Nette\Security\AuthenticationException('Uživatel nebyl nalezen.');
+            throw new Nette\Security\AuthenticationException('Chyba přihlášení.');
         }
+
         if (!$this->passwords->verify($password, $user->getPassword())) {
-            throw new Nette\Security\AuthenticationException('Nesprávné heslo.');
+            throw new Nette\Security\AuthenticationException('Chyba přihlášení.');
         }
-        return new SimpleIdentity($user->getId(), $user->getRole(), ['email' => $user->getEmail()]);
+        else {
+
+            return new SimpleIdentity($user->id, $user->getRole(),
+
+                [
+                    'lastName' => $user->getLastName(),
+                    'firstName' => $user->getFirstName(),
+                    'email' => $user->getEmail(),
+                    'userName' => $user->getUserName()
+                ]
+
+            );
+        }
     }
 }

@@ -8,9 +8,12 @@ use AllowDynamicProperties;
 use App\Forms\registerFormFactory;
 use App\Forms\SignInFormFactory;
 use App\Model\Orm\Repository\UsersRepository;
+use App\Model\Services\MyAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette;
 use Nette\Forms\Form;
+use Nette\Security\AuthenticationException;
+use Nette\Security\Passwords;
 
 
 #[AllowDynamicProperties] final class HomePresenter extends Nette\Application\UI\Presenter
@@ -19,11 +22,16 @@ use Nette\Forms\Form;
     protected UsersRepository $usersRepository;
 
 
-    public function __construct(UsersRepository $usersRepository, EntityManagerInterface $entityManager,  protected readonly SignInFormFactory $signInFormFactory, protected readonly RegisterFormFactory $registerFormFactory)
+    public function __construct(UsersRepository                        $usersRepository,
+                                EntityManagerInterface                 $entityManager,
+                                protected readonly SignInFormFactory   $signInFormFactory,
+                                protected readonly RegisterFormFactory $registerFormFactory,
+                                private            Passwords           $passwords)
     {
         parent::__construct();
         $this->entityManager = $entityManager;
         $this->usersRepository = $usersRepository;
+        $this->passwords = $passwords;
 
     }
     public function renderDefault(): void
@@ -39,9 +47,38 @@ use Nette\Forms\Form;
 
     }
 
+    public function actionLogedIn(): void
+    {
+        $this->getTemplate()->title = 'Přihlášen';
+    }
+
+    public function actionLogOut(): void
+    {
+        $this->getUser()->logout();
+        $this->getPresenter()->flashMessage('Byl jste odhlášen.');
+        $this->redirect('Home:default');
+    }
+
+
     public function createComponentSignInForm(): Form
     {
-        return $form = (new SignInFormFactory())->create();
+
+        $passwords = new Nette\Security\Passwords;
+        $form = (new SignInFormFactory())->create();
+        $form->onSuccess[] = [$this, 'formSignInSucceeded'];
+
+        return $form;
+    }
+    public function formSignInSucceeded(\Nette\Application\UI\Form $form, \stdClass $values): void
+    {
+        try {
+            $this->getUser()->login($values->email, $values->password);
+            $this->getPresenter()->flashMessage('Přihlášení se zdařilo', 'success');
+            $this->getPresenter()->redirect('home:default');
+        } catch (AuthenticationException $e) {
+            $this->getPresenter()->flashMessage('Uživatelské jméno nebo heslo je špatně', 'error');
+
+        }
     }
 
     public function createComponentRegisterForm(): RegisterFormFactory

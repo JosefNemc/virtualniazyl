@@ -17,6 +17,8 @@ services:
 	- App\Forms\SignInFormFactory
 	##Repository##
 	- App\Model\Orm\Repository\UsersRepository
+	- App\Model\Services\MyAuthenticator
+
 
 
 search:

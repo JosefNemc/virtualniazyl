@@ -2,50 +2,38 @@
 
 namespace App\Forms;
 
-use AllowDynamicProperties;
+use App\Model\Orm\Repository\UsersRepository;
 use Nette\Application\UI\Form;
+use Nette\Security\Passwords;
 
-
-#[AllowDynamicProperties] class SignInFormFactory extends Form
+class SignInFormFactory extends \Nette\Forms\Form
 {
-     public function __construct()
+
+public function __construct()
     {
         parent::__construct();
 
 
     }
 
-    public function create(): Form
+public function create(): Form
     {
         $form = new Form;
         $form->addEmail('email', 'Email:')
-            ->setHtmlAttribute('class','form-control')
+             ->setHtmlAttribute('class', 'form-control')
              ->setRequired('Zadejte prosím email.');
 
         $form->addPassword('password', 'Heslo:')
-             ->setHtmlAttribute('class','form-control')
+             ->setHtmlAttribute('class', 'form-control')
              ->setRequired('Zadejte prosím heslo.');
 
         $form->addCheckbox('remember', 'Zapamatovat si mě na tomto počítači')
-            ->setHtmlAttribute('class','form-check-input');
+             ->setHtmlAttribute('class', 'form-check-input');
 
         $form->addSubmit('send', 'Přihlásit se')
-            ->setHtmlAttribute('class','btn btn-gradient');
+             ->setHtmlAttribute('class', 'btn btn-gradient');
 
-        $form->onSuccess[] = [$this, 'formSucceeded'];
         return $form;
     }
-
-    public function formSucceeded(Form $form, \stdClass $values): void
-    {
-        bdump($values);
-        bdump($form);
-        bdump($this->usersRepository);
-
-
-
-
-    }
-
 
 }

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Presenters\Admin;
+namespace App\Presenters;
 
 use Contributte\Application\UI\BasePresenter;
 use Nette\DI\Attributes\Inject;

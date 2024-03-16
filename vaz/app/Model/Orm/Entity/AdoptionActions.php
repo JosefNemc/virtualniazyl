@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\Model\Orm\Entity;
 
 use App\Model\Orm\Enums\ActionTypeEnum;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\DateTimeImmutableType;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -23,11 +24,11 @@ class AdoptionAction
     #[ORM\JoinColumn(name: "adoption_id", referencedColumnName: "id", nullable: true)]
     private Adoption $adoption;
 
-    #[ORM\Column(type: 'datetime')]
-    private DateTimeImmutableType $createdAt;
+    #[ORM\Column(type: 'datetime_immutable')]
+    private DateTimeImmutable $createdAt;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private DateTimeImmutableType $updatedAt;
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private DateTimeImmutable $updatedAt;
 
     #[ORM\ManyToOne(targetEntity: "Users")]
     #[ORM\JoinColumn(name: "createdBy", referencedColumnName: "id")]

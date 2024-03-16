@@ -14,6 +14,7 @@ use Nette;
 use Nette\Forms\Form;
 use Nette\Security\AuthenticationException;
 use Nette\Security\Passwords;
+use App\Model\Services\Menu;
 
 
 #[AllowDynamicProperties] final class HomePresenter extends Nette\Application\UI\Presenter
@@ -34,10 +35,17 @@ use Nette\Security\Passwords;
         $this->passwords = $passwords;
 
     }
+
+    public function startup(): void
+    {
+        parent::startup();
+        $menu = new Menu();
+        $this->getTemplate()->mainMenuItems = $menu->getMenu();
+    }
+
     public function renderDefault(): void
     {
         $this->getTemplate()->title = 'Domácí stránka';
-        bdump($this->getTemplate()->users = $this->usersRepository->fetchAll());
 
     }
 

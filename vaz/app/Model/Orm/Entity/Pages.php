@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace App\Model\Orm\Entity;
 
-use App\Model\Orm\Entity\Users;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\DBAL\Types\DateTimeImmutableType;
+
 
 #[ORM\Entity]
 #[ORM\Table(name: 'pages')]
@@ -23,14 +23,14 @@ class Pages
     #[ORM\Column(type: 'text', length: 10024)]
     private string $content;
 
-    #[ORM\Column(type: 'date_time')]
-    private \DateTimeImmutable $createdAt;
+    #[ORM\Column(type: 'datetime_immutable')]
+    private DateTimeImmutable $createdAt;
 
-    #[ORM\Column(type: 'date_time')]
-    private \DateTimeImmutable $updatedAt;
+    #[ORM\Column(type: 'datetime_immutable')]
+    private DateTimeImmutable $updatedAt;
 
-    #[ORM\Column(type: 'date_time')]
-    private \DateTimeImmutableType $visibleFrom;
+    #[ORM\Column(type: 'datetime_immutable')]
+    private DateTimeImmutable $visibleFrom;
 
     #[ORM\ManyToOne(targetEntity: "Users", inversedBy: "pages")]
     private Users $author;
@@ -42,4 +42,114 @@ class Pages
     private $global;
     #[ORM\Column(type: 'boolean')]
     private $important;
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): Pages
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): Pages
+    {
+        $this->content = $content;
+        return $this;
+    }
+
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(DateTimeImmutable $createdAt): Pages
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getUpdatedAt(): DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(DateTimeImmutable $updatedAt): Pages
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    public function getVisibleFrom(): DateTimeImmutable
+    {
+        return $this->visibleFrom;
+    }
+
+    public function setVisibleFrom(DateTimeImmutable $visibleFrom): Pages
+    {
+        $this->visibleFrom = $visibleFrom;
+        return $this;
+    }
+
+    public function getAuthor(): Users
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(Users $author): Pages
+    {
+        $this->author = $author;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * @param mixed $deleted
+     * @return Pages
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGlobal()
+    {
+        return $this->global;
+    }
+
+    /**
+     * @param mixed $global
+     * @return Pages
+     */
+    public function setGlobal($global)
+    {
+        $this->global = $global;
+        return $this;
+    }
+
+
+
+
+
 }
+
+
+

@@ -8,21 +8,17 @@ class Menu
     public function getMenu(): array
     {
         return [
-            ['logged' => false, 'role' => '', 'name' => 'Domovská stránka', 'link' => 'Home:default', 'alwaysAvailable' => true],
-            ['logged' => false, 'role' => '', 'name' => 'O Nás', 'link' => 'Home:page/o-nas', 'alwaysAvailable' => true],
-            ['logged' => false, 'role' => '', 'name' => 'Azyly', 'link' => 'Home:azyls', 'alwaysAvailable' => true],
-            ['logged' => false, 'role' => '', 'name' => 'Zvířátka k adopci', 'link' => 'Home:adoptions', 'alwaysAvailable' => true],
-            ['logged' => false, 'role' => '', 'name' => 'Přihlášení', 'link' => 'home:signIn'],
-            ['logged' => false, 'role' => '', 'name' => 'Registrace', 'link' => 'home:register'],
-            ['logged' => false, 'role' => '', 'name' => 'Přihlášení', 'link' => 'home:signIn'],
-            ['logged' => true, 'role' => '', 'name' => 'Odhlásit', 'link' => 'Home:logOut'],
-            ['logged' => true, 'role' => 'admin', 'name' => 'Administrace', 'link' => 'Admin:default'],
-            ['logged' => true, 'role' => 'azyl', 'name' => 'Správa Azylu', 'link' => 'Azyl:default'],
-            ['logged' => true, 'role' => 'user', 'name' => 'Profil', 'link' => 'User:default'],
-            ['logged' => true, 'role' => 'superadmin', 'name' => 'Administrace', 'link' => 'Admin:default'],
-            ['logged' => true, 'role' => 'superadmin', 'name' => 'Správa Azylu', 'link' => 'Azyl:default'],
-            ['logged' => true, 'role' => 'superadmin', 'name' => 'Profil', 'link' => 'User:default'],
-            ['logged' => true, 'role' => 'superadmin', 'name' => '&pi;', 'link' => 'SuperAdmin:default']
+            ['logged' => false, 'role' => '','title' => 'Domovská stránka - Home page', 'name' => 'Domovská stránka', 'link' => 'Home:default', 'alwaysAvailable' => true],
+            ['logged' => false, 'role' => '','title' => 'O nás - About', 'name' => 'O Nás', 'link' => 'Page:default', 'alwaysAvailable' => true],
+            ['logged' => false, 'role' => '','title' => 'Seznam azylů - list of azyls', 'name' => 'Azyly', 'link' => 'Home:azyls', 'alwaysAvailable' => true],
+            ['logged' => false, 'role' => '','title' => 'Seznam zvířat k adopci - List of animals for adoption', 'name' => 'Zvířátka k adopci', 'link' => 'Home:adoptions', 'alwaysAvailable' => true],
+            ['logged' => true, 'role' => 'admin','title' => 'Administrace', 'name' => 'Administrace', 'link' => 'Admin:default', 'alwaysAvailable' => false],
+            ['logged' => true, 'role' => 'azyl','title' => 'Správa azylu - Azyl administration', 'name' => 'Správa Azylu', 'link' => 'Azyl:default', 'alwaysAvailable' => false],
+            ['logged' => true, 'role' => 'user','title' => 'Profil uživatele', 'name' => 'Profil', 'link' => 'User:default', 'alwaysAvailable' => false],
+            ['logged' => true, 'role' => 'superadmin','title' => 'Pretorian administration', 'name' => 'Administrace', 'link' => 'Admin:default', 'alwaysAvailable' => false],
+            ['logged' => true, 'role' => 'superadmin','title' => 'Pretorian azyl admin', 'name' => 'Správa Azylu', 'link' => 'Azyl:default', 'alwaysAvailable' => false],
+            ['logged' => true, 'role' => 'superadmin','title' => 'Pretorian user admin', 'name' => 'Profil', 'link' => 'User:default', 'alwaysAvailable' => false],
+            ['logged' => true, 'role' => 'superadmin','title' => 'Pretorian home page', 'name' => 'π', 'link' => 'SuperAdmin:default', 'alwaysAvailable' => false]
         ];
     }
 
@@ -76,6 +72,18 @@ class Menu
             ['logged' => true, 'role' => 'user', 'name' => 'Moje adopce', 'link' => 'User:adoptions'],
             ['logged' => true, 'role' => 'user', 'name' => 'Moje zvířátka', 'link' => 'User:animals'],
             ['logged' => true, 'role' => 'user', 'name' => 'Moje fotky', 'link' => 'User:photos']
+        ];
+    }
+
+    public function getMainMenu():array
+    {
+        return [
+            ['logged' => false, 'role' => '', 'name' => 'Podpora', 'link' => 'Home:support', 'alwaysAvailable' => true],
+            ['logged' => false, 'role' => '', 'name' => 'Č.K.D', 'link' => 'Home:faq', 'alwaysAvailable' => true],
+            ['logged' => false, 'role' => '', 'name' => 'Podpořili nás', 'link' => 'Home:support', 'alwaysAvailable' => true],
+            ['logged' => false, 'role' => '', 'name' => 'Přihlášení', 'link' => 'home:signIn'],
+            ['logged' => false, 'role' => '', 'name' => 'Registrace', 'link' => 'home:register'],
+            ['logged' => true, 'role' => '', 'name' => 'Odhlásit', 'link' => 'Home:logOut']
         ];
     }
 }

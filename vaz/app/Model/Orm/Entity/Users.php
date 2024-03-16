@@ -87,13 +87,13 @@ class Users
     {
     }
 
-    public function getSentMessages(): Entity
+    public function getSentMessages(): Collection
     {
         return $this->sentMessages;
     }
 
 
-    public function getReceivedMessages(): Entity
+    public function getReceivedMessages(): Collection
     {
         return $this->receivedMessages;
     }
@@ -242,7 +242,7 @@ class Users
         $this->userName = $userName;
     }
 
-    public function setReceivedMessages(Entity $receivedMessages): void
+    public function setReceivedMessages(Collection $receivedMessages): void
     {
         $this->receivedMessages = $receivedMessages;
     }

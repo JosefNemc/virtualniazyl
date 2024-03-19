@@ -1,5 +1,5 @@
 <?php
-// src/Enum/MessageType.php
+declare(strict_types=1);
 
 namespace App\Model\Orm\Enums;
 

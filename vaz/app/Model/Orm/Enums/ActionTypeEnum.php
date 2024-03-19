@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model\Orm\Enums;
 
@@ -8,13 +9,13 @@ use Doctrine\DBAL\Types\Type;
 class ActionTypeEnum extends Type
 {
     public const ACTION_TYPE_ENUM = 'actionTypeEnum';
-    public const START_ADOPTION = 'Start adopce';
-    public const END_ADOPTION = 'Konec adopce';
-    public const BREAK_ADOPTION = 'Přerušení adopce';
-    public const CONTACT_ADOPTION = 'Kontakt';
-    public const PHONE_CALL_ADOPTION = 'Telefonát';
-    public const PERSONAL_VISIT_ADOPTION = 'Osobní kontakt';
-    public const VERIFICATION_ADOPTION = 'Ověření';
+    public const START_ADOPTION = 'Start adopce',
+                 END_ADOPTION = 'Konec adopce',
+                 BREAK_ADOPTION = 'Přerušení adopce',
+                 CONTACT_ADOPTION = 'Kontakt',
+                 PHONE_CALL_ADOPTION = 'Telefonát',
+                 PERSONAL_VISIT_ADOPTION = 'Osobní kontakt',
+                 VERIFICATION_ADOPTION = 'Ověření';
 
     public function getName(): string
     {

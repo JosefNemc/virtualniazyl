@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'libphonenumber\\' => array($vendorDir . '/giggsey/libphonenumber-for-php/src'),
     'Ublaboo\\DataGrid\\' => array($vendorDir . '/ublaboo/datagrid/src'),
     'Symfony\\Thanks\\' => array($vendorDir . '/symfony/thanks/src'),
     'Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
@@ -30,6 +31,9 @@ return array(
     'Nettrine\\DBAL\\' => array($vendorDir . '/nettrine/dbal/src'),
     'Nettrine\\Cache\\' => array($vendorDir . '/nettrine/cache/src'),
     'Nettrine\\Annotations\\' => array($vendorDir . '/nettrine/annotations/src'),
+    'Nepada\\PhoneNumberInput\\' => array($vendorDir . '/nepada/phone-number-input/src/PhoneNumberInput'),
+    'Nepada\\Bridges\\' => array($vendorDir . '/nepada/phone-number-input/src/Bridges'),
+    'Giggsey\\Locale\\' => array($vendorDir . '/giggsey/locale/src'),
     'Doctrine\\Persistence\\' => array($vendorDir . '/doctrine/persistence/src/Persistence'),
     'Doctrine\\ORM\\' => array($vendorDir . '/doctrine/orm/src'),
     'Doctrine\\Migrations\\' => array($vendorDir . '/doctrine/migrations/lib/Doctrine/Migrations'),
@@ -47,5 +51,6 @@ return array(
     'Contributte\\DI\\' => array($vendorDir . '/contributte/di/src'),
     'Contributte\\Console\\' => array($vendorDir . '/contributte/console/src'),
     'Contributte\\Application\\' => array($vendorDir . '/contributte/application/src'),
+    'Brick\\PhoneNumber\\' => array($vendorDir . '/brick/phonenumber/src'),
     'App\\' => array($baseDir . '/app'),
 );

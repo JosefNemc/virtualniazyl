@@ -7,7 +7,6 @@ namespace App\Model\Orm\Entity;
 
 use App\Model\Orm\Enums\ActionTypeEnum;
 use DateTimeImmutable;
-use Doctrine\DBAL\Types\DateTimeImmutableType;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -41,7 +40,7 @@ class AdoptionAction
     #[ORM\Column(type: 'text', nullable: true)]
     private string $description;
 
-    #[ORM\Column(type: ActionTypeEnum::ACTION_TYPE_ENUM, length: 255)]
+    #[ORM\Column(type:ActionTypeEnum::ACTION_TYPE_ENUM, length: 255)]
     private ActionTypeEnum $actionTypeEnum;
 
     #[ORM\ManyToOne(targetEntity: "Owner")]

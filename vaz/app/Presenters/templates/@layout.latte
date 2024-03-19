@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-bs-theme="light" lang="cs" dir="ltr">
+<html data-bs-theme="light" lang="cs" dir="ltr" xmlns="http://www.w3.org/1999/html">
 
 <head>
 	<meta charset="utf-8">
@@ -94,16 +94,21 @@
             </div>
         </nav>
     {/block}
+<main class="main" id="top">
+	<div class="container-lg">
 
-	<main class="main" id="top">
-<div class="row-cols-3">
-	<div class="col-12"></div>
-	<div class="col-12"></div>
-	<div class="col-12"><div n:foreach="$flashes as $flash" n:class="alert, $flash->type">{$flash->message}</div></div>
-</div>
+	<div class="row">
+		<div class="col-4-lg"><div n:foreach="$flashes as $flash" n:class="alert, $flash->type">{$flash->message}</div>
+		<div class="col-4-lg"></div>
+		<div class="col-4-lg"></div>
+	</div>
+	</div>
+
 				{include content}
 			</div>
 		</div>
+	</div>
+
 
 
 	{block scripts}

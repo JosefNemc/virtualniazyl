@@ -20,7 +20,7 @@ class Species
     #[ORM\Column(type: 'string', length: 255)]
     private string $speciesDescription;
 
-    #[ORM\Column(type: SexTypeEnum::SEX_TYPE_ENUM, length: 255)]
+    #[ORM\Column(type:SexTypeEnum::SEX_TYPE_ENUM, length: 255)]
     private SexTypeEnum $sex;
 
     #[ORM\OneToMany(targetEntity: "Animal", mappedBy: "species")]

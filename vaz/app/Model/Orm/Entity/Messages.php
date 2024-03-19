@@ -42,6 +42,6 @@ class Message
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?DateTimeImmutable $deletedAt;
 
-    #[ORM\Column(type: MessageTypeEnum::MESSAGE_TYPE_ENUM, length: 255)]
+    #[ORM\Column(type:MessageTypeEnum::MESSAGE_TYPE_ENUM, length: 255)]
     private MessageTypeEnum $type;
 }

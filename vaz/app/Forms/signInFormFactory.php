@@ -13,7 +13,6 @@ public function __construct()
     {
         parent::__construct();
 
-
     }
 
 public function create(): Form
@@ -21,13 +20,14 @@ public function create(): Form
         $form = new Form;
         $form->addEmail('email', 'Email:')
              ->setHtmlAttribute('class', 'form-control')
+            ->addRule(Form::Email, 'Prosím zadejte platný email.')
              ->setRequired('Zadejte prosím email.');
 
         $form->addPassword('password', 'Heslo:')
              ->setHtmlAttribute('class', 'form-control')
              ->setRequired('Zadejte prosím heslo.');
 
-        $form->addCheckbox('remember', 'Zapamatovat si mě na tomto počítači')
+        $form->addCheckbox('remember', ' Zapamatovat si mě na tomto počítači')
              ->setHtmlAttribute('class', 'form-check-input');
 
         $form->addSubmit('send', 'Přihlásit se')

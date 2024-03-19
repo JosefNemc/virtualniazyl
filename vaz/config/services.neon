@@ -19,6 +19,8 @@ services:
 	- App\Model\Orm\Repository\UsersRepository
 	- App\Model\Services\MyAuthenticator
 
+	- Nepada\Bridges\PhoneNumberInputDI\PhoneNumberInputExtension
+
 
 
 search:

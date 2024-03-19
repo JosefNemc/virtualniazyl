@@ -4,8 +4,60 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "02264cd1f18f5dbc1a5ff69fc3e7aad2",
+    "content-hash": "b056bc2aafc2958f436e39d2c0f7eaa6",
     "packages": [
+        {
+            "name": "brick/phonenumber",
+            "version": "0.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/brick/phonenumber.git",
+                "reference": "66331c3db851544a76908b83b8a250a738690c14"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/brick/phonenumber/zipball/66331c3db851544a76908b83b8a250a738690c14",
+                "reference": "66331c3db851544a76908b83b8a250a738690c14",
+                "shasum": ""
+            },
+            "require": {
+                "giggsey/libphonenumber-for-php": "^7.0 || ^8.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.0",
+                "phpunit/phpunit": "^10.4",
+                "vimeo/psalm": "5.16.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Brick\\PhoneNumber\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Phone number library",
+            "keywords": [
+                "brick",
+                "phone",
+                "phone number",
+                "phonenumber"
+            ],
+            "support": {
+                "issues": "https://github.com/brick/phonenumber/issues",
+                "source": "https://github.com/brick/phonenumber/tree/0.6.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/BenMorel",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-11-26T21:57:45+00:00"
+        },
         {
             "name": "contributte/application",
             "version": "v0.5.2",
@@ -1518,6 +1570,132 @@
             "time": "2023-05-17T18:32:04+00:00"
         },
         {
+            "name": "giggsey/libphonenumber-for-php",
+            "version": "8.13.32",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/giggsey/libphonenumber-for-php.git",
+                "reference": "11aa286e82f2bb567815a89da1e63e2848b81e66"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/11aa286e82f2bb567815a89da1e63e2848b81e66",
+                "reference": "11aa286e82f2bb567815a89da1e63e2848b81e66",
+                "shasum": ""
+            },
+            "require": {
+                "giggsey/locale": "^1.7|^2.0",
+                "php": ">=5.3.2",
+                "symfony/polyfill-mbstring": "^1.17"
+            },
+            "require-dev": {
+                "pear/pear-core-minimal": "^1.9",
+                "pear/pear_exception": "^1.0",
+                "pear/versioncontrol_git": "^0.5",
+                "phing/phing": "^2.7",
+                "php-coveralls/php-coveralls": "^1.0|^2.0",
+                "symfony/console": "^2.8|^3.0|^v4.4|^v5.2",
+                "symfony/phpunit-bridge": "^4.2 || ^5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "8.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "libphonenumber\\": "src/"
+                },
+                "exclude-from-classmap": [
+                    "/src/data/",
+                    "/src/carrier/data/",
+                    "/src/geocoding/data/",
+                    "/src/timezone/data/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Joshua Gigg",
+                    "email": "giggsey@gmail.com",
+                    "homepage": "https://giggsey.com/"
+                }
+            ],
+            "description": "PHP Port of Google's libphonenumber",
+            "homepage": "https://github.com/giggsey/libphonenumber-for-php",
+            "keywords": [
+                "geocoding",
+                "geolocation",
+                "libphonenumber",
+                "mobile",
+                "phonenumber",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
+                "source": "https://github.com/giggsey/libphonenumber-for-php"
+            },
+            "time": "2024-03-12T08:08:27+00:00"
+        },
+        {
+            "name": "giggsey/locale",
+            "version": "2.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/giggsey/Locale.git",
+                "reference": "e6d4540109a01dd2bc7334cdc842d6a6a67cf239"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/giggsey/Locale/zipball/e6d4540109a01dd2bc7334cdc842d6a6a67cf239",
+                "reference": "e6d4540109a01dd2bc7334cdc842d6a6a67cf239",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "ext-json": "*",
+                "pear/pear-core-minimal": "^1.9",
+                "pear/pear_exception": "^1.0",
+                "pear/versioncontrol_git": "^0.5",
+                "phing/phing": "^2.7",
+                "php-coveralls/php-coveralls": "^2.0",
+                "phpunit/phpunit": "^8.5|^9.5",
+                "symfony/console": "^5.0|^6.0",
+                "symfony/filesystem": "^5.0|^6.0",
+                "symfony/finder": "^5.0|^6.0",
+                "symfony/process": "^5.0|^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Giggsey\\Locale\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joshua Gigg",
+                    "email": "giggsey@gmail.com",
+                    "homepage": "https://giggsey.com/"
+                }
+            ],
+            "description": "Locale functions required by libphonenumber-for-php",
+            "support": {
+                "issues": "https://github.com/giggsey/Locale/issues",
+                "source": "https://github.com/giggsey/Locale/tree/2.5"
+            },
+            "time": "2023-11-01T17:19:48+00:00"
+        },
+        {
             "name": "latte/latte",
             "version": "v3.0.13",
             "source": {
@@ -1601,6 +1779,80 @@
                 "source": "https://github.com/nette/latte/tree/v3.0.13"
             },
             "time": "2024-01-09T13:54:57+00:00"
+        },
+        {
+            "name": "nepada/phone-number-input",
+            "version": "v1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nepada/phone-number-input.git",
+                "reference": "b27a9f7889660f883d81727256d10981bdf37937"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nepada/phone-number-input/zipball/b27a9f7889660f883d81727256d10981bdf37937",
+                "reference": "b27a9f7889660f883d81727256d10981bdf37937",
+                "shasum": ""
+            },
+            "require": {
+                "brick/phonenumber": "^0.2.1@dev || ^0.3@dev || ^0.4@dev || ^0.5@dev || ^0.6@dev",
+                "nette/forms": "^3.1@dev",
+                "nette/utils": "^3.2@dev || ^4.0@dev",
+                "php": ">=8.1.0 <8.4"
+            },
+            "require-dev": {
+                "giggsey/libphonenumber-for-php": ">=8.12.34",
+                "mockery/mockery": "1.6.6",
+                "nepada/coding-standard": "7.13.0",
+                "nepada/phpstan-nette-tester": "1.1.0",
+                "nette/bootstrap": ">=3.1@dev",
+                "nette/component-model": ">=3.0.2",
+                "nette/di": "^3.0.6@dev",
+                "nette/http": ">=3.1@dev",
+                "nette/tester": "2.5.1",
+                "php-parallel-lint/php-parallel-lint": "1.3.2",
+                "phpstan/phpstan": "1.10.47",
+                "phpstan/phpstan-mockery": "1.1.1",
+                "phpstan/phpstan-nette": "1.2.9",
+                "phpstan/phpstan-strict-rules": "1.5.2",
+                "shipmonk/phpstan-rules": "2.10.0",
+                "spaze/phpstan-disallowed-calls": "2.16.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nepada\\Bridges\\": "src/Bridges/",
+                    "Nepada\\PhoneNumberInput\\": "src/PhoneNumberInput/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Petr Morávek",
+                    "email": "petr@pada.cz"
+                }
+            ],
+            "description": "Phone number form input for Nette forms.",
+            "keywords": [
+                "form",
+                "input",
+                "nette",
+                "phone number"
+            ],
+            "support": {
+                "email": "petr@pada.cz",
+                "issues": "https://github.com/nepada/phone-number-input/issues",
+                "source": "https://github.com/nepada/phone-number-input/tree/v1.3.1"
+            },
+            "time": "2023-12-02T02:40:52+00:00"
         },
         {
             "name": "nette/application",

@@ -7,6 +7,7 @@ namespace App\Presenters;
 use AllowDynamicProperties;
 use App\Forms\registerFormFactory;
 use App\Forms\SignInFormFactory;
+use App\Model\Orm\Entity\Users;
 use App\Model\Orm\Repository\UsersRepository;
 use App\Model\Services\MyAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -55,6 +56,19 @@ use App\Model\Services\Menu;
 
     }
 
+    public function actionRegistration()
+    {
+        $this->getTemplate()->title = 'Registrace';
+        $this->getTemplate()->kytka = 'kytka'.rand(1,4).'.jpeg';
+
+    }
+    public function actionRegistered(): void
+    {
+        $this->getTemplate()->title = 'Registrace proběhla v pořádku';
+        $vrf = $this->getPresenter()->getParameter('vrf');
+
+    }
+
     public function actionLogedIn(): void
     {
         $this->getTemplate()->title = 'Přihlášení';
@@ -84,13 +98,44 @@ use App\Model\Services\Menu;
             $this->getPresenter()->flashMessage('Přihlášení se zdařilo', 'alert-success');
             $this->getPresenter()->redirect('Home:default');
         } catch (AuthenticationException $e) {
-            $this->getPresenter()->flashMessage('Uživatelské jméno nebo heslo je špatně', 'alert-warning');
+            $this->getPresenter()->flashMessage('Email nebo heslo jsou špatně', 'alert-warning');
 
         }
     }
 
-    public function createComponentRegisterForm(): RegisterFormFactory
+    public function createComponentRegisterForm(): Form
     {
-        return new $this->registerFormFactory->create();
+        $form = (new registerFormFactory($this->usersRepository, $this->entityManager))->create();
+        $form->onSuccess[] = [$this, 'formRegisterSucceeded'];
+        return $form;
     }
+
+    public function formRegisterSucceeded(Form $form, \stdClass $values):void
+    {
+        if($values->userName === $this->usersRepository->getUserByUserName($values->username) || $values->email === $this->usersRepository->getUserByEmail($values->email) && $values->password === $values->password2)
+        {
+            $form->addError('Hesla nejsou stejná, nebo některý z údajů je již registrován!');
+        }
+        else {
+            try {
+                $this->usersRepository->addUser($values->username, $values->email, $this->passwords->hash($values->password));
+                $user = new UsersRepository($this->entityManager,Users::class);
+                $user->setUsername($values->username);
+                $user->setEmail($values->email);
+                $user->setPassword($this->passwords->hash($values->password));
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
+
+                //odeslání emailu s odkazem
+
+
+                $this->getPresenter()->flashMessage('Registrace proběhla v pořádku, do Emailu Vám přijde potvrzovací odkaz! Kdyby nedorazil, zkuste se podívat do Spamu. :-)', 'alert-success');
+                $this->getPresenter()->redirect('Home:Registered');
+            } catch (AuthenticationException $e) {
+                $form->addError('Registrace se nezdařila možná jméno nebo email jsou již registrovány');
+            }
+        }
+
+    }
+
 }

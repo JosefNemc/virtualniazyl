@@ -32,7 +32,7 @@ class Users
     #[ORM\Column(type: 'string', length: 255)]
     private string $email;
 
-    #[ORM\Column(type: RoleTypeEnum::ROLE_TYPE_ENUM, length: 255)]
+    #[ORM\Column(type:RoleTypeEnum::ROLE_TYPE_ENUM, length: 255)]
     private string $role;
 
     #[ORM\Column(type: 'string', length: 512)]
@@ -82,6 +82,12 @@ class Users
     #[ORM\OneToMany(targetEntity: "News", mappedBy: "user")]
     #[ORM\Column(type: 'integer', nullable: true)]
     public News $news;
+
+    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
+    private bool $adoptionVerification;
+
+    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
+    private bool $legalTerms;
 
     public function __construct()
     {
@@ -294,5 +300,28 @@ class Users
     public function findOneBy(array $array)
     {
     }
+
+    public function isAdoptionVerification(): bool
+    {
+        return $this->adoptionVerification;
+    }
+
+    public function setAdoptionVerification(bool $adoptionVerification): Users
+    {
+        $this->adoptionVerification = $adoptionVerification;
+        return $this;
+    }
+
+    public function isLegalTerms(): bool
+    {
+        return $this->legalTerms;
+    }
+
+    public function setLegalTerms(bool $legalTerms): Users
+    {
+        $this->legalTerms = $legalTerms;
+        return $this;
+    }
+
 
 }

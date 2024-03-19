@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 namespace App\Model\Orm\Enums;
 
@@ -19,9 +20,13 @@ class RoleTypeEnum extends Type
                  ROLE_ADOPTER = 'adopter',
                  ROLE_ADOPTERADMIN = 'adopteradmin';
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+
+
+   public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-        return 'VARCHAR(255)';
+        $roles = self::getRoles();
+        $quotedRoles = array_map(fn($role) => $platform->quoteStringLiteral($role), $roles);
+        return 'ENUM(' . implode(', ', $quotedRoles) . ')';
     }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
@@ -40,6 +45,20 @@ class RoleTypeEnum extends Type
     public function getName()
     {
         return self::ROLE_TYPE_ENUM;
+    }
+
+    private static function getRoles()
+    {
+        return [
+            self::ROLE_ADMIN,
+            self::ROLE_USER,
+            self::ROLE_GUEST,
+            self::ROLE_SUPERADMIN,
+            self::ROLE_AZYL,
+            self::ROLE_AZYLADMIN,
+            self::ROLE_ADOPTER,
+            self::ROLE_ADOPTERADMIN
+        ];
     }
 
 }

@@ -30,8 +30,8 @@ class News
     #[ORM\Column(type: 'datetime_immutable')]
     private DateTimeImmutable $updatedAt;
 
-    #[ORM\Column(type: 'datetime')]
-    private DateTimeImmutableType $visibleFrom;
+    #[ORM\Column(type: 'datetime_immutable')]
+    private DateTimeImmutable $visibleFrom;
 
     #[ORM\ManyToOne(targetEntity: "Users", inversedBy: "news")]
     private Users $author;

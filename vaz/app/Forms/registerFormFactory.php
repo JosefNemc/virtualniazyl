@@ -1,52 +1,57 @@
 <?php
 
 namespace App\Forms;
+use App\Model\Orm\Repository\UsersRepository;
+use Nepada\PhoneNumberInput\PhoneNumberInput;
 use Nette\Application\UI\Form;
-use Nette\Security\User;
-use Nette\Security\AuthenticationException;
-use Nette\Security\SimpleIdentity;
 use Doctrine\ORM\EntityManagerInterface;
 
 
 class RegisterFormFactory extends Form
 {
-    public function __construct(private readonly User $user, protected readonly EntityManagerInterface $entityManagerInterface)
+    public function __construct(protected UsersRepository $usersRepository, protected EntityManagerInterface $entityManager)
     {
+        parent::__construct();
     }
 
     public function create(): Form
     {
         $form = new Form;
         $form->addText('username', 'Uživatelské jméno:')
+            ->setHtmlAttribute('class', 'form-control')
             ->setRequired('Zadejte prosím uživatelské jméno.');
 
         $form->addPassword('password', 'Heslo:')
+            ->setHtmlAttribute('class', 'form-control')
+            ->addRule(Form::Filled, 'Zadejte vaše  heslo.')
             ->setRequired('Zadejte prosím heslo.');
 
         $form->addPassword('password2', 'Heslo znovu:')
+            ->setHtmlAttribute('class', 'form-control')
+            ->addRule(Form::Equal, 'Hesla se neshodují.', $form['password'])
             ->setRequired('Zadejte prosím heslo znovu.');
 
         $form->addText('email', 'Email:')
-            ->setRequired('Zadejte prosím email.');
+            ->setHtmlAttribute('class', 'form-control')
+            ->addRule(Form::Email, 'Prosím zadejte platný email.')
+            ->setRequired('Zadejte prosím email. Je důležitý pro přihlášení');
 
         $form->addText('phone', 'Telefon:')
-            ->setRequired('Zadejte prosím platný telefon.');
+            ->setHtmlAttribute('class', 'form-control')
+            ->addRule(PhoneNumberInput::REGION, 'Prosím zadejte platný telefonní číslo. Pro ČR nebo SR začíná na +420 nebo +421.',['CZ', 'SK'])
+            ->setCaption('Telefonní číslo', 'form-control')
+            ->setEmptyValue('+420')
+            ->setRequired('Zadejte prosím platný telefon. Bude důležtý pro ověření.');
 
-        $form->addSubmit('send', 'Registrovat se');
+        $form->addCheckbox('legalTerms', ' Přečetl jsem si podmínky užití a souhlasím s nimi.')
+            ->setHtmlAttribute('class', 'form-check-input');
 
-        $form->onSuccess[] = [$this, 'formSucceeded'];
+        $form->addCheckbox('adoptionVerification', ' Počítám s tím, že provozovatel serveru si před adopcí bude ověřovat mou totižnost a podmínky pro adopci.')
+            ->setHtmlAttribute('class', 'form-check-input');
+
+        $form->addSubmit('send', 'Registrovat se')
+            ->setHtmlAttribute('class', 'btn btn-gradient');
+
         return $form;
-    }
-
-    public function formSucceeded(Form $form, \stdClass $values): void
-    {
-        //$this->entityManagerInterface-> ->fetch('username', $values->username);
-        try {
-            $this->user->login($values->username, $values->password);
-
-        } catch (AuthenticationException $e) {
-            $form->addError('Neplatné uživatelské jméno nebo heslo.');
-
-        }
     }
 }

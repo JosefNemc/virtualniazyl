@@ -19,6 +19,10 @@ class ComposerStaticInit371471726cf6a317441d14d0f1a8a245
     );
 
     public static $prefixLengthsPsr4 = array (
+        'l' => 
+        array (
+            'libphonenumber\\' => 15,
+        ),
         'U' => 
         array (
             'Ublaboo\\DataGrid\\' => 17,
@@ -54,6 +58,12 @@ class ComposerStaticInit371471726cf6a317441d14d0f1a8a245
             'Nettrine\\DBAL\\' => 14,
             'Nettrine\\Cache\\' => 15,
             'Nettrine\\Annotations\\' => 21,
+            'Nepada\\PhoneNumberInput\\' => 24,
+            'Nepada\\Bridges\\' => 15,
+        ),
+        'G' => 
+        array (
+            'Giggsey\\Locale\\' => 15,
         ),
         'D' => 
         array (
@@ -78,6 +88,10 @@ class ComposerStaticInit371471726cf6a317441d14d0f1a8a245
             'Contributte\\Console\\' => 20,
             'Contributte\\Application\\' => 24,
         ),
+        'B' => 
+        array (
+            'Brick\\PhoneNumber\\' => 18,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -85,6 +99,10 @@ class ComposerStaticInit371471726cf6a317441d14d0f1a8a245
     );
 
     public static $prefixDirsPsr4 = array (
+        'libphonenumber\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src',
+        ),
         'Ublaboo\\DataGrid\\' => 
         array (
             0 => __DIR__ . '/..' . '/ublaboo/datagrid/src',
@@ -181,6 +199,18 @@ class ComposerStaticInit371471726cf6a317441d14d0f1a8a245
         array (
             0 => __DIR__ . '/..' . '/nettrine/annotations/src',
         ),
+        'Nepada\\PhoneNumberInput\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nepada/phone-number-input/src/PhoneNumberInput',
+        ),
+        'Nepada\\Bridges\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nepada/phone-number-input/src/Bridges',
+        ),
+        'Giggsey\\Locale\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/giggsey/locale/src',
+        ),
         'Doctrine\\Persistence\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/persistence/src/Persistence',
@@ -249,6 +279,10 @@ class ComposerStaticInit371471726cf6a317441d14d0f1a8a245
         'Contributte\\Application\\' => 
         array (
             0 => __DIR__ . '/..' . '/contributte/application/src',
+        ),
+        'Brick\\PhoneNumber\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/brick/phonenumber/src',
         ),
         'App\\' => 
         array (

@@ -1,5 +1,6 @@
 {
     "require": {
-        "contributte/console": "^0.10.1"
+        "contributte/console": "^0.10.1",
+        "nepada/phone-number-input": "^1.3"
     }
 }

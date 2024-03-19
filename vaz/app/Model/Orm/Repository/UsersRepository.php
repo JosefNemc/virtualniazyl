@@ -58,4 +58,15 @@ class UsersRepository extends EntityRepository
         $user->setDeleted(true);
         $this->getEntityManager()->flush();
     }
+
+    public function getUserByEmail($email)
+    {
+        return $this->findOneBy(['email' => $email]);
+    }
+
+    public function getUserByUserName($userName)
+    {
+        return $this->findOneBy(['userName' => $userName]);
+    }
+
 }

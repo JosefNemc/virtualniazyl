@@ -40,7 +40,7 @@ class Owner extends Users
     private Adoption $adoptions;
 
     #[ORM\OneToMany(targetEntity: "Photo", mappedBy: "owner")]
-    public \App\Model\Orm\Entity\Photo $photos;
+    public Photo $photos;
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $phoneNumber;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Model\Orm\Enums;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -7,11 +9,11 @@ use Doctrine\DBAL\Types\Type;
 
 class SexTypeEnum extends Type
 {
-    const SEX_TYPE_ENUM = 'sexTypeEnum';
-    const MALE_ENUM = 'male';
-    const FEMALE_ENUM = 'female';
-    const UNKNOWN_ENUM = 'unknown';
-    const HERMAPHRODITE_ENUM = 'hermaphrodite';
+    public const SEX_TYPE_ENUM = 'sexTypeEnum';
+    public const MALE_ENUM = 'male',
+                 FEMALE_ENUM = 'female',
+                 UNKNOWN_ENUM = 'unknown',
+                 HERMAPHRODITE_ENUM = 'hermaphrodite';
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform):string
     {

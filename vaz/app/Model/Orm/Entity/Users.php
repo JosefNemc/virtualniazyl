@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Entity;
+use libphonenumber\PhoneNumber;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'users')]
@@ -21,7 +22,7 @@ class Users
     public int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private string $userName;
+    public string $userName;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private string $firstName;
@@ -30,13 +31,16 @@ class Users
     private string $lastName;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private string $email;
+    public string $email;
 
     #[ORM\Column(type:RoleTypeEnum::ROLE_TYPE_ENUM, length: 255)]
     private string $role;
 
     #[ORM\Column(type: 'string', length: 512)]
     private string $password;
+
+    #[ORM\Column(type: 'string', length: 2048, nullable: true)]
+    private PhoneNumber $phone;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private DateTimeImmutable $createdAt;
@@ -280,10 +284,11 @@ class Users
         return $this->email;
     }
 
-    public function setEmail(string $email): Users
+    public function setEmail(string $email): void
     {
         $this->email = $email;
-        return $this;
+
+
     }
 
     public function isMailverified(): bool
@@ -321,6 +326,15 @@ class Users
     {
         $this->legalTerms = $legalTerms;
         return $this;
+    }
+
+    public function getPhone(): PhoneNumber
+    {
+        return $this->phone;
+    }
+    public function setPhone($phone) : void
+    {
+        $this->phone = $phone;
     }
 
 

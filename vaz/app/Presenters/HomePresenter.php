@@ -9,13 +9,15 @@ use App\Forms\registerFormFactory;
 use App\Forms\SignInFormFactory;
 use App\Model\Orm\Entity\Users;
 use App\Model\Orm\Repository\UsersRepository;
-use App\Model\Services\MyAuthenticator;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use libphonenumber\PhoneNumber;
 use Nette;
 use Nette\Forms\Form;
 use Nette\Security\AuthenticationException;
 use Nette\Security\Passwords;
 use App\Model\Services\Menu;
+use Nette\Utils\DateTime;
 
 
 #[AllowDynamicProperties] final class HomePresenter extends Nette\Application\UI\Presenter
@@ -112,21 +114,37 @@ use App\Model\Services\Menu;
 
     public function formRegisterSucceeded(Form $form, \stdClass $values):void
     {
-        if($values->userName === $this->usersRepository->getUserByUserName($values->username) || $values->email === $this->usersRepository->getUserByEmail($values->email) && $values->password === $values->password2)
+        if($values->username === $this->usersRepository->getUserByUserName($values->username) || $values->email === $this->usersRepository->getUserByEmail($values->email) && $values->password === $values->password2)
         {
             $form->addError('Hesla nejsou stejná, nebo některý z údajů je již registrován!');
         }
         else {
             try {
-                $this->usersRepository->addUser($values->username, $values->email, $this->passwords->hash($values->password));
-                $user = new UsersRepository($this->entityManager,Users::class);
-                $user->setUsername($values->username);
+                bdump($values);
+
+                $now = new DateTimeImmutable();
+                $phone = new PhoneNumber($values->phone);
+
+
+                $user = new Users();
+                $user->setUserName($values->username);
                 $user->setEmail($values->email);
                 $user->setPassword($this->passwords->hash($values->password));
-                $this->entityManager->persist($user);
-                $this->entityManager->flush();
+                $user->setRole('user');
+                $user->setCreatedAt($now);
+                $user->setVerified(FALSE);
+                $user->setPhone($phone);
+                $user->setLegalTerms($values->legalTerms);
+                $user->setAdoptionVerification($values->adoptionVerification);
+                $user->setMailverified(FALSE);
+                $user->setDeleted(FALSE);
+                $user->setBaned(FALSE);
+                $user->setPhoneVerified(FALSE);
 
-                //odeslání emailu s odkazem
+
+                $this->usersRepository->addUser($user);
+
+
 
 
                 $this->getPresenter()->flashMessage('Registrace proběhla v pořádku, do Emailu Vám přijde potvrzovací odkaz! Kdyby nedorazil, zkuste se podívat do Spamu. :-)', 'alert-success');

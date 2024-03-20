@@ -15,9 +15,6 @@ class UsersRepository extends EntityRepository
         parent::__construct($em, $em->getClassMetadata($entityClass));
     }
 
-
-
-
     /**
      * @return Users[]
      */
@@ -26,6 +23,12 @@ class UsersRepository extends EntityRepository
         return $this->createQueryBuilder('u')
             ->getQuery()
             ->getResult();
+    }
+
+    public function addUser(Users $user): void
+    {
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
     }
 
     public function findOneBy(array $criteria, ?array $orderBy = null)
@@ -67,6 +70,15 @@ class UsersRepository extends EntityRepository
     public function getUserByUserName($userName)
     {
         return $this->findOneBy(['userName' => $userName]);
+    }
+
+    public function setPassword(string $hash)
+    {
+    }
+
+    public function setUserName(string $userName)
+    {
+        $this->userName = $userName;
     }
 
 }

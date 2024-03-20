@@ -67,6 +67,7 @@ use Nette\Utils\DateTime;
     public function actionRegistered(): void
     {
         $this->getTemplate()->title = 'Registrace proběhla v pořádku';
+        $this->getTemplate()->kytka = 'kytka'.rand(1,4).'.jpeg';
         $vrf = $this->getPresenter()->getParameter('vrf');
 
     }
@@ -123,8 +124,6 @@ use Nette\Utils\DateTime;
                 bdump($values);
 
                 $now = new DateTimeImmutable();
-                $phone = new PhoneNumber($values->phone);
-
 
                 $user = new Users();
                 $user->setUserName($values->username);
@@ -133,21 +132,16 @@ use Nette\Utils\DateTime;
                 $user->setRole('user');
                 $user->setCreatedAt($now);
                 $user->setVerified(FALSE);
-                $user->setPhone($phone);
+                $user->setPhone($values->phone);
                 $user->setLegalTerms($values->legalTerms);
                 $user->setAdoptionVerification($values->adoptionVerification);
                 $user->setMailverified(FALSE);
                 $user->setDeleted(FALSE);
                 $user->setBaned(FALSE);
                 $user->setPhoneVerified(FALSE);
-
-
+                $user->setMailVerifyToken(md5($values->email.$now->format('Y-m-d H:i:s')));
                 $this->usersRepository->addUser($user);
-
-
-
-
-                $this->getPresenter()->flashMessage('Registrace proběhla v pořádku, do Emailu Vám přijde potvrzovací odkaz! Kdyby nedorazil, zkuste se podívat do Spamu. :-)', 'alert-success');
+                $this->getPresenter()->flashMessage('Registrace proběhla v pořádku :-)', 'alert-success');
                 $this->getPresenter()->redirect('Home:Registered');
             } catch (AuthenticationException $e) {
                 $form->addError('Registrace se nezdařila možná jméno nebo email jsou již registrovány');

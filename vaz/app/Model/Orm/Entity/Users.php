@@ -40,7 +40,10 @@ class Users
     private string $password;
 
     #[ORM\Column(type: 'string', length: 2048, nullable: true)]
-    private PhoneNumber $phone;
+    private string $phone;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $mailVerifyToken;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private DateTimeImmutable $createdAt;
@@ -330,11 +333,24 @@ class Users
 
     public function getPhone(): PhoneNumber
     {
-        return $this->phone;
+        $phone = new PhoneNumber($this->phone);
+        $phone->setRawInput($this->phone);
+
+        return $phone;
     }
     public function setPhone($phone) : void
     {
         $this->phone = $phone;
+    }
+
+    public function getMailVerifyToken(): string
+    {
+        return $this->mailVerifyToken;
+    }
+
+    public function setMailVerifyToken(string $mailVerifyToken): void
+    {
+        $this->mailVerifyToken = $mailVerifyToken;
     }
 
 

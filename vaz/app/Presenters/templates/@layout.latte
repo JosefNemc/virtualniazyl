@@ -53,10 +53,20 @@
 						</span><span class="ms-1 fs-10 fs-sm-9">Podpořili nás</span>
 					</a>
 					{if $user->isLoggedIn()}
-					<a class="ms-2 ms-md-3 submenu" href="{link home:logOut}">
-						<span class="uil uil-user-circle"></span>
-						<span class="ms-1 fs-10 fs-sm-9">Odhlásit</span>
+					<a class="ms-2 ms-md-3 submenu" href="{link user:messages}">
+						<span class="uil uil-mailbox"> </span>
 					</a>
+
+					<a class="ms-2 ms-md-3 submenu" href="{link user:profil}">
+						<span class="uil uil-user-circle"> {$user->getIdentity()->data['User']->email}</span>
+					</a>
+
+
+					<a class="ms-2 ms-md-3 submenu" href="{link home:logOut}">
+
+						<span class="ms-1 fs-10 fs-sm-9 bg-white">Odhlásit</span>
+					</a>
+
 					{else}
 					<a class="ms-2 ms-md-3 submenu" href="{link home:registration}">
 						<span class="uil uil-user-plus"></span>

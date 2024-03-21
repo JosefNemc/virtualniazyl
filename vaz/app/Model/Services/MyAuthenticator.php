@@ -35,10 +35,9 @@ class MyAuthenticator implements Nette\Security\Authenticator
             return new SimpleIdentity($user->id, $user->getRole(),
 
                 [
-                    'lastName' => $user->getLastName(),
-                    'firstName' => $user->getFirstName(),
                     'email' => $user->getEmail(),
-                    'userName' => $user->getUserName()
+                    'userName' => $user->getUserName(),
+                    'User'=> $user
                 ]
 
             );

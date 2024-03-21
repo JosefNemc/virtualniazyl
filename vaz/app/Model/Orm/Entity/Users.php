@@ -260,9 +260,9 @@ class Users
         $this->receivedMessages = $receivedMessages;
     }
 
-    public function getFirstName(): string
+    public function getFirstName(): ?string
     {
-        return $this->firstName;
+        return $this?->firstName;
     }
 
     public function setFirstName(string $firstName): Users
@@ -271,9 +271,9 @@ class Users
         return $this;
     }
 
-    public function getLastName(): string
+    public function getLastName(): ?string
     {
-        return $this->lastName;
+        return $lastName = $this->lastName;
     }
 
     public function setLastName(string $lastName): Users

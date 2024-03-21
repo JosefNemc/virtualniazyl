@@ -11,7 +11,6 @@ use App\Model\Orm\Entity\Users;
 use App\Model\Orm\Repository\UsersRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
-use libphonenumber\PhoneNumber;
 use Nette;
 use Nette\Bridges\ApplicationLatte\TemplateFactory;
 use Nette\Forms\Form;
@@ -20,8 +19,6 @@ use Nette\Mail\SmtpMailer;
 use Nette\Security\AuthenticationException;
 use Nette\Security\Passwords;
 use App\Model\Services\Menu;
-use Nette\Utils\DateTime;
-
 
 #[AllowDynamicProperties] final class HomePresenter extends Nette\Application\UI\Presenter
 {
@@ -81,6 +78,7 @@ use Nette\Utils\DateTime;
             if($user !== NULL)
             {
                 $user->setMailverified(TRUE);
+                $user->setMailVerifyToken(NULL);
                 $this->usersRepository->addUser($user);
                 $this->getPresenter()->flashMessage('Váš email byl ověřen. Můžete se přihlásit.', 'alert-success');
                 $this->getPresenter()->redirect('Home:signIn');
@@ -91,7 +89,6 @@ use Nette\Utils\DateTime;
                 $this->getPresenter()->redirect('Home:registered');
             }
         }
-
     }
 
     public function actionLogedIn(): void
@@ -105,7 +102,6 @@ use Nette\Utils\DateTime;
         $this->getPresenter()->flashMessage('Odhlášení proběhlo v pořádku.', 'alert-success');
         $this->redirect('Home:default');
     }
-
 
     public function createComponentSignInForm(): Form
     {
@@ -121,6 +117,9 @@ use Nette\Utils\DateTime;
         try {
             $this->getUser()->login($values->email, $values->password);
             $this->getPresenter()->flashMessage('Přihlášení se zdařilo', 'alert-success');
+            if ($this->getUser()->isInRole('user')) {
+                $this->getPresenter()->redirect('Users:first');
+            }
             $this->getPresenter()->redirect('Home:default');
         } catch (AuthenticationException $e) {
             $this->getPresenter()->flashMessage('Email nebo heslo jsou špatně', 'alert-warning');
@@ -134,7 +133,6 @@ use Nette\Utils\DateTime;
         $form->onSuccess[] = [$this, 'formRegisterSucceeded'];
         return $form;
     }
-
 
     public function formRegisterSucceeded(Form $form, \stdClass $values):void
     {
@@ -189,9 +187,6 @@ use Nette\Utils\DateTime;
                 );
 
                 $mailer->send($mail);
-
-                bdump($mail,'Mail');
-                bdump($mailer,'Mailer');
 
                 $this->getPresenter()->flashMessage('Registrace proběhla v pořádku :-)', 'alert-success');
                 $this->getPresenter()->redirect('Home:Registered');

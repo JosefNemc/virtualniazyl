@@ -13,7 +13,10 @@ use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use libphonenumber\PhoneNumber;
 use Nette;
+use Nette\Bridges\ApplicationLatte\TemplateFactory;
 use Nette\Forms\Form;
+use Nette\Mail\Message;
+use Nette\Mail\SmtpMailer;
 use Nette\Security\AuthenticationException;
 use Nette\Security\Passwords;
 use App\Model\Services\Menu;
@@ -30,12 +33,14 @@ use Nette\Utils\DateTime;
                                 EntityManagerInterface                 $entityManager,
                                 protected readonly SignInFormFactory   $signInFormFactory,
                                 protected readonly RegisterFormFactory $registerFormFactory,
-                                private            Passwords           $passwords)
+                                private            Passwords           $passwords,
+                                public            TemplateFactory     $templateFactory)
     {
         parent::__construct();
         $this->entityManager = $entityManager;
         $this->usersRepository = $usersRepository;
         $this->passwords = $passwords;
+        $this->templateFactory = $templateFactory;
 
     }
 
@@ -69,6 +74,23 @@ use Nette\Utils\DateTime;
         $this->getTemplate()->title = 'Registrace proběhla v pořádku';
         $this->getTemplate()->kytka = 'kytka'.rand(1,4).'.jpeg';
         $vrf = $this->getPresenter()->getParameter('vrf');
+        bdump($vrf,'VRF');
+        if (!empty($vrf))
+        {
+            $user = $this->usersRepository->getUserByMailVerifyToken($vrf);
+            if($user !== NULL)
+            {
+                $user->setMailverified(TRUE);
+                $this->usersRepository->addUser($user);
+                $this->getPresenter()->flashMessage('Váš email byl ověřen. Můžete se přihlásit.', 'alert-success');
+                $this->getPresenter()->redirect('Home:signIn');
+            }
+            else
+            {
+                $this->getPresenter()->flashMessage('Ověření emailu se nezdařilo. Zkuste to prosím znovu.', 'alert-warning');
+                $this->getPresenter()->redirect('Home:registered');
+            }
+        }
 
     }
 
@@ -113,6 +135,7 @@ use Nette\Utils\DateTime;
         return $form;
     }
 
+
     public function formRegisterSucceeded(Form $form, \stdClass $values):void
     {
         if($values->username === $this->usersRepository->getUserByUserName($values->username) || $values->email === $this->usersRepository->getUserByEmail($values->email) && $values->password === $values->password2)
@@ -124,6 +147,7 @@ use Nette\Utils\DateTime;
                 bdump($values);
 
                 $now = new DateTimeImmutable();
+                $token = md5($values->email.$now->format('Y-m-d H:i:s'));
 
                 $user = new Users();
                 $user->setUserName($values->username);
@@ -139,8 +163,36 @@ use Nette\Utils\DateTime;
                 $user->setDeleted(FALSE);
                 $user->setBaned(FALSE);
                 $user->setPhoneVerified(FALSE);
-                $user->setMailVerifyToken(md5($values->email.$now->format('Y-m-d H:i:s')));
+                $user->setMailVerifyToken($token);
                 $this->usersRepository->addUser($user);
+                //Send registration email
+
+
+                $verificationlink = $this->link('Home:registered', ['vrf' => $token]);
+                $template = $this->templateFactory->createTemplate();
+                $html = $template->renderToString(__DIR__ . '/Template/Email/RegistrationEmail.latte', ['verificationLink' => $verificationlink]);
+
+                $mail = new Message;
+                $mail->setFrom('Registrace Virtuální Azyl <registration@virtualniazyl.cz>')
+                    ->addTo($values->email)
+                    ->setSubject('Registrace na Virtuální Azyl')
+                    ->setHtmlBody($html);
+
+                //Mail sending
+                $mailer = new SmtpMailer(
+                    host: 'smtp.seznam.cz',
+                    username: 'registration@virtualniazyl.cz',
+                    password: "ing('stri55+",
+                    port: 465,
+                    encryption: 'ssl',
+                    timeout: 600
+                );
+
+                $mailer->send($mail);
+
+                bdump($mail,'Mail');
+                bdump($mailer,'Mailer');
+
                 $this->getPresenter()->flashMessage('Registrace proběhla v pořádku :-)', 'alert-success');
                 $this->getPresenter()->redirect('Home:Registered');
             } catch (AuthenticationException $e) {

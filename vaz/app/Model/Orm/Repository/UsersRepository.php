@@ -81,4 +81,9 @@ class UsersRepository extends EntityRepository
         $this->userName = $userName;
     }
 
+    public function getUserByMailVerifyToken(mixed $vrf)
+    {
+        return $this->findOneBy(['mailVerifyToken' => $vrf]);
+    }
+
 }

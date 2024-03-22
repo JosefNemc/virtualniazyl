@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'messages')]
-class Message
+class Messages
 {
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]

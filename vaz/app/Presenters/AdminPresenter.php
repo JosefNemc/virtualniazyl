@@ -4,14 +4,14 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use Contributte\Application\UI\BasePresenter;
-use Nette\DI\Attributes\Inject;
 
 class AdminPresenter extends BasePresenter
 {
     public function __construct()
     {
-        if ($this->getPresenter()->user->isLoggedIn() && $this->getPresenter()->user->isInRole('admin')) {
-            $this->getPresenter()->redirect('Home:adminLogin');
+        if ($this->getPresenter()->user->isLoggedIn() && ($this->getPresenter()->user->isInRole('admin') || $this->getPresenter()->user->isInRole('superadmin')))
+        {
+            $this->getPresenter()->redirect('admin:adminLogin');
         }
         parent::__construct();
     }

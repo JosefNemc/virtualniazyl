@@ -4,7 +4,7 @@ services:
 	- App\Model\Orm\Entity\Users
 	- App\Model\Orm\Entity\Animal
 	- App\Model\Orm\Entity\News
-	- App\Model\Orm\Entity\Message
+	- App\Model\Orm\Entity\Messages
 	- App\Model\Orm\Entity\Adoption
 	- App\Model\Orm\Entity\AdoptionAction
 	- App\Model\Orm\Entity\Photo
@@ -17,6 +17,7 @@ services:
 	- App\Forms\SignInFormFactory
 	##Repository##
 	- App\Model\Orm\Repository\UsersRepository
+	- App\Model\Orm\Repository\MessagesRepository
 	- App\Model\Services\MyAuthenticator
 
 	- Nepada\Bridges\PhoneNumberInputDI\PhoneNumberInputExtension

@@ -3,11 +3,18 @@ declare(strict_types=1);
 
 namespace App\Model\Orm\Repository;
 
-use App\Model\Orm\Entity\Message;
+use App\Model\Orm\Entity\Messages;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping\ClassMetadata;
 
 class MessagesRepository extends EntityRepository
 {
+    public function __construct(EntityManagerInterface $em, string $entityClass = Messages::class)
+    {
+        parent::__construct($em, $em->getClassMetadata($entityClass));
+    }
+
     public function countUnreadMessages(): int
     {
         return $this->createQueryBuilder('m')

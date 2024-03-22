@@ -5,27 +5,45 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use App\Forms\roleFormFactory;
+use App\Model\Orm\Enums\RoleTypeEnum;
+use App\Model\Orm\Repository\UsersRepository;
 use App\Model\Services\Menu;
 use Contributte\Application\UI\BasePresenter;
+use DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
 use Nette\Application\UI\Form;
 
 
 class UserPresenter extends BasePresenter
 {
     private roleFormFactory $roleFormFactory;
+    private UsersRepository $usersRepository;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(roleFormFactory $roleFormFactory)
+    public function __construct(roleFormFactory $roleFormFactory, UsersRepository $usersRepository, EntityManagerInterface $entityManager)
     {
         parent::__construct();
         $this->roleFormFactory = $roleFormFactory;
+        $this->usersRepository = $usersRepository;
+        $this->entityManager = $entityManager;
     }
 
-    private function __startup():void
+    public function startup(): void
     {
         parent::startup();
         $menu = new Menu();
         $this->getTemplate()->mainMenuItems = $menu->getMenu();
+        if ($this->getPresenter()->getUser()->isLoggedIn() && !$this->getPresenter()->getUser()->isInRole('owner'))
+        {
+        }
+        else
+        {
+            $this->redirect('Home:signIn');
+        }
 
+    }
+public function actionDefault(): void
+    {
         if ($this->getPresenter()->getUser()->isLoggedIn())
         {
             if ($this->getPresenter()->getUser()->isInRole('user'))
@@ -36,16 +54,17 @@ class UserPresenter extends BasePresenter
             {
                 $this->getPresenter()->redirect('User:profil');
             }
+            else
             {
                 $this->getPresenter()->redirect('Home:default');
             }
         }
         else
         {
-              $this->redirect('Home:signIn');
+            $this->redirect('Home:signIn');
         }
-
     }
+
     public function renderDefault(): void
     {
 
@@ -83,7 +102,7 @@ class UserPresenter extends BasePresenter
     }
     // Actions
 
-    public function actionFirst()
+    public function renderFirst()
     {
         $this->template->title = 'Vyberte si roli';
 
@@ -98,23 +117,29 @@ class UserPresenter extends BasePresenter
 
     public function roleFormSucceeded(Form $form, \stdClass $values): void
     {
-        if ($values->role === 'azyl')
+        if ($values->role === RoleTypeEnum::ROLE_AZYL)
         {
-            $users = $this->usersRepository->getUserById($this->getUser()->getId());
-            $users->setRole('azyl');
-            $this->entityManager->persist($users);
-            $this->entityManager->flush();
+            $users = $this->usersRepository->getUserById($this->getPresenter()->getUser()->getId());
+            $users->setRole(RoleTypeEnum::ROLE_AZYL);
+            $users->setUpdatedAt(new DateTimeImmutable());
+            $users->setUpdatedBy($this->usersRepository->getUserById($this->getPresenter()->getUser()->getId()));
+            $this->usersRepository->addUser($users);
             $this->getPresenter()->flashMessage('Od této chvíle jste v roli Azylu!', 'alert-success');
             $this->redirect('Azyl:profil');
         }
-        elseif ($values->role === 'owner')
+        elseif ($values->role === RoleTypeEnum::ROLE_OWNER)
         {
-            $users = $this->usersRepository->getUserById($this->getUser()->getId());
-            $users->setRole('owner');
-            $this->entityManager->persist($users);
-            $this->entityManager->flush();
+
+            $users = $this->usersRepository->getUserById($this->getPresenter()->getUser()->getId());
+            bdump($users,'USERS');
+            $users->setRole(RoleTypeEnum::ROLE_OWNER);
+            $users->setUpdatedAt(new DateTimeImmutable());
+            $users->setUpdatedBy($this->usersRepository->getUserById($this->getPresenter()->getUser()->getId()));
+            bdump($users,'USERS2');
+            $this->usersRepository->addUser($users);
+            bdump($users,'USERS3');
             $this->getPresenter()->flashMessage('Od této chvíle jste běžný uživatel!', 'alert-success');
-            $this->redirect('Owner:profil');
+            $this->redirect('User:profil');
 
         }
 

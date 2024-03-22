@@ -1,21 +1,23 @@
-Nette Web Project
+Virtuální azil 
 =================
 
-Welcome to the Nette Web Project! This is a basic skeleton application built using
-[Nette](https://nette.org), ideal for kick-starting your new web projects.
+Virtuální azil je webová aplikace, která umožňuje uživatelům zaregistrovat se a následně vytvořit profil svého domácího mazlíčka, který je k adopci. Uživatelé mohou prohlížet profily ostatních mazlíčků a pokud se jim nějaký zalíbí, mohou se o něj ucházet.
+Projekt je vytvořený v [Nette](https://nette.org/), což je PHP framework. Využívá databázovu vrstvu Doctrine a využívá moderní jazyk PHP 8.2+ .
 
-Nette is a renowned PHP web development framework, celebrated for its user-friendliness,
-robust security, and outstanding performance. It's among the safest choices
-for PHP frameworks out there.
-
-If Nette helps you, consider supporting it by [making a donation](https://nette.org/donate).
-Thank you for your generosity!
+Autorem je [Josef Němec](https://josefnemec.cz/), systém je navržený s ohledem na maximální anonimitu ze strany azylů a naopak s maximální odpovědností k lidem adoptujícím.
 
 
-Requirements
+Požadavky
 ------------
+1. Doctrine
+2. PHP 8.2+
+3. Nette 3.1+
+4. Composer
+5. MySQL 5.7+
+6. Apache 2.4+ nebo Nginx 1.19+
+7. PHP extensions: pdo_mysql, intl, curl, json, mbstring, openssl, xml, zip, gd, fileinfo, dom, simplexml
+8. Docker (pro vývojové prostředí, nebo pro nasazení)
 
-This Web Project is compatible with Nette 3.2 and requires PHP 8.1.
 
 
 Installation

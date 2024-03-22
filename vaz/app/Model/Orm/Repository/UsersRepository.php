@@ -62,14 +62,19 @@ class UsersRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function getUserByEmail($email)
+    public function getUserByEmail($email) : Users
     {
         return $this->findOneBy(['email' => $email]);
     }
 
-    public function getUserByUserName($userName)
+    public function getUserByUserName($userName) : Users
     {
         return $this->findOneBy(['userName' => $userName]);
+    }
+
+    public function getUserById(int $user) : Users
+    {
+        return $this->findOneBy(['id' => $user]);
     }
 
     public function setPassword(string $hash)

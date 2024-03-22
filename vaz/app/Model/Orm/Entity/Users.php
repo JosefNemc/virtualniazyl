@@ -68,10 +68,10 @@ class Users
     #[ORM\Column(type: 'integer', nullable: true)]
     public Photo $photos;
 
-    #[ORM\OneToMany(targetEntity: "Message", mappedBy: "sender")]
+    #[ORM\OneToMany(targetEntity: "Messages", mappedBy: "sender")]
     public Collection $sentMessages;
 
-    #[ORM\OneToMany(targetEntity: "Message", mappedBy: "receiver")]
+    #[ORM\OneToMany(targetEntity: "Messages", mappedBy: "receiver")]
     private Collection $receivedMessages;
 
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]

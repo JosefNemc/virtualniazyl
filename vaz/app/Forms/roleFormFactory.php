@@ -11,10 +11,13 @@ class roleFormFactory extends Form
     public function create(): Form
     {
        $form = new Form;
-       $form->addContainer('role');
-       $form->addRadioList('role', 'Role', ['azyl' => 'Chci být azyl', 'owner' => 'Chci být uživatel'])
-            ->setRequired('Vyberte svou roli');
-        $form->addSubmit('send', 'Odeslat');
+       $form->addContainer('roleconteiner');
+       $form->addRadioList('role','', ['azyl' => ' Chci být azyl', 'owner' => ' Chci být uživatel'])
+            ->setRequired('Vyberte svou roli')
+            ->setHtmlAttribute('class', 'form-check-input')
+            ->setHtmlAttribute('type', 'radio');
+        $form->addSubmit('send', 'Odeslat')
+            ->setHtmlAttribute('class', 'btn btn-gradient');
         return $form;
     }
 }

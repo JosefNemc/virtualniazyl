@@ -96,6 +96,22 @@ class Users
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     private bool $legalTerms;
 
+    #[ORM\Column(type: 'integer', length: 255)]
+    #[ORM\ManyToOne(targetEntity: "Citys", inversedBy: "cityCode")]
+    #[ORM\JoinColumn(name: "city_code", referencedColumnName: "cityCode")]
+    private int $cityCode;
+
+    #[ORM\Column(type: 'string', length: 6)]
+    private string $houseNumber;
+    #[ORM\Column(type: 'string', length: 6)]
+    private string $orientationNumber;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $street;
+
+    #[ORM\Column(type: 'string', length: 6)]
+    private string $zipCode;
+
     public function __construct()
     {
     }

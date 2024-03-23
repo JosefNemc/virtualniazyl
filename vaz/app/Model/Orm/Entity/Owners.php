@@ -24,18 +24,6 @@ class Owner extends Users
     #[ORM\Column(type: 'string', length: 1024)]
     private string $description;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $street;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $city;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $zipCode;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $houseNumber;
-
     #[ORM\ManyToOne(targetEntity: "Adoption", inversedBy: "owner")]
     private Adoption $adoptions;
 

@@ -22,15 +22,6 @@ class Azyl extends Users
     #[ORM\Column(type: 'string', length: 1024)]
     private string $description;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $street;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $city;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $houseNumber;
-
     #[ORM\OneToMany(targetEntity: "Adoption", mappedBy: "azyl")]
     #[ORM\JoinColumn(name: "azyl_id", referencedColumnName: "id")]
     public Adoption $adoptions;

@@ -1,26 +1,87 @@
 {block content}
 <div class="bg">
     <div class="content">
-        {snippet signin}
+
         <section class="mb-9 mb-lg-10 mb-xxl-11 text-center text-lg-start mt-1" id="signIn">
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                     <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Moje adopce</button>
                     <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Osobní nastavení</button>
                     <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Heslo a email</button>
-                    <button class="nav-link" id="nav-photos-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-photos" aria-selected="false">Moje fotky</button>
+                    <button class="nav-link" id="nav-photos-tab" data-bs-toggle="tab" data-bs-target="#nav-photos" type="button" role="tab" aria-controls="nav-photos" aria-selected="false">Moje fotky</button>
                 </div>
             </nav>
             <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...</div>
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
-                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
-                <div class="tab-pane fade" id="nav-photos" role="tabpanel" aria-labelledby="nav-photos-tab">...</div>
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <h3>Aktivní adopce</h3>
+                    {snippet activeAdoptions}
+
+                    <div class="card" style="width: 18rem;">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Kočka Micka</h5>
+                            <p class="card-text">Mourovatá kočička<br></p>
+                            Stáří: 2 roky<br>
+                            Pohlaví: Kočka<br>
+                            <a href="#" class="btn btn-primary">Detaily...</a>
+                        </div>
+                    </div>
+                    {/snippet}
+                </div>
+
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <div class="row">
+                        <div class="col-6 col">
+                            {control userDetailsForm}
+                        </div>
+                        <div class="col-6 col tab-content text-body">
+                            <h3>Proč?</h3>
+                            <p class=""><strong>Jméno a příjmení</strong> - Pro nás důležité pro komunikaci s Vámi potřebné pro schválen přístupu k adopcím.</p>
+                            <p><strong>Popis</strong> - Do popisu napište něco o sobě, podmínkách pro zvířátka a klidně i něco o sobě. </p>
+                            <p><strong>Adresa</strong> - Další údaj, který je důležitý, azylům se snažíme dávat informace o tom kdo by chtěl zvířátko adoptovat a zároveň slouží jako podklad k dohodě o dapopci. Zároveň Vám usnadní filtraci zvířáte k adopci.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    <div class="row">
+                        <div class="col-6 col">
+                            Kontakt:
+                            {control userUpdateForm}
+                        </div>
+                        <div class="col-6 col tab-content text-body">
+                            Informace
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="nav-photos" role="tabpanel" aria-labelledby="nav-photos-tab">
+                    <div class="row">
+                        <div class="col-6 col">
+                            Nahrát fotky (fotky by měli ukázat v jakém prostředí u Vás z vířátko bude žít naráz lze nahrát 10 fotek, maximálně lze mít 30 fotek v profilu):
+                            {control ownerPhotoUploadForm}
+                        </div>
+                        <div class="col-6 col tab-content text-body">
+
+                            {snippet photos}
+                            {if isset($user->getIdentity()->data['User']->photos)}
+                            {foreach $user->getIdentity()->data['User']->photos as $photo}
+
+                            <div class="card" style="width: 18rem;">
+                                <img src="{$basePath}/{$photo->path}/{$photo->name}" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">{$photo->originalName}</h5>
+
+                            {/foreach}
+                            {else}
+                            <p>Nemáte žádné fotky</p>
+                            {/if}
+                            {/snippet}
+                        </div>
+                    </div>
+                </div>
             </div>
-
-
         </section>
-        {/snippet}
     </div>
 </div>
 {/block}

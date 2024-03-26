@@ -30,6 +30,9 @@ class Photo
     #[ORM\Column(type: 'string', length: 512)]
     private string $originalName;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $deleted = false;
+
     #[ORM\ManyToOne(targetEntity: "Animal", inversedBy: "photos")]
     #[ORM\JoinColumn(name: "animal_id", referencedColumnName: "id")]
     private Animal $animal;

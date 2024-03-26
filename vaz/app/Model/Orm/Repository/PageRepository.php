@@ -42,4 +42,15 @@ public function delete(Pages $page): void
         $page->setDeleted(true);
         $this->getEntityManager()->flush();
     }
+
+public function restore(Pages $page): void
+    {
+        $page->setDeleted(false);
+        $this->getEntityManager()->flush();
+    }
+
+    public function findByLink(string $link): ?Page
+    {
+        return $this->findOneBy(['link' => $link]);
+    }
 }

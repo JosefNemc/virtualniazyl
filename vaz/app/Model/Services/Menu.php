@@ -14,7 +14,7 @@ class Menu
             ['logged' => false, 'role' => '','title' => 'Seznam zvířat k adopci - List of animals for adoption', 'name' => 'Zvířátka k adopci', 'link' => 'Home:adoptions', 'alwaysAvailable' => true],
             ['logged' => true, 'role' => 'admin','title' => 'Administrace', 'name' => 'Administrace', 'link' => 'Admin:default', 'alwaysAvailable' => false],
             ['logged' => true, 'role' => 'azyl','title' => 'Správa azylu - Azyl administration', 'name' => 'Správa Azylu', 'link' => 'Azyl:default', 'alwaysAvailable' => false],
-            ['logged' => true, 'role' => 'user','title' => 'Profil uživatele', 'name' => 'Profil', 'link' => 'User:default', 'alwaysAvailable' => false],
+            ['logged' => true, 'role' => '','title' => 'Profil uživatele', 'name' => 'Profil', 'link' => 'User:default', 'alwaysAvailable' => false],
             ['logged' => true, 'role' => 'superadmin','title' => 'Pretorian administration', 'name' => 'Administrace', 'link' => 'Admin:default', 'alwaysAvailable' => false],
             ['logged' => true, 'role' => 'superadmin','title' => 'Pretorian azyl admin', 'name' => 'Správa Azylu', 'link' => 'Azyl:default', 'alwaysAvailable' => false],
             ['logged' => true, 'role' => 'superadmin','title' => 'Pretorian user admin', 'name' => 'Profil', 'link' => 'User:default', 'alwaysAvailable' => false],

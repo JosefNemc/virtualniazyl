@@ -18,6 +18,8 @@ class Pages
     private int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    private string $link;
+    #[ORM\Column(type: 'string', length: 255)]
     private string $title;
 
     #[ORM\Column(type: 'text', length: 10024)]
@@ -145,10 +147,34 @@ class Pages
         return $this;
     }
 
+    public function getLink(): string
+    {
+        return $this->link;
+    }
 
+    public function setLink(string $link): Pages
+    {
+        $this->link = $link;
+        return $this;
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getImportant()
+    {
+        return $this->important;
+    }
 
-
+    /**
+     * @param mixed $important
+     * @return Pages
+     */
+    public function setImportant($important)
+    {
+        $this->important = $important;
+        return $this;
+    }
 }
 
 

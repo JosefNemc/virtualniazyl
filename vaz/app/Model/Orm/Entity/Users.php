@@ -7,7 +7,6 @@ use App\Model\Orm\Enums\RoleTypeEnum;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Entity;
 use libphonenumber\PhoneNumber;
 
 #[ORM\Entity]
@@ -369,5 +368,8 @@ class Users
         $this->mailVerifyToken = $mailVerifyToken;
     }
 
-
+    public function setPhotos(Photo $photos): void
+    {
+        $this->photos = $photos;
+    }
 }

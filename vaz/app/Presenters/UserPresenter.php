@@ -4,14 +4,19 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Forms\PhotoUploadFormFactory;
+use App\Forms\RegisterFormFactory;
 use App\Forms\roleFormFactory;
+use App\Forms\userDetailsFormFactory;
 use App\Model\Orm\Enums\RoleTypeEnum;
+use App\Model\Orm\Repository\OwnersRepository;
 use App\Model\Orm\Repository\UsersRepository;
 use App\Model\Services\Menu;
 use Contributte\Application\UI\BasePresenter;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\Application\UI\Form;
+use App\Model\Orm\Entity\Owner;
 
 
 class UserPresenter extends BasePresenter
@@ -20,12 +25,20 @@ class UserPresenter extends BasePresenter
     private UsersRepository $usersRepository;
     private EntityManagerInterface $entityManager;
 
-    public function __construct(roleFormFactory $roleFormFactory, UsersRepository $usersRepository, EntityManagerInterface $entityManager)
+    public function __construct(roleFormFactory        $roleFormFactory,
+                                UsersRepository        $usersRepository,
+                                EntityManagerInterface $entityManager,
+                        private UserDetailsFormFactory $userDetailsFormFactory,
+                        private registerFormFactory    $registerFormFactory,
+                        private PhotoUploadFormFactory  $photoUploadFormFactory,
+                        private OwnersRepository        $ownerRepository)
     {
         parent::__construct();
         $this->roleFormFactory = $roleFormFactory;
         $this->usersRepository = $usersRepository;
         $this->entityManager = $entityManager;
+        $this->photoUploadFormFactory = $photoUploadFormFactory;
+        $this->ownerRepository = $ownerRepository;
     }
 
     public function startup(): void
@@ -33,30 +46,26 @@ class UserPresenter extends BasePresenter
         parent::startup();
         $menu = new Menu();
         $this->getTemplate()->mainMenuItems = $menu->getMenu();
-        if ($this->getPresenter()->getUser()->isLoggedIn() && !$this->getPresenter()->getUser()->isInRole('owner'))
-        {
-        }
-        else
+        if (!$this->getPresenter()->getUser()->isLoggedIn())
         {
             $this->redirect('Home:signIn');
         }
-
     }
 public function actionDefault(): void
     {
         if ($this->getPresenter()->getUser()->isLoggedIn())
         {
-            if ($this->getPresenter()->getUser()->isInRole('user'))
+            if ($this->getPresenter()->getUser()->isInRole(RoleTypeEnum::ROLE_USER))
             {
                 $this->getPresenter()->redirect('User:first');
             }
-            elseif ($this->getPresenter()->getUser()->isInRole('owner'))
+            elseif ($this->getPresenter()->getUser()->isInRole(RoleTypeEnum::ROLE_AZYL))
             {
-                $this->getPresenter()->redirect('User:profil');
+                $this->getPresenter()->redirect('Azyl:profil');
             }
             else
             {
-                $this->getPresenter()->redirect('Home:default');
+                $this->getPresenter()->redirect('User:profil');
             }
         }
         else
@@ -86,9 +95,9 @@ public function actionDefault(): void
         $this->template->title = 'News';
     }
 
-    public function renderOwner(): void
+    public function renderProfil(): void
     {
-        $this->template->title = 'Owner';
+        $this->template->title = 'Profil';
     }
 
     public function renderMessages(): void
@@ -115,6 +124,50 @@ public function actionDefault(): void
         return $form;
     }
 
+    public function createComponentUserDetailsForm(): Form
+    {
+        $form = $this->userDetailsFormFactory->create();
+        $form->onSuccess[] = [$this, 'userDetailsFormSucceeded'];
+        return $form;
+    }
+
+    public function createComponentUserUpdateForm(): Form
+    {
+        $form = $this->registerFormFactory->create();
+        $user = $this->usersRepository->getUserById($this->getPresenter()->getUser()->getId());
+
+        $form->setDefaults([
+            'username' => $user->getUserName(),
+            'email' => $user->getEmail(),
+            'phone' => $user->getPhone(),
+            'password' => $user->getPassword(),
+            'password2' => $user->getPassword()
+        ]);
+        $form->removeComponent($form['adoptionVerification']);
+        $form->removeComponent($form['legalTerms']);
+        $form['username']->setDisabled(true);
+        $form['send']->setCaption('Uložit změny');
+
+        $form->onSuccess[] = [$this, 'userUpdateFormSucceeded'];
+        return $form;
+    }
+
+    public function createComponentOwnerPhotoUploadForm(): Form
+    {
+        $form = $this->photoUploadFormFactory->create();
+        $form->onSuccess[] = [$this, 'ownerPhotoUploadFormSucceeded'];
+        return $form;
+    }
+
+    public function ownerPhotoUploadFormSucceeded(Form $form, \stdClass $values): void
+    {
+        $user = $this->usersRepository->getUserById($this->getPresenter()->getUser()->getId());
+        $user->setPhotos($values->photos);
+        $this->usersRepository->addUser($user);
+        $this->getPresenter()->flashMessage('Fotky byly úspěšně nahrány!', 'alert-success');
+        $this->presenter->redrawControl('photos');
+    }
+
     public function roleFormSucceeded(Form $form, \stdClass $values): void
     {
         if ($values->role === RoleTypeEnum::ROLE_AZYL)
@@ -131,19 +184,14 @@ public function actionDefault(): void
         {
 
             $users = $this->usersRepository->getUserById($this->getPresenter()->getUser()->getId());
-            bdump($users,'USERS');
             $users->setRole(RoleTypeEnum::ROLE_OWNER);
             $users->setUpdatedAt(new DateTimeImmutable());
             $users->setUpdatedBy($this->usersRepository->getUserById($this->getPresenter()->getUser()->getId()));
-            bdump($users,'USERS2');
             $this->usersRepository->addUser($users);
-            bdump($users,'USERS3');
             $this->getPresenter()->flashMessage('Od této chvíle jste běžný uživatel!', 'alert-success');
             $this->redirect('User:profil');
 
         }
 
     }
-
-
 }

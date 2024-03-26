@@ -3,11 +3,12 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Forms\PageFormFactory;
 use App\Forms\PhotoUploadFormFactory;
 use App\Forms\RegisterFormFactory;
 use App\Forms\roleFormFactory;
 use App\Forms\userDetailsFormFactory;
-use App\Model\Orm\Repository\OwnersRepository;
+use App\Model\Orm\Repository\PageRepository;
 use App\Model\Orm\Repository\UsersRepository;
 use App\Model\Services\Menu;
 use Contributte\Application\UI\BasePresenter;
@@ -22,20 +23,26 @@ class AdminPresenter extends BasePresenter
     private UsersRepository $usersRepository;
     private EntityManagerInterface $entityManager;
 
-    public function __construct(roleFormFactory        $roleFormFactory,
-                                UsersRepository        $usersRepository,
-                                EntityManagerInterface $entityManager,
-                                private UserDetailsFormFactory $userDetailsFormFactory,
-                                private registerFormFactory    $registerFormFactory,
-                                private PhotoUploadFormFactory  $photoUploadFormFactory,
-                                private OwnersRepository        $ownerRepository)
+    private PageFormFactory $pageFormFactory;
+    private PageRepository $pageRepository;
+
+    public function __construct(roleFormFactory               $roleFormFactory,
+                                UsersRepository               $usersRepository,
+                                PageRepository                $pageRepository,
+                                EntityManagerInterface        $entityManager,
+                                       PageFormFactory        $pageFormFactory,
+                                public UserDetailsFormFactory $userDetailsFormFactory,
+                                public registerFormFactory    $registerFormFactory,
+                                public PhotoUploadFormFactory $photoUploadFormFactory)
     {
         parent::__construct();
         $this->roleFormFactory = $roleFormFactory;
         $this->usersRepository = $usersRepository;
         $this->entityManager = $entityManager;
         $this->photoUploadFormFactory = $photoUploadFormFactory;
-        $this->ownerRepository = $ownerRepository;
+        $this->pageFormFactory = $pageFormFactory;
+        $this->pageRepository = $pageRepository;
+        bdump ($this->pageFormFactory);
     }
     public function startup()
     {
@@ -92,10 +99,11 @@ class AdminPresenter extends BasePresenter
         $this->template->title = 'Adoptions';
     }
 
-    public function actionPages(?int $id = null): void
+    public function actionPages(?int $id): void
     {
+        $this->getTemplate()->Title = 'Pages';
         if ($id !== null) {
-            $page = $this->pagesRepository->find($id);
+            $page = $this->pageRepository->find($id);
             if ($page === null) {
                 $this->flashMessage('Stránka nebyla nalezena.', 'danger');
                 $this->redirect('Admin:pages');
@@ -114,10 +122,12 @@ class AdminPresenter extends BasePresenter
 
 
     // Components
-    private function createComponentPageForm(): Form
+    public function createComponentPageForm(): Form
     {
-        $form = $this->pageFormFacory()->create();
+        $form = $this->pageFormFactory->create();
         return $form;
     }
+
+
 }
 

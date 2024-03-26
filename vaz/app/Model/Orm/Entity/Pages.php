@@ -45,9 +45,24 @@ class Pages
     #[ORM\Column(type: 'boolean')]
     private $important;
 
-    public function getTitle(): string
+    public function __construct()
     {
-        return $this->title;
+        $this->createdAt = new DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
+        $this->visibleFrom = new DateTimeImmutable();
+        $this->content = '';
+        $this->title = '';
+        $this->link = '';
+        $this->deleted = false;
+        $this->global = false;
+        $this->important = false;
+
+
+
+    }
+    public function getTitle(): ?string
+    {
+        return $this->title ;
     }
 
     public function setTitle(string $title): Pages

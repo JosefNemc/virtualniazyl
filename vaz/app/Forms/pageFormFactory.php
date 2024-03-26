@@ -9,34 +9,40 @@ use Nette\Application\UI\Form;
 
 class PageFormFactory extends Form
 {
-    public function create(Pages $page): Form
+    public function create(Pages $page = null): Form
     {
+        $page = $page === null ? new Pages() : $page;
+
         $form = new Form();
-        $form->addText('title', 'Title')
+        $form->addText('title', 'Název')
             ->setHtmlAttribute('class', 'form-control')
             ->setRequired('Název stránky')
             ->setDefaultValue($page->getTitle());
-        $form->addTextArea('content', 'Content')
-            ->setHtmlAttribute('class', 'form-control')
+        $form->addTextArea('content', 'Stránka')
+            ->setHtmlAttribute('rows', 20)
+            ->setHtmlAttribute('cols', 70)
+            ->setHtmlAttribute('id', 'editor')
             ->setRequired('Obsah stránky v HTML5.')
             ->setDefaultValue($page->getContent());
-        $form->addText('link', 'Link')
-            ->setOption('cols', 50)
-            ->setOption('rows', 10)
-            ->setHtmlAttribute('class', 'form-control html-editor')
+        $form->addText('link', 'Odkaz')
+
+            ->setHtmlAttribute('class', 'form-control')
             ->setRequired('Odkaz na stránku')
             ->setEmptyValue('Odkaz na stránku')
             //Odkaz na stránku - žádné mezery, diakritika, speciální znaky, pouze malá písmena a pomlčky.
             ->addRule(Form::PatternInsensitive, 'Odkaz na stránku - žádné mezery, diakritika, speciální znaky, pouze malá písmena a pomlčky.', '^[a-z0-9-]+$')
             ->setDefaultValue($page->getLink());
-        $form->addCheckbox('important', 'Important')
-            ->setHtmlAttribute('class', 'form-control')
-        ->setDefaultValue($page->getImportant());
-        $form->addCheckbox('global', 'Global')
-            ->setHtmlAttribute('class', 'form-control')
-            ->setDefaultValue($page->getGlobal());
 
-        $form->addSubmit('sendPage', 'Save')
+        $form->addDateTime('visibleFrom', 'Zobrazit od')
+            ->setHtmlAttribute('class', 'form-control')
+            ->setRequired('Zobrazit od')
+            ->setDefaultValue($page->getVisibleFrom());
+        $form->addCheckbox('important', ' Důležitá')
+              ->setDefaultValue($page->getImportant());
+        $form->addCheckbox('global', ' Globální')
+              ->setDefaultValue($page->getGlobal());
+
+        $form->addSubmit('sendPage', 'Uložit stránku')
             ->setHtmlAttribute('class', 'btn btn-primary');
         return $form;
     }

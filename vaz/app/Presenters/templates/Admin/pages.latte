@@ -1,6 +1,35 @@
 {block adminContent}
-       <div class="row">
-           {control pageForm}
-       </div>
+Editace stránky
+       <div class="row-cols-lg-auto">
+           <div class="col-12">
+               <form>
+                   {input pageForm['title']}
+                   {input pageForm['content']}
+                   {input pageForm['link']}
+                   {input pageForm['visibleFrom']}
+                   {input pageForm['important']}
+                   {input pageForm['global']}
+                   {button pageForm['sendPage']}
+               </form>
 
+           </div>
+
+
+{/block}
+{block scripts}
+
+           <script src="{$basePath}/dashmin/js/ckeditor5/ckeditor.js"></script>
+           <script>
+           ClassicEditor
+                   .create( document.querySelector( '#editor' ), {
+                       // toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+                   } )
+                   .then( editor => {
+                       window.editor = editor;
+                   } )
+                   .catch( err => {
+                       console.error( err.stack );
+                   } );
+
+           </script>
 {/block}

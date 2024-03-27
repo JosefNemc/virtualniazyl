@@ -28,7 +28,6 @@ class PageFormFactory extends Form
 
             ->setHtmlAttribute('class', 'form-control')
             ->setRequired('Odkaz na stránku')
-            ->setEmptyValue('Odkaz na stránku')
             //Odkaz na stránku - žádné mezery, diakritika, speciální znaky, pouze malá písmena a pomlčky.
             ->addRule(Form::PatternInsensitive, 'Odkaz na stránku - žádné mezery, diakritika, speciální znaky, pouze malá písmena a pomlčky.', '^[a-z0-9-]+$')
             ->setDefaultValue($page->getLink());

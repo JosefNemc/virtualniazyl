@@ -53,46 +53,47 @@ class Users
 
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private DateTimeImmutable $updatedAt;
+    private ?DateTimeImmutable $updatedAt;
 
     #[ORM\ManyToOne(targetEntity: "Users")]
     #[ORM\JoinColumn(name: "updated_by", referencedColumnName: "id")]
+    #[ORM\Column(nullable: true)]
     public ?Users $updatedBy;
 
 
-    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $verified;
 
-    #[ORM\OneToMany(targetEntity: "Photo", mappedBy: "user")]
+    #[ORM\OneToMany(mappedBy: "user", targetEntity: "Photo")]
     #[ORM\Column(type: 'integer', nullable: true)]
     public Photo $photos;
 
-    #[ORM\OneToMany(targetEntity: "Messages", mappedBy: "sender")]
+    #[ORM\OneToMany(mappedBy: "sender", targetEntity: "Messages")]
     public Collection $sentMessages;
 
-    #[ORM\OneToMany(targetEntity: "Messages", mappedBy: "receiver")]
+    #[ORM\OneToMany(mappedBy: "receiver", targetEntity: "Messages")]
     private Collection $receivedMessages;
 
-    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $deleted;
 
-    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $baned;
 
-    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $mailverified;
 
-    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $phoneVerified;
 
-    #[ORM\OneToMany(targetEntity: "News", mappedBy: "user")]
+    #[ORM\OneToMany(mappedBy: "user", targetEntity: "News")]
     #[ORM\Column(type: 'integer', nullable: true)]
     public News $news;
 
-    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $adoptionVerification;
 
-    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $legalTerms;
 
     #[ORM\Column(type: 'integer', length: 255)]
@@ -113,6 +114,15 @@ class Users
 
     public function __construct()
     {
+        $this->createdAt = new DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
+        $this->verified = false;
+        $this->deleted = false;
+        $this->baned = false;
+        $this->mailverified = false;
+        $this->phoneVerified = false;
+        $this->adoptionVerification = false;
+        $this->legalTerms = false;
     }
 
     public function getSentMessages(): Collection
@@ -125,8 +135,6 @@ class Users
     {
         return $this->receivedMessages;
     }
-
-
 
     public function setBaned($baned): void
     {
@@ -197,7 +205,7 @@ class Users
         return $this->photos;
     }
 
-    public function getCreatedAt(): DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -213,7 +221,7 @@ class Users
     }
 
 
-    public function getUpdatedAt(): DateTimeImmutable
+    public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -223,12 +231,12 @@ class Users
         $this->updatedAt = $updatedAt;
     }
 
-    public function getUpdatedBy(): Users
+    public function getUpdatedBy(): ?Users
     {
         return $this->updatedBy;
     }
 
-    public function setUpdatedBy(?Users $updatedBy): void
+    public function setUpdatedBy(Users $updatedBy): void
     {
         $this->updatedBy = $updatedBy;
     }

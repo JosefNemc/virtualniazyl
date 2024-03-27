@@ -48,7 +48,7 @@ class RoleTypeEnum extends Type
         return self::ROLE_TYPE_ENUM;
     }
 
-    private static function getRoles()
+    public static function getRoles()
     {
         return [
             self::ROLE_ADMIN,

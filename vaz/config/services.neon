@@ -13,6 +13,7 @@ services:
 	- App\Model\Orm\Entity\Species
 	- App\Model\Orm\Entity\Pages
 	##Enum##
+	- App\Model\Orm\Enums\RoleTypeEnum
 	##Factory##
 	- App\Forms\SignInFormFactory
 	##Repository##

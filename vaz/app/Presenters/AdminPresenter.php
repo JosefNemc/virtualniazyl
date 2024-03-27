@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Components\Datagrids\CitysDatagridFactory;
+use App\Components\Datagrids\UsersDatagridFactory;
 use App\Forms\PageFormFactory;
 use App\Forms\PhotoUploadFormFactory;
 use App\Forms\RegisterFormFactory;
@@ -14,6 +16,7 @@ use App\Model\Services\Menu;
 use Contributte\Application\UI\BasePresenter;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\Application\UI\Form;
+use Ublaboo\DataGrid\DataGrid;
 
 
 class AdminPresenter extends BasePresenter
@@ -33,7 +36,9 @@ class AdminPresenter extends BasePresenter
                                        PageFormFactory        $pageFormFactory,
                                 public UserDetailsFormFactory $userDetailsFormFactory,
                                 public registerFormFactory    $registerFormFactory,
-                                public PhotoUploadFormFactory $photoUploadFormFactory)
+                                public PhotoUploadFormFactory $photoUploadFormFactory,
+                                public UsersDatagridFactory $usersDatagridFactory,
+                                public CitysDatagridFactory $citysDatagridFactory)
     {
         parent::__construct();
         $this->roleFormFactory = $roleFormFactory;
@@ -42,7 +47,9 @@ class AdminPresenter extends BasePresenter
         $this->photoUploadFormFactory = $photoUploadFormFactory;
         $this->pageFormFactory = $pageFormFactory;
         $this->pageRepository = $pageRepository;
-        bdump ($this->pageFormFactory);
+        $this->usersDatagridFactory = $usersDatagridFactory;
+        $this->citysDatagridFactory = $citysDatagridFactory;
+
     }
     public function startup()
     {
@@ -99,6 +106,11 @@ class AdminPresenter extends BasePresenter
         $this->template->title = 'Adoptions';
     }
 
+    public function renderCitys(): void
+    {
+        $this->template->title = 'Citys';
+    }
+
     public function actionPages(?int $id): void
     {
         $this->getTemplate()->Title = 'Pages';
@@ -126,6 +138,18 @@ class AdminPresenter extends BasePresenter
     {
         $form = $this->pageFormFactory->create();
         return $form;
+    }
+
+    public function createComponentUsersDatagrid(): DataGrid
+    {
+        $grid = $this->usersDatagridFactory->create();
+        return $grid;
+    }
+
+    public function createComponentCitysDatagrid(): DataGrid
+    {
+        $grid = $this->citysDatagridFactory->create();
+        return $grid;
     }
 
 

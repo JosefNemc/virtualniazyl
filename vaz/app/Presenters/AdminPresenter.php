@@ -14,6 +14,7 @@ use App\Model\Orm\Repository\PageRepository;
 use App\Model\Orm\Repository\UsersRepository;
 use App\Model\Services\Menu;
 use Contributte\Application\UI\BasePresenter;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\Application\UI\Form;
 use Ublaboo\DataGrid\DataGrid;
@@ -137,7 +138,41 @@ class AdminPresenter extends BasePresenter
     public function createComponentPageForm(): Form
     {
         $form = $this->pageFormFactory->create();
+        $form->onSuccess[] = [$this, 'pageFormSucceeded'];
         return $form;
+    }
+    public function pageFormSucceeded(Form $form, \stdClass $values):void
+    {
+        if ($values->id) {
+            $page = $this->pageRepository->find($values->id);
+            if ($page) {
+                $page->setLink($values->link);
+                $page->setVisibleFrom($values->visibleFrom);
+                $page->setTitle($values->title);
+                $page->setContent($values->content);
+                $page->setImportant($values->important);
+                $page->setGlobal($values->global);
+                $this->pageRepository->updatePage($page);
+                $this->flashMessage('Stránka byla aktualizována.', 'success');
+                $this->redirect('Admin:pages');
+            }
+        } else {
+            $page = new Pages();
+            $page->setCreated(new DateTimeImmutable());
+            $page->setUser($this->getUser()->getIdentity()->getData()->getUser());
+            $page->setLink($values->link);
+            $page->setVisibleFrom($values->visibleFrom);
+            $page->setTitle($values->title);
+            $page->setContent($values->content);
+            $page->setImportant($values->important);
+            $page->setGlobal($values->global);
+            $this->pageRepository->addPage($page);
+            $this->flashMessage('Stránka byla uložena.', 'success');
+            $this->redirect('Admin:pages');
+
+        }
+
+
     }
 
     public function createComponentUsersDatagrid(): DataGrid

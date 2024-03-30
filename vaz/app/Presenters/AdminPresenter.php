@@ -126,7 +126,7 @@ class AdminPresenter extends BasePresenter
             }
 
             $this['pageForm']->setValues($page);
-
+//
             /*
             $this['pageForm']['link']->setDefaults($page->getLink());
             $this['pageForm']['visibleFrom']->setDefaults($page->getVisibleFrom());

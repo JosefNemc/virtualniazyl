@@ -64,7 +64,14 @@
                 </div>
                 <a href="{link admin:animals}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Zvířata</a>
                 <a href="{link admin:messages}" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Správy</a>
-                <a href="{link admin:pages}" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Stránky</a>
+                <div class="nav-item dropdown">
+                    <a href="{link admin:pages}" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Stránky</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="{link admin:pages}" class="dropdown-item">Stránky</a>
+                        <a href="{link admin:page}" class="dropdown-item">Přidat stránku</a>
+                    </div>
+                </div>
+
                 <a href="{link admin:photos}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Fotky</a>
                 <a href="{link admin:news}" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Novinky</a>
                 <a href="{link admin:adoptions}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Adopce</a>

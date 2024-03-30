@@ -55,7 +55,7 @@ class Users
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?DateTimeImmutable $updatedAt;
 
-    #[ORM\ManyToOne(targetEntity: "Users")]
+    #[ORM\ManyToOne(targetEntity: "Users", cascade: ['none'])]
     #[ORM\JoinColumn(name: "updated_by", referencedColumnName: "id")]
     #[ORM\Column(nullable: true)]
     public ?Users $updatedBy;
@@ -90,6 +90,10 @@ class Users
     #[ORM\Column(type: 'integer', nullable: true)]
     public News $news;
 
+    #[ORM\OneToMany(mappedBy: "author", targetEntity: "Pages")]
+    #[ORM\Column(type: 'integer', nullable: true)]
+    public Pages $pages;
+
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $adoptionVerification;
 
@@ -123,6 +127,11 @@ class Users
         $this->phoneVerified = false;
         $this->adoptionVerification = false;
         $this->legalTerms = false;
+    }
+
+    public function __toString(): string
+    {
+        return $this->userName;
     }
 
     public function getSentMessages(): Collection

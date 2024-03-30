@@ -21,8 +21,7 @@ class PageFormFactory extends Form
         $form->addTextArea('content', 'Stránka')
             ->setHtmlAttribute('rows', 20)
             ->setHtmlAttribute('cols', 70)
-            ->setHtmlAttribute('id', 'editor')
-            ->setRequired('Obsah stránky v HTML5.')
+            ->setHtmlAttribute('id', 'content')
             ->setDefaultValue($page->getContent());
         $form->addText('link', 'Odkaz')
 
@@ -41,7 +40,7 @@ class PageFormFactory extends Form
         $form->addCheckbox('global', ' Globální')
               ->setDefaultValue($page->getGlobal());
 
-        $form->addSubmit('sendPage', 'Uložit stránku')
+        $form->addSubmit('send', 'Uložit stránku')
             ->setHtmlAttribute('class', 'btn btn-primary');
         return $form;
     }

@@ -49,8 +49,15 @@ public function restore(Pages $page): void
         $this->getEntityManager()->flush();
     }
 
-    public function findByLink(string $link): ?Page
+    public function findByLink(string $link): ?Pages
     {
+        $link = (string) trim($link);
         return $this->findOneBy(['link' => $link]);
+    }
+
+    public function save(Pages $page): void
+    {
+        $this->getEntityManager()->persist($page);
+        $this->getEntityManager()->flush();
     }
 }

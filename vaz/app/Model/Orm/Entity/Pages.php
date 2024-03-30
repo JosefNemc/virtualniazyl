@@ -34,7 +34,8 @@ class Pages
     #[ORM\Column(type: 'datetime_immutable')]
     private DateTimeImmutable $visibleFrom;
 
-    #[ORM\ManyToOne(targetEntity: "Users", inversedBy: "pages")]
+    #[ORM\ManyToOne(targetEntity: "Users", cascade: ["persist"], inversedBy: "pages")]
+    #[ORM\JoinColumn(name: "author_id", referencedColumnName: "id", onDelete: "CASCADE")]
     private Users $author;
 
     #[ORM\Column(type: 'boolean')]
@@ -59,6 +60,10 @@ class Pages
 
 
 
+    }
+    public function getId(): int
+    {
+        return $this->id;
     }
     public function getTitle(): ?string
     {
@@ -188,6 +193,12 @@ class Pages
     public function setImportant($important)
     {
         $this->important = $important;
+        return $this;
+    }
+
+    public function setCreated(DateTimeImmutable $param)
+    {
+        $this->createdAt = $param;
         return $this;
     }
 }

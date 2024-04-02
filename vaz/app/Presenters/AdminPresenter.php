@@ -12,6 +12,7 @@ use App\Forms\RegisterFormFactory;
 use App\Forms\roleFormFactory;
 use App\Forms\userDetailsFormFactory;
 use App\Model\Orm\Entity\Pages;
+use App\Model\Orm\Enums\RoleTypeEnum;
 use App\Model\Orm\Repository\PageRepository;
 use App\Model\Orm\Repository\UsersRepository;
 use App\Model\Services\Menu;
@@ -78,11 +79,19 @@ class AdminPresenter extends BasePresenter
     public function renderDefault(): void
     {
         $this->template->title = 'Admin';
+        $this->template->newUsersCount = $this->usersRepository->CountNewUsers();
+        $this->template->usersCount = $this->usersRepository->CountUsers();
+        $this->template->azylsCount = $this->usersRepository->CountAzyls();
     }
 
     public function renderAnimals(): void
     {
         $this->template->title = 'Animals';
+    }
+
+    public function renderSpecies(): void
+    {
+        $this->template->title = 'Species';
     }
 
     public function renderAzyls(): void
@@ -125,8 +134,11 @@ class AdminPresenter extends BasePresenter
                 $this->redirect('Admin:pages');
             }
 
-            $this['pageForm']->setValues($page);
-//
+            $pageForm = $this->getComponent('pageForm');
+            $pageForm->setDefaults($page->toArray());
+
+
+
             /*
             $this['pageForm']['link']->setDefaults($page->getLink());
             $this['pageForm']['visibleFrom']->setDefaults($page->getVisibleFrom());
@@ -157,9 +169,11 @@ class AdminPresenter extends BasePresenter
 
     public function pageFormSucceeded(Form $form, \stdClass $values): void
     {
-        bdump('Form submitted successfully!');
+
         if ($this->getPresenter()->getParameter('id') !== null) {
-            $page = $this->pageRepository->find($this->getPresenter()->getParameterId('id'));
+            $page = $this->pageRepository->findOneBy(['id' => $this->getPresenter()->getParameter('id')]);
+
+
             if ($page) {
                 $page->setLink($values->link);
                 $page->setVisibleFrom($values->visibleFrom);
@@ -167,7 +181,7 @@ class AdminPresenter extends BasePresenter
                 $page->setContent($values->content);
                 $page->setImportant($values->important);
                 $page->setGlobal($values->global);
-                bdump($page, 'Editace');
+                $page->setUpdatedAt(new DateTimeImmutable());
                 $this->pageRepository->save($page);
                 $this->flashMessage('Stránka byla aktualizována.', 'success');
                 $this->redirect('Admin:pages');
@@ -176,7 +190,6 @@ class AdminPresenter extends BasePresenter
             $page = new Pages();
             $page->setCreated(new DateTimeImmutable());
             $data = $this->getPresenter()->getUser()->getIdentity()->getData();
-            bdump($data['User'], "User");
             $page->setAuthor($data['User']);
             $page->setLink($values->link);
             $page->setVisibleFrom($values->visibleFrom);
@@ -184,7 +197,6 @@ class AdminPresenter extends BasePresenter
             $page->setContent($values->content);
             $page->setImportant($values->important);
             $page->setGlobal($values->global);
-            bdump($page);
             $this->pageRepository->save($page);
             $this->flashMessage('Stránka byla uložena.', 'success');
             $this->redirect('Admin:pages');
@@ -200,6 +212,20 @@ class AdminPresenter extends BasePresenter
         return $grid;
     }
 
+    public function createComponentAzylsDatagrid(): DataGrid
+    {
+        $grid = $this->usersDatagridFactory->create();
+        $grid->setDataSource($this->usersRepository->findBy(['role' => RoleTypeEnum::ROLE_AZYL]));
+        return $grid;
+    }
+
+    public function createComponentOwnersDatagrid(): DataGrid
+    {
+        $grid = $this->usersDatagridFactory->create();
+        $grid->setDataSource($this->usersRepository->fetchAll());
+        return $grid;
+    }
+
     public function createComponentCitysDatagrid(): DataGrid
     {
         $grid = $this->citysDatagridFactory->create();
@@ -209,6 +235,54 @@ class AdminPresenter extends BasePresenter
     public function createComponentPagesDatagrid(): DataGrid
     {
         $grid = $this->pagesDatagridFactory->create();
+        return $grid;
+    }
+
+    public function createComponentSpeciesDatagrid(): DataGrid
+    {
+        $grid = $this->speciesDatagridFactory->create();
+        return $grid;
+    }
+
+    public function createComponentSpeciesForm(): Form
+    {
+        $form = $this->speciesFormFactory->create();
+        $form->onSuccess[] = [$this, 'speciesFormSucceeded'];
+        return $form;
+    }
+
+    public function speciesFormSucceeded(Form $form, \stdClass $values): void
+    {
+        if ($this->getPresenter()->getParameter('id') !== null) {
+            $species = $this->speciesRepository->findOneBy(['id' => $this->getPresenter()->getParameter('id')]);
+            if ($species) {
+                $species->setSpecies($values->species);
+                $species->setBreed($values->breed);
+                $species->setAzyl($values->azyl);
+                $this->speciesRepository->save($species);
+                $this->flashMessage('Druh byl aktualizován.', 'success');
+                $this->redirect('Admin:species');
+            }
+        } else {
+            $species = new Species();
+            $species->setSpecies($values->species);
+            $species->setBreed($values->breed);
+            $species->setAzyl($values->azyl);
+            $this->speciesRepository->save($species);
+            $this->flashMessage('Druh byl uložen.', 'success');
+            $this->redirect('Admin:species');
+        }
+    }
+
+    public function createComponentNewsDatagrid(): DataGrid
+    {
+        $grid = $this->newsDatagridFactory->create();
+        return $grid;
+    }
+
+    public function createComponentAdoptionsDatagrid(): DataGrid
+    {
+        $grid = $this->adoptionsDatagridFactory->create();
         return $grid;
     }
 }

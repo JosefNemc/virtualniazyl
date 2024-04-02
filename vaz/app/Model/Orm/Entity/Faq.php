@@ -18,20 +18,13 @@ class Faq
     private $id;
 
     #[ORM\Column(type: "string", length: 1024)]
-    private string $question;
+    private ?string $question;
 
     #[ORM\Column(type: "string", length: 2048)]
-    private string $answer;
+    private ?string $answer;
 
     #[ORM\Column(type: "datetime_immutable")]
     private DateTimeImmutable $createdAt;
-
-    public function __construct(string $question, string $answer, DateTimeImmutable $createdAt)
-    {
-        $this->question = $question;
-        $this->answer = $answer;
-        $this->createdAt = $createdAt;
-    }
 
     public function getId(): int
     {
@@ -49,10 +42,10 @@ class Faq
         return $this->question;
     }
 
-    public function setQuestion(string $question): Faq
+    public function setQuestion(string $question): void
     {
         $this->question = $question;
-        return $this;
+
     }
 
     public function getAnswer(): string
@@ -60,10 +53,9 @@ class Faq
         return $this->answer;
     }
 
-    public function setAnswer(string $answer): Faq
+    public function setAnswer(string $answer): void
     {
         $this->answer = $answer;
-        return $this;
     }
 
     public function getCreatedAt(): DateTimeImmutable
@@ -71,9 +63,8 @@ class Faq
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeImmutable $createdAt): Faq
+    public function setCreatedAt(DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
-        return $this;
     }
 }

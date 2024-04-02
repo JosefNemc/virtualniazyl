@@ -28,6 +28,11 @@ class PagesDatagridFactory extends DataGrid
         $grid->addColumnText('link', 'Odkaz')
             ->setFilterText();
 
+        $grid->addColumnText('createdBy', 'Vytvořil')
+            ->setRenderer(function ($item) {
+                return $item->getAuthor()->getUserName();
+            });
+
         $grid->addAction('edit', '', 'Admin:page', ['id' => 'id'])
             ->setIcon('pencil-alt');
         $grid->addAction('delete', '', 'Admin:deletePage', ['id' => 'id'])

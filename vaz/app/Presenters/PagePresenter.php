@@ -22,20 +22,14 @@ class PagePresenter extends BasePresenter
         parent::startup();
         $menu = new Menu();
         $this->getTemplate()->mainMenuItems = $menu->getMenu();
-        bdump($this->getPresenter()->getAction());
-        bdump($this->getPresenter()->getParameter('link'));
     }
 
     public function renderDefault(): void
     {
-
-
     }
-
 
     public function actionShow(string $link): void
     {
-
         $page = $this->pageRepository->findByLink($link);
         if(!$page) {
             $this->flashMessage('Stránka nebyla nalezena.', 'danger');
@@ -44,11 +38,11 @@ class PagePresenter extends BasePresenter
         else
         {
 
-            $this->getTemplate()->content = $page->getContent();
+
+            $this->getTemplate()->content =  $page->getContent();
             $this->getTemplate()->title = $page->getTitle();
             $this->getTemplate()->kytka = 'kytka'.rand(1,4).'.jpeg';
             $this->setView('default');
         }
-
     }
 }

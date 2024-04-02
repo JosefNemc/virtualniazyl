@@ -36,7 +36,7 @@ class Pages
 
     #[ORM\ManyToOne(targetEntity: "Users", cascade: ["persist"], inversedBy: "pages")]
     #[ORM\JoinColumn(name: "author_id", referencedColumnName: "id", onDelete: "CASCADE")]
-    private Users $author;
+    private $author;
 
     #[ORM\Column(type: 'boolean')]
     private $deleted;
@@ -60,6 +60,23 @@ class Pages
 
 
 
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'content' => $this->content,
+            'createdAt' => $this->createdAt,
+            'updatedAt' => $this->updatedAt,
+            'visibleFrom' => $this->visibleFrom,
+            'author' => $this->author,
+            'deleted' => $this->deleted,
+            'global' => $this->global,
+            'important' => $this->important,
+            'link' => $this->link,
+        ];
     }
     public function getId(): int
     {
@@ -202,6 +219,3 @@ class Pages
         return $this;
     }
 }
-
-
-

@@ -10,24 +10,22 @@ use DateTimeImmutable;
 #[ORM\Entity]
 #[ORM\Table(name: 'adoptions')]
 
-
 class Adoption
 {
-
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private int $id;
 
-    #[manyToOne(targetEntity: "Owner", inversedBy: "adoptions")]
+    #[ORM\ManyToOne(targetEntity: "Users", inversedBy: "adoptionsAsOwner")]
     #[ORM\JoinColumn(name: "owner_id", referencedColumnName: "id")]
-    private Owner $owner;
+    private Users $owner;
 
-    #[manyToOne(targetEntity: "Azyl", inversedBy: "adoptions")]
+    #[ORM\ManyToOne(targetEntity: "Users", inversedBy: "adoptionsAsAzyl")]
     #[ORM\JoinColumn(name: "azyl_id", referencedColumnName: "id")]
-    private Azyl $azyl;
+    private Users $azyl;
 
-    #[manyToOne(targetEntity: "Animal", inversedBy: "adoptions")]
+    #[ManyToOne(targetEntity: "Animal", inversedBy: "adoptions")]
     #[ORM\JoinColumn(name: "animal_id", referencedColumnName: "id")]
     private Animal $animal;
 
@@ -44,8 +42,9 @@ class Adoption
     private bool $confirmed;
 
     #[ORM\Column(type: 'boolean')]
-    private $canceled;
+    private bool $canceled;
+
     #[ORM\OneToMany(targetEntity: "AdoptionAction", mappedBy: "adoption")]
     #[ORM\JoinColumn(name: "adoption_id", referencedColumnName: "id")]
-    private $adoptionActions;
+    private AdoptionAction $adoptionActions;
 }

@@ -30,16 +30,6 @@ class HelpForm
    #[ORM\Column(type: "text", length: 1024)]
    private string $userAgent;
 
-    public function __construct(string $name, string $email, string $message, string $page, DateTimeImmutable $createdAt, $postfromaddres, string $userAgent)
-    {
-        $this->name = $name;
-        $this->email = $email;
-        $this->message = $message;
-        $this->page = $page;
-        $this->createdAt = $createdAt;
-        $this->postfromaddres = $postfromaddres;
-        $this->userAgent = $userAgent;
-    }
 
     /**
      * @return mixed
@@ -142,7 +132,4 @@ class HelpForm
         $this->userAgent = $userAgent;
         return $this;
     }
-
-
 }
-

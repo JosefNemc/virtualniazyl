@@ -1,5 +1,6 @@
+{templateType App\Presenters\Templates\Admin\Layout}
 <!DOCTYPE html>
-<html lang="cz">
+<html lang="cz" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="utf-8">
@@ -30,6 +31,12 @@
     <!-- Template Stylesheet -->
     <link href="{$basePath}/dashmin/css/style.css" rel="stylesheet">
 </head>
+<style>
+ .adminContent {
+    min-height: 80vh;
+    padding: 5px;
+}
+</style>
 
 <body>
 <div class="container-fluid position-relative bg-white d-flex p-0">
@@ -63,6 +70,7 @@
                     </div>
                 </div>
                 <a href="{link admin:animals}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Zvířata</a>
+                <a href="{link admin:species}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Zvířata</a>
                 <a href="{link admin:messages}" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Správy</a>
                 <div class="nav-item dropdown">
                     <a href="{link admin:pages}" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Stránky</a>
@@ -125,9 +133,9 @@
         </nav>
 
         <!-- Navbar End -->
-
+    <div class="adminContent">
         {include adminContent}
-
+    </div>
 <!-- Footer Start -->
 <div class="container-fluid pt-4 px-4">
     <div class="bg-light rounded-top p-4">

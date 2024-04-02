@@ -33,5 +33,5 @@ class Animal
 
     #[ORM\OneToMany(targetEntity: "Adoption", mappedBy: "animal")]
     #[ORM\JoinColumn(name: "animal_id", referencedColumnName: "id")]
-    private Adoption $adoptions;
+    private Adoption $adoption;
 }

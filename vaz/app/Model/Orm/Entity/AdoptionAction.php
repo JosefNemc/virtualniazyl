@@ -34,7 +34,7 @@ class AdoptionAction
     public Users $createdBy;
 
     #[ORM\ManyToOne(targetEntity: "Users")]
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\JoinColumn(name: "updatedBy", referencedColumnName: "id")]
     private Users $updatedBy;
 
     #[ORM\Column(type: 'text', nullable: true)]
@@ -43,13 +43,13 @@ class AdoptionAction
     #[ORM\Column(type:ActionTypeEnum::ACTION_TYPE_ENUM, length: 255)]
     private ActionTypeEnum $actionTypeEnum;
 
-    #[ORM\ManyToOne(targetEntity: "Owner")]
-    #[ORM\JoinColumn(name: "owner_id", referencedColumnName: "id", nullable: true)]
-    private Owner $owner;
+    #[ORM\ManyToOne(targetEntity: "Users", inversedBy: "actionsAsOwner")]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id")]
+    private Users $owner;
 
-    #[ORM\ManyToOne(targetEntity: "Azyl")]
-    #[ORM\JoinColumn(name: "azyl_id", referencedColumnName: "id", nullable: true)]
-    private Azyl $azyl;
+    #[ORM\ManyToOne(targetEntity: "Users", inversedBy: "actionsAsAzyl")]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id")]
+    private Users $azyl;
     #[ORM\ManyToOne(targetEntity: "Animal")]
     #[ORM\JoinColumn(name: "animal_id", referencedColumnName: "id", nullable: true)]
     private Animal $animal;

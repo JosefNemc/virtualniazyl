@@ -47,26 +47,23 @@ class Users
     #[ORM\Column(type: 'datetime_immutable')]
     private DateTimeImmutable $createdAt;
 
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?DateTimeImmutable $updatedAt;
+
     #[ORM\ManyToOne(targetEntity: "Users")]
     #[ORM\JoinColumn(name: "created_by", referencedColumnName: "id")]
     public ?Users $createdBy;
 
-
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private ?DateTimeImmutable $updatedAt;
-
-    #[ORM\ManyToOne(targetEntity: "Users", cascade: ['none'])]
+    #[ORM\ManyToOne(targetEntity: "Users")]
     #[ORM\JoinColumn(name: "updated_by", referencedColumnName: "id")]
-    #[ORM\Column(nullable: true)]
-    public ?Users $updatedBy;
-
+    public ?Users $updatedBy = null;
 
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $verified;
 
     #[ORM\OneToMany(mappedBy: "user", targetEntity: "Photo")]
     #[ORM\Column(type: 'integer', nullable: true)]
-    public Photo $photos;
+    public ?int $photos;
 
     #[ORM\OneToMany(mappedBy: "sender", targetEntity: "Messages")]
     public Collection $sentMessages;
@@ -88,11 +85,11 @@ class Users
 
     #[ORM\OneToMany(mappedBy: "user", targetEntity: "News")]
     #[ORM\Column(type: 'integer', nullable: true)]
-    public News $news;
+    public ?int $news;
 
     #[ORM\OneToMany(mappedBy: "author", targetEntity: "Pages")]
     #[ORM\Column(type: 'integer', nullable: true)]
-    public Pages $pages;
+    public ?int $pages;
 
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $adoptionVerification;
@@ -116,6 +113,19 @@ class Users
     #[ORM\Column(type: 'string', length: 6)]
     private string $zipCode;
 
+    #[ORM\OneToMany(targetEntity: "Adoption", mappedBy: "owner")]
+    private Collection $adoptionsAsOwner;
+
+    #[ORM\OneToMany(targetEntity: "Adoption", mappedBy: "azyl")]
+    private Collection $adoptionsAsAzyl;
+
+    #[ORM\OneToMany(targetEntity: "AdoptionAction", mappedBy: "actinonsAsOwner")]
+    private Collection $actionsAsOwner;
+
+    #[ORM\OneToMany(targetEntity: "AdoptionAction", mappedBy: "actionsAsAzyl")]
+    private Collection $actionsAsAzyl;
+
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
@@ -127,12 +137,10 @@ class Users
         $this->phoneVerified = false;
         $this->adoptionVerification = false;
         $this->legalTerms = false;
+        $this->photos = null;
     }
 
-    public function __toString(): string
-    {
-        return $this->userName;
-    }
+
 
     public function getSentMessages(): Collection
     {
@@ -203,17 +211,6 @@ class Users
         $this->phoneVerified = $phoneVerified;
     }
 
-    public function getNews(): News
-    {
-        return $this->news;
-    }
-
-
-    public function getPhotos(): Photo
-    {
-        return $this->photos;
-    }
-
     public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
@@ -242,10 +239,10 @@ class Users
 
     public function getUpdatedBy(): ?Users
     {
-        return $this->updatedBy;
+        return $this?->updatedBy;
     }
 
-    public function setUpdatedBy(Users $updatedBy): void
+    public function setUpdatedBy(?Users $updatedBy): void
     {
         $this->updatedBy = $updatedBy;
     }
@@ -385,8 +382,48 @@ class Users
         $this->mailVerifyToken = $mailVerifyToken;
     }
 
-    public function setPhotos(Photo $photos): void
+    public function setPhotos(?int $photos): void
     {
         $this->photos = $photos;
     }
+    public function getAdoptionsAsAzyl(): Collection
+    {
+        return $this->adoptionsAsAzyl;
+    }
+
+    public function getAdoptionsAsOwner(): Collection
+    {
+        return $this->adoptionsAsOwner;
+    }
+
+
+    public function setAdoptionsAsAzyl(Collection $adoptionsAsAzyl): Users
+    {
+        $this->adoptionsAsAzyl = $adoptionsAsAzyl;
+        return $this;
+    }
+
+    public function setAdoptionsAsOwner(Collection $adoptionsAsOwner): Users
+    {
+        $this->adoptionsAsOwner = $adoptionsAsOwner;
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getActionsAsAzyl(): Collection
+    {
+        return $this->actionsAsAzyl;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getActionsAsOwner(): Collection
+    {
+        return $this->actionsAsOwner;
+    }
+
+
 }

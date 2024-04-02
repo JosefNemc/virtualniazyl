@@ -5,11 +5,10 @@ namespace App\Model\Orm\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-
 #[ORM\Entity]
 #[ORM\Table(name: 'azyls')]
 
-class Azyl extends Users
+class Azyl
 {
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
@@ -22,14 +21,6 @@ class Azyl extends Users
     #[ORM\Column(type: 'string', length: 1024)]
     private string $description;
 
-    #[ORM\OneToMany(targetEntity: "Adoption", mappedBy: "azyl")]
-    #[ORM\JoinColumn(name: "azyl_id", referencedColumnName: "id")]
-    public Adoption $adoptions;
-
-    #[ORM\OneToMany(targetEntity: "Photo", mappedBy: "azyl")]
-    #[ORM\JoinColumn(name: "azyl_id", referencedColumnName: "id")]
-    public Photo $photos;
-
     #[ORM\Column(type: 'string', length: 255)]
     private string $bankAccount;
 
@@ -40,14 +31,6 @@ class Azyl extends Users
     private string $bankSpecificCode;
     #[ORM\Column(type: 'string', length: 255)]
     private string $phoneNumber;
-
-    public function __construct(Adoption $adoptions, Photo $photos)
-    {
-        parent::__construct();
-        $this->adoptions = $adoptions;
-        $this->photos = $photos;
-    }
-
 
 }
 

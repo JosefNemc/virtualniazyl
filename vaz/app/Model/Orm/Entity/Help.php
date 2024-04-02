@@ -30,14 +30,6 @@ class Help
     #[ORM\JoinColumn(name: "author_id", referencedColumnName: "id")]
     private Users $author;
 
-    public function __construct(string $title, string $helpContent, DateTimeImmutable $createdAt, Users $author)
-    {
-        $this->title = $title;
-        $this->helpContent = $helpContent;
-        $this->createdAt = $createdAt;
-        $this->author = $author;
-    }
-
     /**
      * @return mixed
      */

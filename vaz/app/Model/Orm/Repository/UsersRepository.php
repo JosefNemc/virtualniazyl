@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Orm\Repository;
 
 use App\Model\Orm\Entity\Users;
+use App\Model\Orm\Enums\RoleTypeEnum;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
@@ -91,4 +92,31 @@ class UsersRepository extends EntityRepository
         return $this->findOneBy(['mailVerifyToken' => $vrf]);
     }
 
+    public function CountNewUsers() //count users type user
+    {
+        return $this->createQueryBuilder('u')
+            ->select('count(u.id)')
+            ->where('u.role = :type')
+            ->setParameter('type', RoleTypeEnum::ROLE_USER)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function CountAzyls() //count users type user
+    {
+        return $this->createQueryBuilder('u')
+            ->select('count(u.id)')
+            ->where('u.role = :type')
+            ->setParameter('type', RoleTypeEnum::ROLE_AZYL)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function CountUsers() //count users type user
+    {
+        return $this->createQueryBuilder('u')
+            ->select('count(u.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

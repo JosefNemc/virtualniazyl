@@ -8,7 +8,9 @@ use App\Forms\PhotoUploadFormFactory;
 use App\Forms\RegisterFormFactory;
 use App\Forms\roleFormFactory;
 use App\Forms\userDetailsFormFactory;
+use App\Model\Orm\Entity\Azyl;
 use App\Model\Orm\Enums\RoleTypeEnum;
+use App\Model\Orm\Repository\AzylRepository;
 use App\Model\Orm\Repository\OwnersRepository;
 use App\Model\Orm\Repository\UsersRepository;
 use App\Model\Services\Menu;
@@ -24,9 +26,11 @@ class UserPresenter extends BasePresenter
     private roleFormFactory $roleFormFactory;
     private UsersRepository $usersRepository;
     private EntityManagerInterface $entityManager;
+    private AzylRepository $azylRepository;
 
     public function __construct(roleFormFactory        $roleFormFactory,
                                 UsersRepository        $usersRepository,
+                                AzylRepository         $azylRepository,
                                 EntityManagerInterface $entityManager,
                         private UserDetailsFormFactory $userDetailsFormFactory,
                         private registerFormFactory    $registerFormFactory,
@@ -37,6 +41,7 @@ class UserPresenter extends BasePresenter
         $this->roleFormFactory = $roleFormFactory;
         $this->usersRepository = $usersRepository;
         $this->entityManager = $entityManager;
+        $this->azylRepository = $azylRepository;
         $this->photoUploadFormFactory = $photoUploadFormFactory;
         $this->ownerRepository = $ownerRepository;
     }
@@ -134,18 +139,16 @@ public function actionDefault(): void
     public function createComponentUserUpdateForm(): Form
     {
         $form = $this->registerFormFactory->create();
+        //TODO: Upravit tlačíto do stejné podoby jako jinde už jen upravit šířku
         $user = $this->usersRepository->getUserById($this->getPresenter()->getUser()->getId());
 
-        $form->setDefaults([
-            'username' => $user->getUserName(),
-            'email' => $user->getEmail(),
-            'phone' => $user->getPhone(),
-            'password' => $user->getPassword(),
-            'password2' => $user->getPassword()
-        ]);
+        $form->setDefaults($user->toArray());
+
         $form->removeComponent($form['adoptionVerification']);
         $form->removeComponent($form['legalTerms']);
-        $form['username']->setDisabled(true);
+        $form->removeComponent($form['username']);
+        //TODO: Dodělat username jako text k formuláři
+        $form['send']->setHtmlAttribute('class', 'btn btn-primary');
         $form['send']->setCaption('Uložit změny');
 
         $form->onSuccess[] = [$this, 'userUpdateFormSucceeded'];
@@ -168,17 +171,31 @@ public function actionDefault(): void
         $this->presenter->redrawControl('photos');
     }
 
+    //TODO: Tady se musí dodělat vazba na ownera a Azyl kde má každý specifické údaje a je potřeba to rozdělit po výběru
+
+
     public function roleFormSucceeded(Form $form, \stdClass $values): void
     {
         if ($values->role === RoleTypeEnum::ROLE_AZYL)
         {
+            $azyl = new Azyl();
+
             $users = $this->usersRepository->getUserById($this->getPresenter()->getUser()->getId());
             $users->setRole(RoleTypeEnum::ROLE_AZYL);
             $users->setUpdatedAt(new DateTimeImmutable());
             $users->setUpdatedBy($this->usersRepository->getUserById($this->getPresenter()->getUser()->getId()));
+
+            //$azyl->setUser($users);
+            $users->setAzyl($azyl);
+            bdump($azyl,'azyl');
+            bdump($users,'users');
+            $this->azylRepository->saveAzyl($azyl);
             $this->usersRepository->addUser($users);
-            $this->getPresenter()->flashMessage('Od této chvíle jste v roli Azylu!', 'alert-success');
-            $this->redirect('Azyl:profil');
+
+
+            $this->getPresenter()->flashMessage('Od této chvíle jste v roli Azylu! Znovu se přihlašte!', 'alert-success');
+            $this->getPresenter()->getUser()->logout();
+            $this->redirect('Home:signIn');
         }
         elseif ($values->role === RoleTypeEnum::ROLE_OWNER)
         {
@@ -187,9 +204,12 @@ public function actionDefault(): void
             $users->setRole(RoleTypeEnum::ROLE_OWNER);
             $users->setUpdatedAt(new DateTimeImmutable());
             $users->setUpdatedBy($this->usersRepository->getUserById($this->getPresenter()->getUser()->getId()));
+            $owner = new Owner();
+            $owner->setUser($users);
             $this->usersRepository->addUser($users);
-            $this->getPresenter()->flashMessage('Od této chvíle jste běžný uživatel!', 'alert-success');
-            $this->redirect('User:profil');
+            $this->getPresenter()->flashMessage('Od této chvíle jste běžný uživatel! Znovu se prosím přihlašte!', 'alert-success');
+            $this->getPresenter()->getUser()->logout();
+            $this->redirect('Home:signIn');
 
         }
 

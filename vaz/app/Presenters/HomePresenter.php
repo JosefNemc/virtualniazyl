@@ -118,7 +118,7 @@ use App\Model\Services\Menu;
             $this->getUser()->login($values->email, $values->password);
             $this->getPresenter()->flashMessage('Přihlášení se zdařilo', 'alert-success');
             if ($this->getUser()->isInRole('user')) {
-                $this->getPresenter()->redirect('Users:first');
+                $this->getPresenter()->redirect('User:first');
             }
             $this->getPresenter()->redirect('Home:default');
         } catch (AuthenticationException $e) {
@@ -136,7 +136,7 @@ use App\Model\Services\Menu;
 
     public function formRegisterSucceeded(Form $form, \stdClass $values):void
     {
-        if($values->username === $this->usersRepository->getUserByUserName($values->username) || $values->email === $this->usersRepository->getUserByEmail($values->email) && $values->password === $values->password2)
+        if(!($values->username === $this->usersRepository->getUserByUserName($values->username) || $values->email === $this->usersRepository->getUserByEmail($values->email) || $values->password === $values->password2))
         {
             $form->addError('Hesla nejsou stejná, nebo některý z údajů je již registrován!');
         }

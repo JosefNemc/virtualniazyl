@@ -1,0 +1,39 @@
+{block azylContent}
+<div class = "container">
+<div class="row">
+<div class = "col-lg-6">
+
+    {control animalForm}
+</div>
+<div class="col-lg-6">
+<h3>Fotografie zvířátka</h3>
+    <p>První fotografie se zobrazuje jako náhledová fotografie zvířátka</p>
+    <div id="photos" class="d-flex flex-row flex-wrap">
+        {ifset $photos}
+        {if $photos == null || $photos == []}
+            <p>Žádné fotografie</p>
+        {else}
+        {foreach $photos as $photo}
+
+            <div class="card" style="width: 9rem;">
+                <img src="{$photo['path'].$photo['name']}" class="card-img-top" alt="{$photo['originalname']}">
+                <div class="card-body">
+                    <h5 class="card-title">{$photo['originalname']}</h5>
+                 </div>
+            </div>
+
+        {/foreach}
+       {/if}
+      {/ifset}
+
+
+    </div>
+</div>
+</div>
+</div>
+
+
+{/block}
+
+{block scripts}
+{/block}

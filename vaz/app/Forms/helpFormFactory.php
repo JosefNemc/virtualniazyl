@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Forms;
 
 
-use Nette\Forms\Form;
+use Nette\Application\UI\Form;
 
 class helpFormFactory extends Form
 {

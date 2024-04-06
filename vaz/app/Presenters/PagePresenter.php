@@ -26,6 +26,9 @@ class PagePresenter extends BasePresenter
 
     public function renderDefault(): void
     {
+        $this->getTemplate()->kytka = 'kytka'.rand(1,4).'.jpeg';
+        $this->getTemplate()->content =  "404 - Stránka nebyla nalezena";
+        $this->getTemplate()->title = "404 - Stránka nebyla nalezena";
     }
 
     public function actionShow(string $link): void
@@ -33,7 +36,8 @@ class PagePresenter extends BasePresenter
         $page = $this->pageRepository->findByLink($link);
         if(!$page) {
             $this->flashMessage('Stránka nebyla nalezena.', 'danger');
-            $this->redirect('Homepage:default');
+            $this->redirect('home:default');
+
         }
         else
         {

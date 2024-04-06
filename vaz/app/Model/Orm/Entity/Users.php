@@ -97,21 +97,21 @@ class Users
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $legalTerms;
 
-    #[ORM\Column(type: 'integer', length: 255)]
+    #[ORM\Column(type: 'integer', length: 255, nullable: true)]
     #[ORM\ManyToOne(targetEntity: "Citys", inversedBy: "cityCode")]
     #[ORM\JoinColumn(name: "city_code", referencedColumnName: "cityCode")]
-    private int $cityCode;
+    private ?int $cityCode;
 
-    #[ORM\Column(type: 'string', length: 6)]
-    private string $houseNumber;
-    #[ORM\Column(type: 'string', length: 6)]
-    private string $orientationNumber;
+    #[ORM\Column(type: 'string', length: 6, nullable: true)]
+    private ?string $houseNumber;
+    #[ORM\Column(type: 'string', length: 6, nullable: true)]
+    private ?string $orientationNumber;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $street;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $street;
 
-    #[ORM\Column(type: 'string', length: 6)]
-    private string $zipCode;
+    #[ORM\Column(type: 'string', length: 6, nullable: true)]
+    private ?string $zipCode;
 
     #[ORM\OneToMany(targetEntity: "Adoption", mappedBy: "owner")]
     private Collection $adoptionsAsOwner;
@@ -125,6 +125,9 @@ class Users
     #[ORM\OneToMany(targetEntity: "AdoptionAction", mappedBy: "actionsAsAzyl")]
     private Collection $actionsAsAzyl;
 
+    #[ORM\OneToOne(targetEntity: Azyl::class, cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'azyl_id', referencedColumnName: 'id')]
+    private Azyl|null $azyl = null;
 
     public function __construct()
     {
@@ -320,7 +323,6 @@ class Users
     {
         $this->email = $email;
 
-
     }
 
     public function isMailverified(): bool
@@ -332,10 +334,6 @@ class Users
     {
         $this->mailverified = $mailverified;
         return $this;
-    }
-
-    public function findOneBy(array $array)
-    {
     }
 
     public function isAdoptionVerification(): bool
@@ -377,7 +375,7 @@ class Users
         return $this->mailVerifyToken;
     }
 
-    public function setMailVerifyToken(string $mailVerifyToken): void
+    public function setMailVerifyToken(?string $mailVerifyToken): void
     {
         $this->mailVerifyToken = $mailVerifyToken;
     }
@@ -396,7 +394,6 @@ class Users
         return $this->adoptionsAsOwner;
     }
 
-
     public function setAdoptionsAsAzyl(Collection $adoptionsAsAzyl): Users
     {
         $this->adoptionsAsAzyl = $adoptionsAsAzyl;
@@ -409,21 +406,37 @@ class Users
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
+
     public function getActionsAsAzyl(): Collection
     {
         return $this->actionsAsAzyl;
     }
 
-    /**
-     * @return Collection
-     */
     public function getActionsAsOwner(): Collection
     {
         return $this->actionsAsOwner;
     }
 
+
+    public function toArray()
+    {
+        return [
+            'username' => $this->userName,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'password' => '11223334445556677',
+            'password2' => '11223334445556677'
+        ];
+    }
+
+    public function setAzyl(Azyl $azyl):void
+    {
+        $this->azyl = $azyl;
+    }
+
+    public function getAzyl(): ?Azyl
+    {
+        return $this->azyl;
+    }
 
 }

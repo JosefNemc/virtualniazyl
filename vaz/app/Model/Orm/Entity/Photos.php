@@ -66,7 +66,7 @@ class Photo
         $extension = array_pop($array);
         $this->name = Random::generate(39) . "." . $extension;
 
-        $path = __DIR__ . self::UPLOAD_PATH . "/azyl-" .$this->getAzyl()->id;
+        $path = __DIR__ . self::UPLOAD_PATH . "/azyl/" .$this->getAzyl()->id;
 
 
         if (!file_exists($path)) {
@@ -90,7 +90,7 @@ class Photo
         $extension = array_pop($array);
         $this->name = Random::generate(39) . "." . $extension;
 
-        $path = __DIR__ . self::UPLOAD_PATH . "/user-" .$this->getUser()->id;
+        $path = __DIR__ . self::UPLOAD_PATH . "/user/" .$this->getUser()->id;
 
 
         if (!file_exists($path)) {
@@ -114,7 +114,7 @@ class Photo
         $extension = array_pop($array);
         $this->name = Random::generate(39) . "." . $extension;
 
-        $path = __DIR__ . self::UPLOAD_PATH . "/owner-" .$this->getOwner()->id;
+        $path = __DIR__ . self::UPLOAD_PATH . "/owner/" .$this->getOwner()->id;
 
 
         if (!file_exists($path)) {

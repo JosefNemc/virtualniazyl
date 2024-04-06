@@ -6,7 +6,7 @@ use App\Model\Orm\Repository\UsersRepository;
 use Nette\Application\UI\Form;
 use Nette\Security\Passwords;
 
-class SignInFormFactory extends \Nette\Forms\Form
+class SignInFormFactory extends Form
 {
 
 public function __construct()

@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Forms;
 use App\Model\Orm\Repository\UsersRepository;
 use Nepada\PhoneNumberInput\PhoneNumberInput;

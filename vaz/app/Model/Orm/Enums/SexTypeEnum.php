@@ -30,7 +30,7 @@ class SexTypeEnum extends Type
         return $value; // no need for conversion here, we're storing the value as is
     }
 
-    public function getName():string
+    public function getName(): string
     {
         return self::SEX_TYPE_ENUM;
     }

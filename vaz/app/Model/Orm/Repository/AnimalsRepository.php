@@ -3,14 +3,13 @@
 namespace App\Model\Orm\Repository;
 
 use App\Model\Orm\Entity\Animal;
-use App\Model\Orm\Entity\Species;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Mapping\ClassMetadata;
+
 
 class AnimalsRepository extends EntityRepository
 {
-    public function __construct(EntityManagerInterface $em, string $class = 'Animal::class')
+    public function __construct(EntityManagerInterface $em, string $class = Animal::class)
     {
         parent::__construct($em, $em->getClassMetadata($class));
     }
@@ -30,5 +29,33 @@ class AnimalsRepository extends EntityRepository
         return $this->createQueryBuilder('a')
             ->getQuery()
             ->getResult();
+    }
+
+    public function saveAnimal(Animal $animal): void
+    {
+        $this->getEntityManager()->persist($animal);
+        $this->getEntityManager()->flush();
+    }
+
+    public function findByName(string $name): ?Animal
+    {
+        return $this->findOneBy(['name' => $name]);
+    }
+
+    public function findById(int $id): ?Animal
+    {
+        return $this->findOneBy(['id' => $id]);
+    }
+
+    public function deleteAnimal(Animal $animal): void
+    {
+        $this->getEntityManager()->remove($animal);
+        $this->getEntityManager()->flush();
+    }
+
+    public function toArray($id): array
+    {
+        return $this->findOneBy(['id' => $id])->toArray();
+
     }
 }

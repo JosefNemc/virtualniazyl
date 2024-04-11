@@ -1,0 +1,47 @@
+{block content}
+<style>
+    .news-card {
+
+        margin: 0.5rem;
+
+    }
+</style>
+
+
+<div class="content">
+    <div class="row">
+        <div class="col-12">
+            <h3>Aktuality</h3>
+            <div class="news d-flex flex-row flex-wrap" id="news">
+
+                {foreach $news as $new}
+                {var $authorRole = $new->getAuthor()->getRole()}
+                {if $new->getImportant() === true}
+                <div class = "card news-card text-dark bg-warning" style="width: 40rem;" >
+                    {else}
+                    <div class = "card news-card text-dark bg-light" style="width: 40rem;">
+                        {/if}
+                        <h5 class="card-header">{$new->getTitle()}</h5>
+                        <div class="card-body">
+                            <p class="card-text"> {$new->getContent()|noescape}</p>
+                            <p class="author-name card-text"><small class="text-muted">Autor: {$new->getAuthor()->getUserName()}</small>
+                                <br><small class="text-muted">Vytvořeno: {$new->getCreatedAt()->format('d.m.Y. H:m:s')}</small>
+
+                            </p>
+                            {if $authorRole == 'azyl'}
+                            <a n:href="Home:azyl $author->id" class="btn btn-sm btn-primary">Stránka azylu</a>
+                            {/if}
+                        </div>
+                    </div>
+                    {/foreach}
+
+            </div>
+        </div>
+    </div>
+        <div class="row">
+            <div class="align-items-center">
+            {if $offset != 0}<a n:href = "Home:news $offset-20" class="btn btn-sm btn-primary">Novější novinky</a>{/if}
+            {if $newsCount - $offset > 20} <a n:href = "Home:news $offset+20" class="btn btn-sm btn-primary">Starší novinky</a>{/if}
+            </div>
+        </div>
+{/block}

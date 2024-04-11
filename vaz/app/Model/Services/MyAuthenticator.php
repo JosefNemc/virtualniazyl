@@ -2,6 +2,7 @@
 
 namespace App\Model\Services;
 
+use App\Model\Orm\Entity\Azyl;
 use App\Model\Orm\Enums\RoleTypeEnum;
 use App\Model\Orm\Repository\AzylRepository;
 use Nette;
@@ -15,12 +16,14 @@ class MyAuthenticator implements Nette\Security\Authenticator
     private Passwords $passwords;
     private UsersRepository $usersRepository;
     private $azylRepository;
+    private ?Azyl $azyl;
 
     public function __construct(UsersRepository $usersRepository, Passwords $passwords, AzylRepository $azylRepository)
     {
         $this->usersRepository = $usersRepository;
         $this->passwords = $passwords;
         $this->azylRepository = $azylRepository;
+        $this->azyl = null;
     }
 
     public function authenticate(string $email, string $password): SimpleIdentity
@@ -38,18 +41,18 @@ class MyAuthenticator implements Nette\Security\Authenticator
 
             if ($user->getRole() === RoleTypeEnum::ROLE_AZYL)
             {
-                $azyl = $this->azylRepository->findOneBy(['id' => $user->getAzyl()]);
-                bdump($azyl);
-                bdump($user);
-                $user->setAzyl($azyl);
+                $this->azyl = $this->azylRepository->findOneBy(['id' => $user->getAzyl()]);
+
             }
+
 
             return new SimpleIdentity($user->id, $user->getRole(),
 
                 [
                     'email' => $user->getEmail(),
                     'userName' => $user->getUserName(),
-                    'User'=> $user
+                    'User'=> $user,
+                    'Azyl' => $this->azyl
 
                 ]
 

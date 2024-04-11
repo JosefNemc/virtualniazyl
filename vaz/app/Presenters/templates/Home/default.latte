@@ -1,25 +1,76 @@
 {block content}
+
+<style>
+    .news-card {
+
+        margin-bottom: 2rem;
+
+    }
+    .adoptions-card {
+
+        margin: 1rem;
+        margin-top: 0rem;
+    }
+    .autohor-name { background-color: #9da9bb}
+
+</style>
 <main class="main" id="top">
     <div class="bg">
         <div class="content">
-            <div class="row g-12 g-lg-6 g-xl-7 pt-6 flex-row">
-                <div class="col-6 d-lg-block col-lg-2 flex-column">
+            <div class="row">
+                <div class="col-5  flex-column">
+                    <h3>Aktuality</h3>
                     <div class="news" id="news">
-                    <h2>Aktuality</h2>
-                        {snippet news}
-                    {/snippet}
+
+                        {foreach $news as $new}
+                        {var $authorRole = $new->getAuthor()->getRole()}
+                        {if $new->getImportant() === true}
+                                   <div class = "card news-card text-dark bg-warning">
+                        {else}
+                                       <div class = "card news-card text-dark bg-light">
+                        {/if}
+                                    <h5 class="card-header">{$new->getTitle()}</h5>
+                                    <div class="card-body">
+                                        <p class="card-text"> {$new->getContent()|noescape}</p>
+                                        <p class="author-name card-text"><small class="text-muted">Autor: {$new->getAuthor()->getUserName()}</small>
+                                        <br><small class="text-muted">Vytvořeno: {$new->getCreatedAt()->format('d.m.Y. H:m:s')}</small>
+
+                                        </p>
+                                        {if $authorRole == 'azyl'}
+                                        <a n:href="Home:azyl $author->id" class="btn btn-sm btn-primary">Stránka azylu</a>
+                                        {/if}
+                                    </div>
+                                </div>
+                        {/foreach}
+                                       {if $newsCount !== 0}
+                                       <a n:href = "Home:news" class="btn btn-sm btn-primary">Více novinek...</a>
+                                       {else}
+                                        <p>Žádné novinky</p>
+                                       {/if}
                     </div>
                 </div>
+                <div class="col-lg-7" >
+                    <h3>Adopce</h3>
+                    <div class="adoptions d-flex flex-row flex-wrap" id="adoptions">
 
-                <div class="col-6 d-lg-block col-lg-2 flex-column" >
-                    <div class="adoptions" id="adoptions">
-                        <h2>Adopce</h2>
-                        {snippet adoptions}
-                        {/snippet}
+                        {foreach $adoptions as $adoption}
+                            <div class="adoptions-border">
+                                <div class = "card adoptions-card" style="width: 21rem;">
+                                    <img class="card-img-top" src="{$basePath}/assets/vazdata/img/pic/{$adoption['photo']}" alt="Happy dino" />
+                                    <h5 class="card-header">{$adoption['name']}</h5>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Plemeno: {$adoption['breed']} Věk: {$adoption['age']}</h5>
+                                        <p class="card-text">{$adoption['description']}</p>
+                                        <a href="#" class="btn btn-sm btn-primary">Chci adoptovat!</a>
+                                        <a href="#" class="btn btn-sm btn-primary">Stránka azylu</a>
+                                    </div>
+                               </div>
+                            </div>
+                        {/foreach}
                     </div>
                 </div>
             </div>
-
         </div>
+    </div>
     </div>
 {/block}

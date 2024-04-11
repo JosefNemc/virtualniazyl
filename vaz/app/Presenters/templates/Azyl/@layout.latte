@@ -68,16 +68,10 @@
                         <a href="{link azyl:animals}" class="dropdown-item">Vaše zvířata</a>
                     </div>
                 </div>
-                <a href="{link admin:photos}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Fotky</a>
                 <a href="{link azyl:adoptions}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Adopce</a>
-                <a href="{link admin:messages}" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Zprávy</a>
-                <div class="nav-item dropdown">
-                    <a href="{link azyl:news}" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Novinky</a>
-                    <div class="dropdown-menu bg-transparent border-0">
-                        <a href="{link azyl:news}" class="dropdown-item">Novinky</a>
-                        <a href="{link azyl:addnews}" class="dropdown-item">Přidat novinku</a>
-                    </div>
-                </div>
+                <a href="{link azyl:messages}" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Zprávy</a>
+                <a href="{link azyl:news}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Aktuality</a>
+                <a href="{link azyl:photos}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Fotky</a>
 
             </div>
         </nav>
@@ -116,9 +110,9 @@
                         <span class="d-none d-lg-inline-flex">{$user->getIdentity()->data['User']->userName}</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                        <a href="{link user:profil}" class="dropdown-item">Můj profil</a>
-                        <a href="{link admin:settings}" class="dropdown-item">Nastavení</a>
-                        <a href="{link home:default}" class="dropdown-item">Na web</a>
+                        <a href="{link azyl:profil}" class="dropdown-item">Profil uživatele</a>
+                        <a href="{link azyl:settings}" class="dropdown-item">Nastavení azylu</a>
+                        <a href="{link home:default}" class="dropdown-item">Zpět na web</a>
                         <a href="{link home:logOut}" class="dropdown-item">Odhlásit</a>
                     </div>
                 </div>

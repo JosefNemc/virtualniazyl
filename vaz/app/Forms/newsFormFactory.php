@@ -11,16 +11,24 @@ class newsFormFactory extends Form
     {
         $form = new Form;
         $form->addText('title', 'Title:')
-            ->setRequired('Nadpis.');
+            ->setRequired('Nadpis.')
+            ->setHtmlAttribute('class','form-control');
         $form->addTextArea('content', 'Content:')
             ->setMaxLength(2048)
-            ->setHtmlAttribute('rows', 20)
+            ->setHtmlAttribute('rows', 5)
             ->setHtmlAttribute('cols', 80)
             ->setHtmlAttribute('class','form-control')
-            ->setRequired('Obsah novinky.');
-        $form->addSubmit('send', 'Uložit');
-        $form->addCheckbox('global', 'Globální');
-        $form->addDateTime('visibleFrom', 'Viditelné od:');
+            ->setHtmlAttribute('id', 'content');
+
+        $form->addCheckbox('global', 'Globální')
+            ->setHtmlAttribute('class','form-check-input');
+        $form->addCheckbox('important', 'Důležité')
+            ->setHtmlAttribute('class','form-check-input');
+        $form->addDateTime('visibleFrom', 'Viditelné od:')
+            ->setHtmlAttribute('class','form-control')
+            ->setRequired('Datum viditelnosti.');
+        $form->addSubmit('send', 'Uložit')
+            ->setHtmlAttribute('class', 'btn btn-primary');
         return $form;
     }
 }

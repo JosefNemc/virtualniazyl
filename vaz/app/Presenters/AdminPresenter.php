@@ -6,6 +6,7 @@ namespace App\Presenters;
 use App\Components\Datagrids\CitysDatagridFactory;
 use App\Components\Datagrids\PagesDatagridFactory;
 use App\Components\Datagrids\UsersDatagridFactory;
+use App\Forms\newsFormFactory;
 use App\Forms\PageFormFactory;
 use App\Forms\PhotoUploadFormFactory;
 use App\Forms\RegisterFormFactory;
@@ -22,6 +23,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Nette\Application\UI\Form;
 use Ublaboo\DataGrid\DataGrid;
 use Ublaboo\DataGrid\Exception\DataGridException;
+use App\Components\Datagrids\NewsDatagridFactory;
+use App\Model\Orm\Entity\News;
+use App\Model\Orm\Repository\NewsRepository;
+
 
 
 class AdminPresenter extends BasePresenter
@@ -34,6 +39,7 @@ class AdminPresenter extends BasePresenter
     private PageFormFactory $pageFormFactory;
     private PageRepository $pageRepository;
 
+
     public function __construct(roleFormFactory               $roleFormFactory,
                                 UsersRepository               $usersRepository,
                                 PageRepository                $pageRepository,
@@ -44,7 +50,10 @@ class AdminPresenter extends BasePresenter
                                 public PhotoUploadFormFactory $photoUploadFormFactory,
                                 public UsersDatagridFactory   $usersDatagridFactory,
                                 public CitysDatagridFactory   $citysDatagridFactory,
-                                public PagesDatagridFactory   $pagesDatagridFactory)
+                                public PagesDatagridFactory   $pagesDatagridFactory,
+                       public readonly newsFormFactory        $newsFormFactory,
+                       public readonly newsDatagridFactory    $newsDatagridFactory,
+                       public  newsRepository            $newsRepository)
     {
         parent::__construct();
         $this->roleFormFactory = $roleFormFactory;
@@ -56,6 +65,7 @@ class AdminPresenter extends BasePresenter
         $this->usersDatagridFactory = $usersDatagridFactory;
         $this->citysDatagridFactory = $citysDatagridFactory;
         $this->pagesDatagridFactory = $pagesDatagridFactory;
+        $this->newsRepository = $newsRepository;
 
     }
 
@@ -274,6 +284,46 @@ class AdminPresenter extends BasePresenter
         }
     }
 
+    public function createComponentNewsForm(): Form
+    {
+        $form = $this->newsFormFactory->create();
+        $form->onSuccess[] = [$this, 'newsFormSucceeded'];
+        return $form;
+    }
+
+    public function newsFormSucceeded(Form $form, \stdClass $values): void
+    {
+        if ($this->getPresenter()->getParameter('id') !== null) {
+            $news = $this->newsRepository->findOneBy(['id' => $this->getPresenter()->getParameter('id')]);
+            if ($news) {
+                $news->setTitle($values->title);
+                $news->setContent($values->content);
+                $news->setGlobal($values->global);
+                $news->setVisibleFrom($values->visibleFrom);
+                $news->setUpdatedAt(new DateTimeImmutable());
+                $news->setDeleted($values->deleted);
+                $news->setImportant($values->important);
+                $this->newsRepository->save($news);
+                $this->flashMessage('Novinka byla aktualizována.', 'success');
+                $this->redirect('Admin:news');
+            }
+        } else {
+            $news = new News();
+            $news->setAuthor($this->getPresenter()->getUser()->getIdentity()->getData()['User']);
+            $news->setTitle($values->title);
+            $news->setContent($values->content);
+            $news->setGlobal($values->global);
+            $news->setVisibleFrom($values->visibleFrom);
+            $news->setImportant($values->important);
+            $news->setCreatedAt(new DateTimeImmutable());
+            $news->setDeleted(false);
+            $news->setImportant(false);
+            $this->newsRepository->save($news);
+            $this->flashMessage('Novinka byla uložena.', 'success');
+            $this->redirect('Admin:news');
+        }
+    }
+
     public function createComponentNewsDatagrid(): DataGrid
     {
         $grid = $this->newsDatagridFactory->create();
@@ -285,4 +335,6 @@ class AdminPresenter extends BasePresenter
         $grid = $this->adoptionsDatagridFactory->create();
         return $grid;
     }
+
+
 }

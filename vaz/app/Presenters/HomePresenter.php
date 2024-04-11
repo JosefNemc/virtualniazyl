@@ -8,6 +8,7 @@ use AllowDynamicProperties;
 use App\Forms\registerFormFactory;
 use App\Forms\SignInFormFactory;
 use App\Model\Orm\Entity\Users;
+use App\Model\Orm\Repository\NewsRepository;
 use App\Model\Orm\Repository\UsersRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,7 +32,8 @@ use App\Model\Services\Menu;
                                 protected readonly SignInFormFactory   $signInFormFactory,
                                 protected readonly RegisterFormFactory $registerFormFactory,
                                 private            Passwords           $passwords,
-                                public            TemplateFactory     $templateFactory)
+                                public            TemplateFactory     $templateFactory,
+                                public readonly NewsRepository      $newsRepository)
     {
         parent::__construct();
         $this->entityManager = $entityManager;
@@ -50,8 +52,33 @@ use App\Model\Services\Menu;
 
     public function renderDefault(): void
     {
-        $this->getTemplate()->title = 'Domácí stránka';
 
+        $news = $this->newsRepository->findBy(['global' => true, 'deleted' => false],  ['createdAt' => 'DESC'],8);
+
+        $test[] = ['name' => 'Mourice','age'=>14,'breed'=>'Britský modrý colorpoint','photo'=>'kytka'.rand(1,4).'.jpeg', 'description'=>'Mourice je velmi klidný a mazlivý kocour.'];
+        $test[] = ['name' => 'Cassidy','age'=>4,'breed'=>'Tosa inu','photo'=>'kytka'.rand(1,4).'.jpeg', 'description'=>'Cassidy je velmi hravý a veselý pes.'];
+        $test[] = ['name' => 'Baghira','age'=>10,'breed'=>'Tosa inu','photo'=>'kytka'.rand(1,4).'.jpeg', 'description'=>'Baghira je velmi klidný a mazlivý pes.'];
+        /*
+        $news[] = ['title' => 'Nový pes','content'=>'V našem azylu se objevil nový pes. Je to kříženec německého ovčáka a labradora. Je velmi hravý a milý.'];
+        $news[] = ['title' => 'Morčata k adopci','content'=>'Zachráněná samička morčete se stala čerstvou maminkou.'];
+        $news[] = ['title' => 'Brigáda červenec','content'=>'Kdo chce může 20.7.2024 přijít na brigádu.'];
+        */
+        $this->getTemplate()->title = 'Domácí stránka';
+        $this->getTemplate()->adoptions = $test;
+        $this->getTemplate()->news = $news;
+        $this->getTemplate()->newsCount = $this->newsRepository->count(['deleted' => false, 'global' => true]);
+
+
+
+    }
+
+    public function renderNews($offset = 0): void
+    {
+        $news = $this->newsRepository->findBy(['deleted' => false, 'global' => true],  ['createdAt' => 'DESC'],20, $offset);
+        $this->getTemplate()->title = 'Všechny Novinky';
+        $this->getTemplate()->news = $news;
+        $this->getTemplate()->newsCount = $this->newsRepository->count(['deleted' => false, 'global' => true]);
+        $this->getTemplate()->offset = $offset;
     }
 
     public function actionSignIn(): void

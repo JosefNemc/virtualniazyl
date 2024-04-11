@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use App\Forms\animalFormFactory;
+use App\Forms\azylSetingsFormFactory;
 use App\Model\Orm\Entity\Animal;
 use App\Model\Orm\Enums\RoleTypeEnum;
 use App\Model\Orm\Repository\AnimalsRepository;
@@ -16,11 +17,13 @@ class AzylPresenter extends BasePresenter
 {
     private AnimalsRepository $animalsRepository;
     private AnimalFormFactory $animalFormFactory;
+    private AzylSetingsFormFactory $azylSetingsFormFactory;
 
-    public function __construct(AnimalsRepository $animalsRepository, AnimalFormFactory $animalFormFactory)
+    public function __construct(AnimalsRepository $animalsRepository, AnimalFormFactory $animalFormFactory, AzylSetingsFormFactory $azylSetingsFormFactory)
     {
         $this->animalsRepository = $animalsRepository;
         $this->animalFormFactory = $animalFormFactory;
+        $this->azylSetingsFormFactory = $azylSetingsFormFactory;
         parent::__construct();
     }
 
@@ -87,6 +90,11 @@ class AzylPresenter extends BasePresenter
         $this->template->title = 'Message';
     }
 
+    public function renderSettings(): void
+    {
+        $this->template->title = 'Settings';
+    }
+
     public function renderAdoptions(): void
     {
         $this->template->title = 'Adoptions';
@@ -105,13 +113,26 @@ class AzylPresenter extends BasePresenter
         return $form;
     }
 
+    public function createComponentAzylSettingsForm(): Form
+    {
+        $form = $this->azylSetingsFormFactory->create();
+        $form->setDefaults($this->getUser()->getIdentity()->data['Azyl']);
+        $form->onSuccess[] = [$this, 'azylSettingsFormSucceeded'];
+        return $form;
+    }
+
+    public function azylSettingsFormSucceeded(Form $form, $values) :void
+    {
+
+    }
+
     public function animalFormSucceeded(Form $form, $values): void
     {
-        bdump($values);
-
         $id = $this->getParameter('id');
+        //todo: ověření práv uživatele na úpravu zvířátka
         if ($id === null)
         {
+            bdump($values);
             $animal = New Animal();
             $animal->setAzyl($this->getUser()->getIdentity()->getId());
             $animal->setIsDeleted(false);
@@ -121,8 +142,11 @@ class AzylPresenter extends BasePresenter
             $animal->setSpecies($values->species);
             $animal->setBirthDate($values->birthDate);
             $animal->setBreed($values->breed);
+            foreach ($values->photos as $photo)
+            {
 
-            //$animal->setPhotos([]);
+            }
+            $animal->setPhotos([]);
 
 
             $this->animalsRepository->saveAnimal($values);

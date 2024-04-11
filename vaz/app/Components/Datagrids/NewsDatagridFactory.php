@@ -23,6 +23,7 @@ class NewsDatagridFactory extends DataGrid
         $grid->setDataSource($this->newsRepository->findAll());
         $grid->addColumnText('id', 'ID')
             ->setSortable()
+            ->setDefaultHide()
             ->setFilterText();
         $grid->addColumnText('title', 'Title')
             ->setSortable()
@@ -41,10 +42,11 @@ class NewsDatagridFactory extends DataGrid
         $grid->addColumnDateTime('visibleFrom', 'Visible from')
             ->setSortable()
             ->setFilterDate();
-        $grid->addColumnText('author', 'Author')
-            ->setSortable()
-            ->setFilterText();
-        $grid->addColumnText('deleted', 'Deleted')
+        $grid->addColumnStatus('deleted', 'Deleted')
+
+            ->setRenderer(function ($item) {
+                return $item->getDeleted() ? 'Ano' : 'Ne';
+            })
             ->setSortable()
             ->setFilterText();
         $grid->addColumnText('global', 'Global')
@@ -53,14 +55,12 @@ class NewsDatagridFactory extends DataGrid
         $grid->addColumnText('important', 'Important')
             ->setSortable()
             ->setFilterText();
-        $grid->addAction('edit', 'Edit', 'edit')
+        $grid->addAction('edit', '', 'edit')
             ->setIcon('pencil-alt')
-            ->setTitle('Edit')
-            ->setClass('btn btn-xs btn-primary');
-        $grid->addAction('delete', 'Delete', 'delete')
+            ->setClass('btn btn-sm btn-primary');
+        $grid->addAction('delete', '', 'delete')
             ->setIcon('trash')
-            ->setTitle('Delete')
-            ->setClass('btn btn-xs btn-danger')
+            ->setClass('btn btn-sm btn-danger')
             ->addAttributes(['data-confirm' => 'Skutečně chcete smazat novinku?']);
 
         return $grid;

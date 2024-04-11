@@ -125,9 +125,8 @@ class Users
     #[ORM\OneToMany(targetEntity: "AdoptionAction", mappedBy: "actionsAsAzyl")]
     private Collection $actionsAsAzyl;
 
-    #[ORM\OneToOne(targetEntity: Azyl::class, cascade: ['persist'])]
-    #[ORM\JoinColumn(name: 'azyl_id', referencedColumnName: 'id')]
-    private Azyl|null $azyl = null;
+   #[ORM\Column(type: 'integer', length: 255, nullable: true)]
+    private ?int $azyl = null;
 
     public function __construct()
     {
@@ -429,12 +428,12 @@ class Users
         ];
     }
 
-    public function setAzyl(Azyl $azyl):void
+    public function setAzyl(?int $azyl):void
     {
         $this->azyl = $azyl;
     }
 
-    public function getAzyl(): ?Azyl
+    public function getAzyl(): ?int
     {
         return $this->azyl;
     }

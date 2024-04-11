@@ -26,7 +26,7 @@ class NewsRepository extends EntityRepository
 
     public function findGlobal(): array
     {
-        return $this->findBy(['global' => true, 'deleted' => false], ['visibleFrom' => 'DESC']);
+        return $this->findBy(['global' => true, 'deleted' => false], ['createdAt' => 'asc']);
     }
 
     public function setDeleted(int $id): void
@@ -49,5 +49,16 @@ class NewsRepository extends EntityRepository
     public function remove(News $news): void
     {
         $this->getEntityManager()->remove($news);
+    }
+
+    public function save(News $news): void
+    {
+        $this->getEntityManager()->persist($news);
+        $this->getEntityManager()->flush();
+    }
+
+    public function count(array $criteria): int
+    {
+        return parent::count($criteria);
     }
 }

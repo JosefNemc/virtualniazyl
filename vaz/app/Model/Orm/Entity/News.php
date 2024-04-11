@@ -33,7 +33,8 @@ class News
     #[ORM\Column(type: 'datetime_immutable')]
     private DateTimeImmutable $visibleFrom;
 
-    #[ORM\ManyToOne(targetEntity: "Users", inversedBy: "news", cascade: ["refresh"])]
+    #[ORM\ManyToOne(targetEntity: "Users")]
+    #[ORM\JoinColumn(name: 'author_id', referencedColumnName: 'id')]
     private Users $author;
 
     #[ORM\Column(type: 'boolean')]

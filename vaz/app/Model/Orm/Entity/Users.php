@@ -5,6 +5,7 @@ namespace App\Model\Orm\Entity;
 
 use App\Model\Orm\Enums\RoleTypeEnum;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
@@ -83,9 +84,9 @@ class Users
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $phoneVerified;
 
-    #[ORM\OneToMany(mappedBy: "user", targetEntity: "News")]
+    #[ORM\OneToMany(mappedBy: "user", targetEntity: "News", cascade: ['persist', 'remove'])]
     #[ORM\Column(type: 'integer', nullable: true)]
-    public ?int $news;
+    public ?Collection $news;
 
     #[ORM\OneToMany(mappedBy: "author", targetEntity: "Pages")]
     #[ORM\Column(type: 'integer', nullable: true)]
@@ -140,6 +141,7 @@ class Users
         $this->adoptionVerification = false;
         $this->legalTerms = false;
         $this->photos = null;
+        $this->news = new ArrayCollection();
     }
 
 

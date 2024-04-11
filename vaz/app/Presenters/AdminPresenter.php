@@ -308,6 +308,7 @@ class AdminPresenter extends BasePresenter
                 $this->redirect('Admin:news');
             }
         } else {
+            bdump ($values);
             $news = new News();
             $news->setAuthor($this->getPresenter()->getUser()->getIdentity()->getData()['User']);
             $news->setTitle($values->title);

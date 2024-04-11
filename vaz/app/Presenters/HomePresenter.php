@@ -193,7 +193,9 @@ use App\Model\Services\Menu;
                 //Send registration email
 
 
-                $verificationlink = $this->link('Home:registered', ['vrf' => $token]);
+                $verificationlink = $this->link('//Home:registered', ['vrf' => $token]);
+
+
                 $template = $this->templateFactory->createTemplate();
                 $html = $template->renderToString(__DIR__ . '/Template/Email/RegistrationEmail.latte', ['verificationLink' => $verificationlink]);
 

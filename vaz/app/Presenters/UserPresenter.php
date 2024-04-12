@@ -185,11 +185,10 @@ public function actionDefault(): void
             $users->setUpdatedAt(new DateTimeImmutable());
             $users->setUpdatedBy($this->usersRepository->getUserById($this->getPresenter()->getUser()->getId()));
 
-            //$azyl->setUser($users);
-            $users->setAzyl($azyl);
             bdump($azyl,'azyl');
             bdump($users,'users');
             $this->azylRepository->saveAzyl($azyl);
+            $users->setAzyl($azyl->getId());
             $this->usersRepository->addUser($users);
 
 

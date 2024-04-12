@@ -4,14 +4,20 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Components\Datagrids\NewsDatagridFactory;
 use App\Forms\animalFormFactory;
 use App\Forms\azylSetingsFormFactory;
+use App\Forms\newsFormFactory;
 use App\Model\Orm\Entity\Animal;
+use App\Model\Orm\Entity\News;
 use App\Model\Orm\Enums\RoleTypeEnum;
 use App\Model\Orm\Repository\AnimalsRepository;
+use App\Model\Orm\Repository\NewsRepository;
 use App\Model\Services\Menu;
 use Contributte\Application\UI\BasePresenter;
+use DateTimeImmutable;
 use Nette\Forms\Form;
+use Ublaboo\DataGrid\DataGrid;
 
 class AzylPresenter extends BasePresenter
 {
@@ -19,11 +25,19 @@ class AzylPresenter extends BasePresenter
     private AnimalFormFactory $animalFormFactory;
     private AzylSetingsFormFactory $azylSetingsFormFactory;
 
-    public function __construct(AnimalsRepository $animalsRepository, AnimalFormFactory $animalFormFactory, AzylSetingsFormFactory $azylSetingsFormFactory)
+    public function __construct(AnimalsRepository      $animalsRepository,
+                                AnimalFormFactory      $animalFormFactory,
+                                AzylSetingsFormFactory $azylSetingsFormFactory,
+                                public NewsRepository  $newsRepository,
+                                public NewsFormFactory $newsFormFactory,
+                                public NewsDatagridFactory $newsDatagridFactory)
     {
         $this->animalsRepository = $animalsRepository;
         $this->animalFormFactory = $animalFormFactory;
         $this->azylSetingsFormFactory = $azylSetingsFormFactory;
+        $this->newsRepository = $newsRepository;
+        $this->newsFormFactory = $newsFormFactory;
+        $this->newsDatagridFactory = $newsDatagridFactory;
         parent::__construct();
     }
 
@@ -167,5 +181,53 @@ class AzylPresenter extends BasePresenter
             $this->flashMessage('Zvířátko bylo úspěšně upraveno.', 'alert-success');
         }
         $this->redirect('Azyl:animals');
+    }
+
+    public function createComponentNewsForm(): \Nette\Application\UI\Form
+    {
+        $form = $this->newsFormFactory->create();
+        $form->onSuccess[] = [$this, 'newsFormSucceeded'];
+        return $form;
+    }
+
+    public function newsFormSucceeded(Form $form, \stdClass $values): void
+    {
+        if ($this->getPresenter()->getParameter('id') !== null) {
+            $news = $this->newsRepository->findOneBy(['id' => $this->getPresenter()->getParameter('id')]);
+            if ($news) {
+                $news->setTitle($values->title);
+                $news->setContent($values->content);
+                $news->setGlobal($values->global);
+                $news->setVisibleFrom($values->visibleFrom);
+                $news->setUpdatedAt(new DateTimeImmutable());
+                $news->setDeleted($values->deleted);
+                $news->setImportant($values->important);
+                $this->newsRepository->save($news);
+                $this->flashMessage('Novinka byla aktualizována.', 'success');
+                $this->redirect('Azyl:news');
+            }
+        } else {
+            bdump ($values);
+            $news = new News();
+            $data = $this->getPresenter()->getUser()->getIdentity()->getData();
+            $news->setAuthor($data['User']);
+            $news->setTitle($values->title);
+            $news->setContent($values->content);
+            $news->setGlobal($values->global);
+            $news->setVisibleFrom($values->visibleFrom);
+            $news->setImportant($values->important);
+            $news->setCreatedAt(new DateTimeImmutable());
+            $news->setDeleted(false);
+            $news->setImportant(false);
+            $this->newsRepository->save($news);
+            $this->flashMessage('Novinka byla uložena.', 'success');
+            $this->redirect('Azyl:news');
+        }
+    }
+
+    public function createComponentNewsDatagrid(): DataGrid
+    {
+        $grid = $this->newsDatagridFactory->create();
+        return $grid;
     }
 }

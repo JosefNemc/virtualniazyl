@@ -123,6 +123,11 @@ use App\Model\Services\Menu;
         $this->getTemplate()->title = 'Přihlášení';
     }
 
+    public function renderAzyl($id): void
+    {
+        $this->getTemplate()->title = 'Azyl';
+    }
+
     public function actionLogOut(): void
     {
         $this->getUser()->logout();

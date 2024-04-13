@@ -15,6 +15,7 @@ services:
 	- App\Model\Orm\Entity\Faq
 	- App\Model\Orm\Entity\Help
 	- App\Model\Orm\Entity\HelpForm
+	- App\Model\Orm\Entity\Citys
 
 	##Enum##
 	- App\Model\Orm\Enums\RoleTypeEnum

@@ -1,0 +1,112 @@
+{block content}
+<style>
+    header {
+        -o-transition-duration: 0.3s;
+        -moz-transition-duration: 0.3s;
+        -webkit-transition-duration: 0.3s;
+        transition-duration: 0.3s;
+        padding:  0px 0;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: #333;
+        border-bottom: 3px solid #dad;
+    }
+
+    .wrapper {
+        position: absolute;
+        top: 100%;
+        left: 25%;
+
+        margin-left: -200px;
+        font: 300 30px/1 'Open Sans Condensed', sans-serif;
+
+        color: #222;
+        animation: 60s credits linear infinite;
+    }
+
+    .movie {
+        margin-bottom: 50px;
+        font-size: 50px;
+        color: #3F3;
+    }
+
+    .job {
+        margin-bottom: 5px;
+        font-size: 16px;
+    }
+
+    .name {
+        margin-bottom: 15px;
+        font-size: 30px;
+    }
+
+    @keyframes credits {
+        0% {
+            top: 100%;
+        }
+        100% {
+            top: -500%;
+        }
+    }
+</style>
+
+<div class="container" style="min-height: 800px;">
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-12">
+                <img src="{$basePath}/assets/vazdata/img/logos/header_logo_green.png" alt="Virtuální azyl logo">
+                <div class="row" style="margin-bottom: 10rem; margin-top: 5rem;">
+                    <div class="col-6">
+                        <img class="rounded" width="256px" height="256px" src="{$basePath}/assets/vazdata/img/pic/error404-dino.jpeg" alt="love 1">
+
+                    </div>
+                    <div class="col-6"><p class="job">MySQL, Code and Programing</p>
+                        <p class="name">Josef 'NORO' Němec</p>
+
+
+                    </div>
+                    <div class="col-12 p-5">
+                        V mládí jsem se zřekl jedení masa a přijde ještě den, že lidé mně podobní se budou na zabíjení zvířat dívat tak, jako se dnes dívají na zabíjení lidí. - <i>Leonardo da Vinci</i>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 10rem">
+                    <div class="col-6">
+                        <p class="job">Testing</p>
+                        <p class="name">Zdeněk 'VS' Joukl</p><p class="name">Bianka 'Vegandromeda' Bakosh</p><p class="name">Adela22</p><p class="name">Lukáš K.</p>
+                    </div>
+                    <div class="col-6" >
+                        <img class="rounded" width="256px" height="256px" src="{$basePath}/assets/vazdata/img/pic/love1.jpeg" alt="love 1">
+                    </div>
+                    <div class="col-12 p-5">
+                        Stát a cítit se jako hrdina, je velice snadné. Stačí bránit skutečně bezbrané, proti skutečnému bezpráví. - <i>J.N.</i>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-bottom: 10rem">
+                    <div class="col-6">
+                        <img class="rounded" width="256px" height="256px" src="{$basePath}/assets/vazdata/img/pic/love2.jpeg" alt="love 1">
+                    </div>
+                    <div class="col-6">
+                        <p class="job">Poděkování</p>
+                        <p>David Grudl - <a href="https://nette.org/cs/">Nette framework</a> <br>
+                            Autorům Bootstrapu 5 - <a href="https://getbootstrap.com/"></a> <br>
+                        Autorům PHP 8.3 - <a href="https://www.php.net/releases/8.3/en.php">PHP 8.3 release</a> <br>
+                        Autorům MySQL - <a href="https://www.mysql.com/"> MySQL web</a> <br>
+
+                        </p>
+
+
+                    </div>
+                    <div class="col-12 p-5">
+                        Ve vztahu ke zvířatům jsou všichni lidé nacisté... Pro zvířata je Treblinka každodenností. - <i>Isaac Bashevis Singer</i>
+                    </div>
+                </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

@@ -123,6 +123,11 @@ use App\Model\Services\Menu;
         $this->getTemplate()->title = 'Přihlášení';
     }
 
+    public function actionThanks(): void
+    {
+        $this->getTemplate()->title = 'Poděkování autorů';
+    }
+
     public function renderAzyl($id): void
     {
         $this->getTemplate()->title = 'Azyl';

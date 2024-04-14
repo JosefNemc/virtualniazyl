@@ -82,4 +82,12 @@ class CityRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    //TODO: DOplnit načtení zemí podle dat v DB - nejdřív je potřeba doplnit data do DB přidat tam slovensko a slovenské okresy.
+    public function fetchStates()
+    {
+        return $this->createQueryBuilder('c')
+            ->select('countryCode')
+            ->addGroupBy('CountryCode');
+    }
 }

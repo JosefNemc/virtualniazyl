@@ -30,6 +30,9 @@ class Citys
     #[ORM\Column(type: 'string', length: 35)]
     private string $country;
 
+    #[ORM\Column(type: 'string', length: 5)]
+    private string $countryCode;
+
 
 
     public function getId(): int

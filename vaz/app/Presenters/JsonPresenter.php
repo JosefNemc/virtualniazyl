@@ -5,21 +5,32 @@ namespace App\Presenters;
 
 
 use App\Model\Orm\Entity\Citys;
+use App\Model\Orm\Repository\CityRepository;
 use Nette\Application\UI\Presenter;
 
 class JsonPresenter extends Presenter
 {
 
-    public function __construct(public Citys $citys)
+
+    private CityRepository $cityRepository;
+
+    public function __construct(public Citys $citys, CityRepository $cityRepository)
     {
         parent::__construct();
+        $this->cityRepository = $cityRepository;
         $this->citys = $citys;
 
     }
+
     public function actionCities($regionarray): void
     {
-        $cities = $this->Locale->getCityFromRegion($regionarray);
+        $cities = $this->Citys->getCityFromRegion($regionarray);
         $this->sendJson($cities);
+    }
+
+    public function actionStates(): void
+    {
+        $states = $this->cityRepository->fetchStates();
     }
 }
 

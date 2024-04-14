@@ -3,10 +3,26 @@ declare(strict_types=1);
 
 namespace App\Forms;
 
+use App\Model\Orm\Entity\Citys;
+use App\Model\Orm\Repository\CityRepository;
+use App\Presenters\JsonPresenter;
 use Nette\Application\UI\Form;
 
 class userDetailsFormFactory extends Form
 {
+
+    private CityRepository $cityRepository;
+    private JsonPresenter $jsonPresenter;
+
+    public function __construct(CityRepository $cityRepository, JsonPresenter $jsonPresenter)
+    {
+        parent::__construct();
+
+        $this->cityRepository = $cityRepository;
+        $this->jsonPresenter = $jsonPresenter;
+
+    }
+
     public function create(): Form
     {
         $form = new Form;

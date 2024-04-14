@@ -132,8 +132,9 @@ use App\Model\Services\Menu;
         $this->getTemplate()->title = 'Poděkování autorů';
     }
 
-    public function actionAzyl($id): void
+    public function actionAzyl(): void
     {
+        $id = $this->getPresenter()->getParameter('id');
         $this->getTemplate()->title = 'Azyl';
         $this->getTemplate()->azyl = $this->azylRepository->getAzyl($id);
     }

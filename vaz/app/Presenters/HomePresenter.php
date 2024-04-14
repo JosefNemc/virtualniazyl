@@ -8,6 +8,7 @@ use AllowDynamicProperties;
 use App\Forms\registerFormFactory;
 use App\Forms\SignInFormFactory;
 use App\Model\Orm\Entity\Users;
+use App\Model\Orm\Repository\AzylRepository;
 use App\Model\Orm\Repository\NewsRepository;
 use App\Model\Orm\Repository\UsersRepository;
 use DateTimeImmutable;
@@ -27,17 +28,20 @@ use App\Model\Services\Menu;
     protected UsersRepository $usersRepository;
 
 
+
     public function __construct(UsersRepository                        $usersRepository,
                                 EntityManagerInterface                 $entityManager,
                                 protected readonly SignInFormFactory   $signInFormFactory,
                                 protected readonly RegisterFormFactory $registerFormFactory,
                                 private            Passwords           $passwords,
                                 public            TemplateFactory     $templateFactory,
-                                public readonly NewsRepository      $newsRepository)
+                                public readonly NewsRepository      $newsRepository,
+                                public readonly AzylRepository      $azylRepository)
     {
         parent::__construct();
         $this->entityManager = $entityManager;
         $this->usersRepository = $usersRepository;
+
         $this->passwords = $passwords;
         $this->templateFactory = $templateFactory;
 
@@ -128,9 +132,10 @@ use App\Model\Services\Menu;
         $this->getTemplate()->title = 'Poděkování autorů';
     }
 
-    public function renderAzyl($id): void
+    public function actionAzyl($id): void
     {
         $this->getTemplate()->title = 'Azyl';
+        $this->getTemplate()->azyl = $this->azylRepository->getAzyl($id);
     }
 
     public function actionLogOut(): void

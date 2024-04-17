@@ -48,4 +48,10 @@ class AzylRepository extends EntityRepository
         $this->getEntityManager()->persist($azyl);
     }
 
+    public function getAzyl($id): ?Azyl
+    {
+return $this->findOneBy(['id' => $id]);
+
+    }
+
 }

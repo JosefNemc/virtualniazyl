@@ -30,15 +30,10 @@ class Citys
     #[ORM\Column(type: 'string', length: 35)]
     private string $country;
 
-    public function __construct(int $id, int $cityCode, string $cityName, string $region, string $cityOffice, string $country)
-    {
-        $this->id = $id;
-        $this->cityCode = $cityCode;
-        $this->cityName = $cityName;
-        $this->region = $region;
-        $this->cityOffice = $cityOffice;
-        $this->country = $country;
-    }
+    #[ORM\Column(type: 'string', length: 5)]
+    private string $countryCode;
+
+
 
     public function getId(): int
     {

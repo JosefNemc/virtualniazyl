@@ -9,25 +9,26 @@ DROP TABLE IF EXISTS `adoption_actions`;
 CREATE TABLE `adoption_actions` (
   `id` int NOT NULL AUTO_INCREMENT,
   `adoption_id` int DEFAULT NULL,
+  `owner_id` int DEFAULT NULL,
+  `azyl_id` int DEFAULT NULL,
   `animal_id` int DEFAULT NULL,
   `created_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   `updated_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
-  `description` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci,
+  `updated_by` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `description` longtext COLLATE utf8mb3_unicode_ci,
   `action_type_enum` enum('Start adopce','Konec adopce','Přerušení adopce','Kontakt','Telefonát','Osobní kontakt','Ověření') COLLATE utf8mb3_unicode_ci NOT NULL,
   `createdBy` int DEFAULT NULL,
-  `user_id` int DEFAULT NULL,
-  `updatedBy` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_7FD7E89E631C55DF` (`adoption_id`),
   KEY `IDX_7FD7E89ED3564642` (`createdBy`),
+  KEY `IDX_7FD7E89E7E3C61F9` (`owner_id`),
+  KEY `IDX_7FD7E89E62660AF` (`azyl_id`),
   KEY `IDX_7FD7E89E8E962C16` (`animal_id`),
-  KEY `IDX_7FD7E89EE8DE7170` (`updatedBy`),
-  KEY `IDX_7FD7E89EA76ED395` (`user_id`),
+  CONSTRAINT `FK_7FD7E89E62660AF` FOREIGN KEY (`azyl_id`) REFERENCES `azyls` (`id`),
   CONSTRAINT `FK_7FD7E89E631C55DF` FOREIGN KEY (`adoption_id`) REFERENCES `adoptions` (`id`),
+  CONSTRAINT `FK_7FD7E89E7E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `owners` (`id`),
   CONSTRAINT `FK_7FD7E89E8E962C16` FOREIGN KEY (`animal_id`) REFERENCES `animals` (`id`),
-  CONSTRAINT `FK_7FD7E89EA76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FK_7FD7E89ED3564642` FOREIGN KEY (`createdBy`) REFERENCES `users` (`id`),
-  CONSTRAINT `FK_7FD7E89EE8DE7170` FOREIGN KEY (`updatedBy`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_7FD7E89ED3564642` FOREIGN KEY (`createdBy`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 
@@ -46,8 +47,8 @@ CREATE TABLE `adoptions` (
   KEY `IDX_B4E90AF17E3C61F9` (`owner_id`),
   KEY `IDX_B4E90AF162660AF` (`azyl_id`),
   KEY `IDX_B4E90AF18E962C16` (`animal_id`),
-  CONSTRAINT `FK_B4E90AF162660AF` FOREIGN KEY (`azyl_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FK_B4E90AF17E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_B4E90AF162660AF` FOREIGN KEY (`azyl_id`) REFERENCES `azyls` (`id`),
+  CONSTRAINT `FK_B4E90AF17E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `owners` (`id`),
   CONSTRAINT `FK_B4E90AF18E962C16` FOREIGN KEY (`animal_id`) REFERENCES `animals` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
@@ -58,12 +59,7 @@ CREATE TABLE `animals` (
   `azyl_id` int DEFAULT NULL,
   `species_id` int DEFAULT NULL,
   `age` double NOT NULL,
-  `breed` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `description` varchar(1024) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `birth_date` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
-  `adopted` tinyint(1) NOT NULL,
-  `is_deleted` tinyint(1) NOT NULL,
+  `breed` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_966C69DD62660AF` (`azyl_id`),
   KEY `IDX_966C69DDB2A1D860` (`species_id`),
@@ -75,12 +71,37 @@ CREATE TABLE `animals` (
 DROP TABLE IF EXISTS `azyls`;
 CREATE TABLE `azyls` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `azyl_name` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `description` varchar(1024) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `bank_account` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `bank_code` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `bank_specific_code` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `phone_number` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `user_name` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `first_name` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `last_name` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `role` enum('admin','user','guest','superadmin','azyl','azyladmin','adopter','adopteradmin','owner') COLLATE utf8mb3_unicode_ci NOT NULL,
+  `password` varchar(512) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+  `updated_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
+  `verified` tinyint(1) NOT NULL DEFAULT '0',
+  `photos` int DEFAULT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `baned` tinyint(1) NOT NULL DEFAULT '0',
+  `mailverified` tinyint(1) NOT NULL DEFAULT '0',
+  `phone_verified` tinyint(1) NOT NULL DEFAULT '0',
+  `news` int DEFAULT NULL,
+  `adoption_verification` tinyint(1) NOT NULL DEFAULT '0',
+  `legal_terms` tinyint(1) NOT NULL DEFAULT '0',
+  `azyl_name` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `description` varchar(1024) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `street` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `house_number` varchar(6) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `bank_account` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `bank_code` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `bank_specific_code` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `phone_number` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `phone` varchar(2048) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `mail_verify_token` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `city_code` int NOT NULL,
+  `orientation_number` varchar(6) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `zip_code` varchar(6) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `updated_by` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
@@ -89,10 +110,10 @@ DROP TABLE IF EXISTS `citys`;
 CREATE TABLE `citys` (
   `id` int NOT NULL AUTO_INCREMENT,
   `city_code` int NOT NULL,
-  `city_name` varchar(35) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `region` varchar(22) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `city_office` varchar(35) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `country` varchar(35) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `city_name` varchar(35) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `region` varchar(22) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `city_office` varchar(35) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `country` varchar(35) COLLATE utf8mb3_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
@@ -6359,8 +6380,8 @@ INSERT INTO `citys` (`id`, `city_code`, `city_name`, `region`, `city_office`, `c
 DROP TABLE IF EXISTS `faq`;
 CREATE TABLE `faq` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `question` varchar(1024) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `answer` varchar(2048) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `question` varchar(1024) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `answer` varchar(2048) COLLATE utf8mb3_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
@@ -6370,8 +6391,8 @@ DROP TABLE IF EXISTS `help`;
 CREATE TABLE `help` (
   `id` int NOT NULL AUTO_INCREMENT,
   `author_id` int DEFAULT NULL,
-  `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `help_content` varchar(2048) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `title` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `help_content` varchar(2048) COLLATE utf8mb3_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   PRIMARY KEY (`id`),
   KEY `IDX_8875CACF675F31B` (`author_id`),
@@ -6382,27 +6403,14 @@ CREATE TABLE `help` (
 DROP TABLE IF EXISTS `help_form`;
 CREATE TABLE `help_form` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `message` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `page` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `message` text COLLATE utf8mb3_unicode_ci NOT NULL,
+  `page` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
-  `postfromaddres` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `user_agent` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `postfromaddres` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `user_agent` text COLLATE utf8mb3_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
-
-
-DROP TABLE IF EXISTS `loginout`;
-CREATE TABLE `loginout` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int DEFAULT NULL,
-  `lastlogin` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
-  `lastlogout` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
-  `ip` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_831948F4A76ED395` (`user_id`),
-  CONSTRAINT `FK_831948F4A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 
@@ -6411,8 +6419,8 @@ CREATE TABLE `messages` (
   `id` int NOT NULL AUTO_INCREMENT,
   `sender_id` int DEFAULT NULL,
   `receiver_id` int DEFAULT NULL,
-  `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `message` varchar(4096) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `title` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `message` varchar(4096) COLLATE utf8mb3_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   `readed` tinyint(1) NOT NULL,
   `readed_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
@@ -6430,10 +6438,10 @@ DROP TABLE IF EXISTS `news`;
 CREATE TABLE `news` (
   `id` int NOT NULL AUTO_INCREMENT,
   `author_id` int DEFAULT NULL,
-  `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `title` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `content` text COLLATE utf8mb3_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
-  `updated_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
+  `updated_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   `visible_from` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   `deleted` tinyint(1) NOT NULL,
   `global` tinyint(1) NOT NULL,
@@ -6447,10 +6455,38 @@ CREATE TABLE `news` (
 DROP TABLE IF EXISTS `owners`;
 CREATE TABLE `owners` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `owner_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `description` varchar(1024) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `phone_number` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  `adoptions_id` int DEFAULT NULL,
+  `user_name` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `first_name` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `last_name` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `role` enum('admin','user','guest','superadmin','azyl','azyladmin','adopter','adopteradmin','owner') COLLATE utf8mb3_unicode_ci NOT NULL,
+  `password` varchar(512) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+  `updated_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
+  `verified` tinyint(1) NOT NULL DEFAULT '0',
+  `photos` int DEFAULT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `baned` tinyint(1) NOT NULL DEFAULT '0',
+  `mailverified` tinyint(1) NOT NULL DEFAULT '0',
+  `phone_verified` tinyint(1) NOT NULL DEFAULT '0',
+  `news` int DEFAULT NULL,
+  `adoption_verification` tinyint(1) NOT NULL DEFAULT '0',
+  `legal_terms` tinyint(1) NOT NULL DEFAULT '0',
+  `owner_name` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `description` varchar(1024) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `street` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `zip_code` varchar(6) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `house_number` varchar(6) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `phone_number` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `phone` varchar(2048) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `mail_verify_token` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `city_code` int NOT NULL,
+  `orientation_number` varchar(6) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `updated_by` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_427292FAF17E6E35` (`adoptions_id`),
+  CONSTRAINT `FK_427292FAF17E6E35` FOREIGN KEY (`adoptions_id`) REFERENCES `adoptions` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 
@@ -6458,18 +6494,18 @@ DROP TABLE IF EXISTS `pages`;
 CREATE TABLE `pages` (
   `id` int NOT NULL AUTO_INCREMENT,
   `author_id` int DEFAULT NULL,
-  `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `title` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `content` text COLLATE utf8mb3_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   `updated_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   `visible_from` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   `deleted` tinyint(1) NOT NULL,
   `global` tinyint(1) NOT NULL,
   `important` tinyint(1) NOT NULL,
-  `link` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `link` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_2074E575F675F31B` (`author_id`),
-  CONSTRAINT `FK_2074E575F675F31B` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+  CONSTRAINT `FK_2074E575F675F31B` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 
@@ -6481,9 +6517,9 @@ CREATE TABLE `photos` (
   `owner_id` int DEFAULT NULL,
   `azyl_id` int DEFAULT NULL,
   `date` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
-  `path` varchar(512) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `name` varchar(512) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `original_name` varchar(512) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `path` varchar(512) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `name` varchar(512) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `original_name` varchar(512) COLLATE utf8mb3_unicode_ci NOT NULL,
   `deleted` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_876E0D98E962C16` (`animal_id`),
@@ -6500,9 +6536,9 @@ CREATE TABLE `photos` (
 DROP TABLE IF EXISTS `species`;
 CREATE TABLE `species` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `species_name` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `species_description` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
   `sex` enum('female','male','unknown','hermaphrodite') COLLATE utf8mb3_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
@@ -6510,7 +6546,7 @@ CREATE TABLE `species` (
 DROP TABLE IF EXISTS `supporters`;
 CREATE TABLE `supporters` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
   `how_many` int NOT NULL,
   `created_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   PRIMARY KEY (`id`)
@@ -6521,13 +6557,13 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int NOT NULL AUTO_INCREMENT,
   `created_by` int DEFAULT NULL,
-  `updated_by` int DEFAULT NULL,
-  `user_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `first_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `last_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `updated_by` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `user_name` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `first_name` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `last_name` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
   `role` enum('admin','user','guest','superadmin','azyl','azyladmin','adopter','adopteradmin','owner') COLLATE utf8mb3_unicode_ci NOT NULL,
-  `password` varchar(512) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `password` varchar(512) COLLATE utf8mb3_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   `updated_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
   `verified` tinyint(1) NOT NULL DEFAULT '0',
@@ -6539,21 +6575,17 @@ CREATE TABLE `users` (
   `news` int DEFAULT NULL,
   `adoption_verification` tinyint(1) NOT NULL DEFAULT '0',
   `legal_terms` tinyint(1) NOT NULL DEFAULT '0',
-  `phone` varchar(2048) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `mail_verify_token` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `city_code` int DEFAULT NULL,
-  `house_number` varchar(6) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `orientation_number` varchar(6) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `street` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `zip_code` varchar(6) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `pages` int DEFAULT NULL,
-  `azyl` int DEFAULT NULL,
+  `phone` varchar(2048) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `mail_verify_token` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `city_code` int NOT NULL,
+  `house_number` varchar(6) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `orientation_number` varchar(6) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `street` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `zip_code` varchar(6) COLLATE utf8mb3_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_1483A5E9DE12AB56` (`created_by`),
-  KEY `IDX_1483A5E916FE72E1` (`updated_by`),
-  CONSTRAINT `FK_1483A5E916FE72E1` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_1483A5E9DE12AB56` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 
--- 2024-04-10 20:29:29
+-- 2024-03-27 09:29:31

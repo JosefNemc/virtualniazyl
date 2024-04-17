@@ -47,6 +47,9 @@ class Animal
     private DateTimeImmutable $birthDate;
 
     #[ORM\Column(type: 'boolean')]
+    private bool $toAdoption;
+
+    #[ORM\Column(type: 'boolean')]
     private bool $adopted;
     #[ORM\Column(type: 'boolean')]
     private bool $isDeleted;
@@ -161,9 +164,20 @@ class Animal
         return $this;
     }
 
+    public function isToAdoption(): bool
+    {
+        return $this->toAdoption;
+    }
+
     public function isDeleted(): bool
     {
         return $this->isDeleted;
+    }
+
+    public function setToAdoption(bool $toAdoption): Animal
+    {
+        $this->toAdoption = $toAdoption;
+        return $this;
     }
 
     public function setIsDeleted(bool $isDeleted): Animal

@@ -136,6 +136,25 @@ public function actionDefault(): void
         return $form;
     }
 
+    public function userDetailsFormSucceeded(Form $form,  \stdClass $values) : void
+    {
+        $user = $this->usersRepository->getUserById($this->getPresenter()->getUser()->getId());
+        $user->setUpdatedAt(new DateTimeImmutable());
+        $user->setUpdatedBy($this->usersRepository->getUserById($this->getPresenter()->getUser()->getId()));
+        $user->setFirstName($values->firstName);
+        $user->setLastName($values->lastName);
+
+
+
+
+
+
+
+
+        $this->getPresenter()->flashMessage('Detaily byly úspěšně uloženy!', 'alert-success');
+        $this->getPresenter()->redirect('User:profil');
+    }
+
     public function createComponentUserUpdateForm(): Form
     {
         $form = $this->registerFormFactory->create();
@@ -185,11 +204,10 @@ public function actionDefault(): void
             $users->setUpdatedAt(new DateTimeImmutable());
             $users->setUpdatedBy($this->usersRepository->getUserById($this->getPresenter()->getUser()->getId()));
 
-            //$azyl->setUser($users);
-            $users->setAzyl($azyl);
             bdump($azyl,'azyl');
             bdump($users,'users');
             $this->azylRepository->saveAzyl($azyl);
+            $users->setAzyl($azyl->getId());
             $this->usersRepository->addUser($users);
 
 

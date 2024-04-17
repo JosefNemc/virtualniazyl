@@ -37,7 +37,7 @@
 
                                         </p>
                                         {if $authorRole == 'azyl'}
-                                        <a n:href="Home:azyl $author->id" class="btn btn-sm btn-primary">Stránka azylu</a>
+                                        <a href="{link Home:azyl, $new->getAuthor()->getId()}" class="btn btn-sm btn-primary">Stránka azylu</a>
                                         {/if}
                                     </div>
                                 </div>

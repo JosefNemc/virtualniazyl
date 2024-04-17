@@ -84,8 +84,7 @@ class Users
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $phoneVerified;
 
-    #[ORM\OneToMany(mappedBy: "user", targetEntity: "News", cascade: ['persist', 'remove'])]
-    #[ORM\Column(type: 'integer', nullable: true)]
+    #[ORM\OneToMany(mappedBy: "user", targetEntity: "News")]
     public ?Collection $news;
 
     #[ORM\OneToMany(mappedBy: "author", targetEntity: "Pages")]
@@ -141,7 +140,11 @@ class Users
         $this->adoptionVerification = false;
         $this->legalTerms = false;
         $this->photos = null;
-        $this->news = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->userName;
     }
 
 

@@ -94,6 +94,11 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-mbstring" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/service-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/string" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/contributte/translation" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/symfony/config" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/symfony/filesystem" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/symfony/translation" />
+      <excludeFolder url="file://$MODULE_DIR$/vaz/vendor/symfony/translation-contracts" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

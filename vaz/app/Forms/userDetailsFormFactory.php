@@ -3,10 +3,25 @@ declare(strict_types=1);
 
 namespace App\Forms;
 
+use App\Model\Orm\Entity\Citys;
+use App\Model\Orm\Repository\CityRepository;
+use App\Presenters\JsonPresenter;
 use Nette\Application\UI\Form;
 
 class userDetailsFormFactory extends Form
 {
+
+    private CityRepository $cityRepository;
+
+    public function __construct(CityRepository $cityRepository)
+    {
+        parent::__construct();
+
+        $this->cityRepository = $cityRepository;
+        $this->jsonPresenter = $jsonPresenter;
+
+    }
+
     public function create(): Form
     {
         $form = new Form;
@@ -25,9 +40,9 @@ class userDetailsFormFactory extends Form
         $form->addText('address', 'Adresa')
             ->setHtmlAttribute('class', 'form-control')
             ->setRequired('Zadejte adresu');
-        $form->addSelect('country', 'Země', ['Česko', 'Slovensko'])
+        $form->addSelect('country', 'Země', $this->cityRepository->fetchCountries())
             ->setHtmlAttribute('class', 'form-control')
-            ->setRequired('Zadejte zemi');
+            ->setRequired('Vyberte zemi');
         $form->addSelect('region', 'Kraj', ['Hlavní město Praha', 'Jihočeský', 'Jihomoravský', 'Karlovarský', 'Královéhradecký', 'Liberecký', 'Moravskoslezský', 'Olomoucký', 'Pardubický', 'Plzeňský', 'Středočeský', 'Ústecký', 'Vysočina', 'Zlínský'])
             ->setHtmlAttribute('class', 'form-control')
             ->setRequired('Zadejte kraj');

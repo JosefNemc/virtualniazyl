@@ -34,7 +34,6 @@ class News
     private DateTimeImmutable $visibleFrom;
 
     #[ORM\ManyToOne(targetEntity: "Users")]
-    #[ORM\JoinColumn(name: 'author_id', referencedColumnName: 'id')]
     private Users $author;
 
     #[ORM\Column(type: 'boolean')]

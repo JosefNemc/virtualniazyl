@@ -40,6 +40,8 @@ class animalFormFactory extends Form
             ->setHtmlAttribute('class', 'form-control');
         $form->addMultiUpload('photos', 'Fotografie:')
             ->setHtmlAttribute('class', 'form-control');
+        $form->addCheckbox('toAdoption', ': k adopci')
+            ->setHtmlAttribute('class', 'form-check-input');
 
         $form->addSubmit('send', 'Uložit')
             ->setHtmlAttribute('class', 'btn btn-primary');

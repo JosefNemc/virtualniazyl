@@ -12,9 +12,8 @@ class userDetailsFormFactory extends Form
 {
 
     private CityRepository $cityRepository;
-    private JsonPresenter $jsonPresenter;
 
-    public function __construct(CityRepository $cityRepository, JsonPresenter $jsonPresenter)
+    public function __construct(CityRepository $cityRepository)
     {
         parent::__construct();
 
@@ -41,9 +40,9 @@ class userDetailsFormFactory extends Form
         $form->addText('address', 'Adresa')
             ->setHtmlAttribute('class', 'form-control')
             ->setRequired('Zadejte adresu');
-        $form->addSelect('country', 'Země', ['Česko', 'Slovensko'])
+        $form->addSelect('country', 'Země', $this->cityRepository->fetchCountries())
             ->setHtmlAttribute('class', 'form-control')
-            ->setRequired('Zadejte zemi');
+            ->setRequired('Vyberte zemi');
         $form->addSelect('region', 'Kraj', ['Hlavní město Praha', 'Jihočeský', 'Jihomoravský', 'Karlovarský', 'Královéhradecký', 'Liberecký', 'Moravskoslezský', 'Olomoucký', 'Pardubický', 'Plzeňský', 'Středočeský', 'Ústecký', 'Vysočina', 'Zlínský'])
             ->setHtmlAttribute('class', 'form-control')
             ->setRequired('Zadejte kraj');

@@ -54,7 +54,7 @@
 					</a>
 					{if $user->isLoggedIn()}
 					<a class="ms-2 ms-md-3 submenu" href="{link user:messages}">
-						<span class="uil uil-mailbox"> </span>
+						<span class="uil uil-mailbox"><span class="rounded-bottom-xl-circle" style="vertical-align: super; font-size: smaller; background-color: red; color: white;">{$messagesCount}</span></span>
 					</a>
 
 					<a class="ms-2 ms-md-3 submenu" href="{link user:profil}">

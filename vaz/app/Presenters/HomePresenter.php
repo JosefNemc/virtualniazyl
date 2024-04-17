@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
-use AllowDynamicProperties;
 use App\Forms\registerFormFactory;
 use App\Forms\SignInFormFactory;
 use App\Model\Orm\Entity\Users;
+use App\Model\Orm\Repository\AdoptionsRepository;
 use App\Model\Orm\Repository\AzylRepository;
 use App\Model\Orm\Repository\NewsRepository;
 use App\Model\Orm\Repository\UsersRepository;
@@ -22,7 +22,7 @@ use Nette\Security\AuthenticationException;
 use Nette\Security\Passwords;
 use App\Model\Services\Menu;
 
-#[AllowDynamicProperties] final class HomePresenter extends Nette\Application\UI\Presenter
+final class HomePresenter extends Nette\Application\UI\Presenter
 {
     protected EntityManagerInterface $entityManager;
     protected UsersRepository $usersRepository;
@@ -34,16 +34,14 @@ use App\Model\Services\Menu;
                                 protected readonly SignInFormFactory   $signInFormFactory,
                                 protected readonly RegisterFormFactory $registerFormFactory,
                                 private            Passwords           $passwords,
-                                public            TemplateFactory     $templateFactory,
-                                public readonly NewsRepository      $newsRepository,
-                                public readonly AzylRepository      $azylRepository)
+                                public            TemplateFactory      $templateFactory,
+                                public readonly NewsRepository         $newsRepository,
+                                public readonly AzylRepository         $azylRepository,
+                                public          AdoptionsRepository    $adoptionsRepository)
     {
         parent::__construct();
         $this->entityManager = $entityManager;
         $this->usersRepository = $usersRepository;
-
-        $this->passwords = $passwords;
-        $this->templateFactory = $templateFactory;
 
     }
 
@@ -52,23 +50,26 @@ use App\Model\Services\Menu;
         parent::startup();
         $menu = new Menu();
         $this->getTemplate()->mainMenuItems = $menu->getMenu();
+        $this->getTemplate()->messagesCount = 1;
     }
 
     public function renderDefault(): void
     {
 
         $news = $this->newsRepository->findBy(['global' => true, 'deleted' => false],  ['createdAt' => 'DESC'],8);
+        $adoptions = $this->adoptionsRepository->findBy(['deleted' => false],  ['createdAt' => 'DESC'],8);
 
+        /*
         $test[] = ['name' => 'Mourice','age'=>14,'breed'=>'Britský modrý colorpoint','photo'=>'kytka'.rand(1,4).'.jpeg', 'description'=>'Mourice je velmi klidný a mazlivý kocour.'];
         $test[] = ['name' => 'Cassidy','age'=>4,'breed'=>'Tosa inu','photo'=>'kytka'.rand(1,4).'.jpeg', 'description'=>'Cassidy je velmi hravý a veselý pes.'];
         $test[] = ['name' => 'Baghira','age'=>10,'breed'=>'Tosa inu','photo'=>'kytka'.rand(1,4).'.jpeg', 'description'=>'Baghira je velmi klidný a mazlivý pes.'];
-        /*
+
         $news[] = ['title' => 'Nový pes','content'=>'V našem azylu se objevil nový pes. Je to kříženec německého ovčáka a labradora. Je velmi hravý a milý.'];
         $news[] = ['title' => 'Morčata k adopci','content'=>'Zachráněná samička morčete se stala čerstvou maminkou.'];
         $news[] = ['title' => 'Brigáda červenec','content'=>'Kdo chce může 20.7.2024 přijít na brigádu.'];
         */
         $this->getTemplate()->title = 'Domácí stránka';
-        $this->getTemplate()->adoptions = $test;
+        $this->getTemplate()->adoptions = $adoptions;
         $this->getTemplate()->news = $news;
         $this->getTemplate()->newsCount = $this->newsRepository->count(['deleted' => false, 'global' => true]);
 
@@ -132,7 +133,7 @@ use App\Model\Services\Menu;
         $this->getTemplate()->title = 'Poděkování autorů';
     }
 
-    public function actionAzyl(): void
+    public function actionAzyl($id): void
     {
         $id = $this->getPresenter()->getParameter('id');
         $this->getTemplate()->title = 'Azyl';

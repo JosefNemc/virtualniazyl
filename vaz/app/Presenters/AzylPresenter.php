@@ -151,6 +151,7 @@ class AzylPresenter extends BasePresenter
             $animal->setAzyl($this->getUser()->getIdentity()->getId());
             $animal->setIsDeleted(false);
             $animal->setAdopted(false);
+            $animal->setToAdoption($values->toAdoption);
             $animal->setName($values->name);
             $animal->setDescription($values->description);
             $animal->setSpecies($values->species);
@@ -175,6 +176,7 @@ class AzylPresenter extends BasePresenter
             $animal->setSpecies($values->species);
             $animal->setBirthDate($values->birthDate);
             $animal->setBreed($values->breed);
+            $animal->setToAdoption($values->toAdoption);
             //$animal->setPhotos([]);
 
             $this->animalsRepository->saveAnimal($values);
